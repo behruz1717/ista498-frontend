@@ -119,10 +119,22 @@ async function init() {
   if (callNextBtn) {
     callNextBtn.addEventListener("click", async () => {
       try {
-        await api(`/queues/${queueId}/next`, { method: "PATCH" });
+        const tickets = await api(`/tickets/${queueId}`);
+        const next = tickets.find((t) => t.status === "waiting");
+        if (!next) {
+          alert("No waiting tickets to call.");
+          return;
+        }
+
+        await api(`/tickets/${next.id}/status`, {
+          method: "PATCH",
+          body: JSON.stringify({ status: "called" }),
+        });
+
         await loadTickets();
+        alert(`Called ticket #${next.id} (${next.name})`);
       } catch (err) {
-        console.error("Failed to call next:", err);
+        console.error("Failed to call next ticket:", err);
       }
     });
   }
