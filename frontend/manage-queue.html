@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manage Queue · QueueLeaf</title>
+    <link rel="icon" href="assets/logo.svg" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <img src="assets/QueueLeaf Logo.png" class="logo" />
+        <span class="brand-name">QueueLeaf</span>
+      </div>
+      <nav class="nav">
+        <button class="nav-btn" onclick="window.location.href='dashboard.html'">
+          ← Back
+        </button>
+        <button class="nav-btn" id="logout-btn">Logout</button>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2 id="queue-name">Queue</h2>
+        <div class="stats four">
+          <div class="stat">
+            <div class="label">Status</div>
+            <div class="value" id="stat-status">–</div>
+          </div>
+          <div class="stat">
+            <div class="label">Avg Service</div>
+            <div class="value" id="stat-avg">–</div>
+          </div>
+          <div class="stat">
+            <div class="label">Waiting</div>
+            <div class="value" id="stat-inqueue">–</div>
+          </div>
+          <div class="stat">
+            <div class="label">Served Today</div>
+            <div class="value" id="stat-served">–</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="subcard">
+        <div class="row between">
+          <h3>Controls</h3>
+          <button class="btn tiny" id="toggle-open">Toggle Open/Close</button>
+        </div>
+        <label>
+          <span class="label">Custom Message</span>
+          <textarea id="input-message"></textarea>
+        </label>
+        <label>
+          <span class="label">Avg Service Time (min)</span>
+          <input type="number" id="input-avg" min="1" />
+        </label>
+      </section>
+
+      <section class="subcard">
+        <h3>Active Tickets</h3>
+        <table class="table" id="tickets-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Joined</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer class="site-footer micro subtle">
+      QueueLeaf · Queue Management
+    </footer>
+
+    <script type="module" src="js/manageQueue.js"></script>
+  </body>
+</html>
