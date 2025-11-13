@@ -41,5 +41,19 @@ function renderChart(data) {
   });
 }
 
-// Run immediately on load
-loadAnalytics();
+async function verifyAuth() {
+  try {
+    const user = await api("/auth/me");
+    console.log("Authenticated as:", user);
+    return true;
+  } catch {
+    console.warn("Not logged in. Redirecting...");
+    window.location.href = "index.html";
+    return false;
+  }
+}
+
+if (verifyAuth) {
+  // Run immediately on load
+  loadAnalytics();
+}
