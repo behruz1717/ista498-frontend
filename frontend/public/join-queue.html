@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Join Queue · QueueLeaf</title>
+    <link rel="icon" href="../assets/logo.png" />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <img src="../assets/logo.png" alt="QueueLeaf" class="logo" />
+        <span class="brand-name">QueueLeaf</span>
+      </div>
+    </header>
+
+    <main class="container">
+      <section id="join-card" class="card">
+        <div class="banner">
+          <span class="pill">Welcome</span>
+          <span class="hint">Average wait ~ <b id="avg-wait"> – </b></span>
+        </div>
+
+        <p id="custom-message" class="subtle">
+          Please enter your info to join the queue.
+        </p>
+
+        <form id="join-form" class="grid-3">
+          <label>
+            <span>Your name</span>
+            <input required name="name" placeholder="e.g., Alex" />
+          </label>
+
+          <label>
+            <span>Party size</span>
+            <input required type="number" min="1" value="1" name="party" />
+          </label>
+
+          <label>
+            <span>Phone or email (optional)</span>
+            <input name="contact" placeholder="For notifications" />
+          </label>
+
+          <div class="full">
+            <button type="submit" class="btn primary" id="join-btn">
+              Join Queue
+            </button>
+          </div>
+        </form>
+
+        <p class="micro subtle" style="margin-top: 8px">
+          By joining, you agree to receive on-site updates. No apps needed.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer micro subtle">
+      QueueLeaf · Customer Portal
+    </footer>
+
+    <!-- (Logic placeholder – will be added in Stage 9.5) -->
+    <script src="../js/customer.js" defer></script>
+  </body>
+</html>

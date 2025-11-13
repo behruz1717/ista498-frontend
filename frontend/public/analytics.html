@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QueueLeaf Analytics</title>
+    <link rel="icon" href="../assets/logo.png" />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <img src="../assets/logo.png" alt="QueueLeaf" class="logo" />
+        <span class="brand-name">QueueLeaf</span>
+      </div>
+
+      <nav class="nav">
+        <button
+          class="nav-btn"
+          data-route="dashboard"
+          onclick="window.location.href='dashboard.html'"
+        >
+          Dashboard
+        </button>
+        <button class="nav-btn active" data-route="analytics">Analytics</button>
+        <button class="nav-btn" id="logout-btn">Logout</button>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2>Analytics Overview</h2>
+        <div class="stats four" id="analytics-summary">
+          <div class="stat">
+            <div class="label">Total Tickets</div>
+            <div class="value" id="total-tickets">–</div>
+          </div>
+          <div class="stat">
+            <div class="label">Served</div>
+            <div class="value" id="served-tickets">–</div>
+          </div>
+          <div class="stat">
+            <div class="label">Active Queues</div>
+            <div class="value" id="active-queues">–</div>
+          </div>
+          <div class="stat">
+            <div class="label">Avg Party Size</div>
+            <div class="value" id="avg-party">–</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="subcard">
+        <h2>Activity (Past 7 Days)</h2>
+        <div id="chart" class="chart">
+          <!-- bars or lines inserted by analytics.js -->
+        </div>
+        <p class="micro subtle" style="margin-top: 8px">
+          Chart shows total served and waiting tickets in the past 7 days.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer micro subtle">
+      QueueLeaf · Analytics Dashboard
+    </footer>
+
+    <!-- JS hook to be added later -->
+    <script src="../js/analytics.js" defer></script>
+  </body>
+</html>

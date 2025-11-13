@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Queue Status · QueueLeaf</title>
+    <link rel="icon" href="../assets/logo.png" />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <img src="../assets/logo.png" alt="QueueLeaf" class="logo" />
+        <span class="brand-name">QueueLeaf</span>
+      </div>
+    </header>
+
+    <main class="container">
+      <section id="status-card" class="card">
+        <h2>Your Place in Line</h2>
+
+        <div class="ticket" id="ticket-summary">
+          <div>
+            <div class="label">Ticket</div>
+            <div class="ticket-title">
+              <span id="ticket-name">—</span>
+              <span class="muted" id="ticket-id">#----</span>
+            </div>
+          </div>
+          <span id="ticket-status" class="pill">waiting</span>
+        </div>
+
+        <div class="stats two" id="status-stats">
+          <div class="stat">
+            <div class="label">Your Position</div>
+            <div class="value" id="your-position">–</div>
+          </div>
+          <div class="stat">
+            <div class="label">Estimated Wait</div>
+            <div class="value" id="your-eta">–</div>
+          </div>
+        </div>
+
+        <div id="updates" class="subtle" style="margin-top: 1rem">
+          <p id="status-message">Please wait until your name is called.</p>
+        </div>
+
+        <div style="margin-top: 1.5rem; text-align: center">
+          <button id="refresh-btn" class="btn tiny">Refresh Status</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer micro subtle">
+      QueueLeaf · Customer Status
+    </footer>
+
+    <!-- Logic placeholder – added later in Stage 9.5 -->
+    <script src="../js/customer.js" defer></script>
+  </body>
+</html>
