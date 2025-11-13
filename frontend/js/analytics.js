@@ -53,7 +53,7 @@ async function verifyAuth() {
   }
 }
 
-if (verifyAuth) {
-  // Run immediately on load
-  loadAnalytics();
-}
+(async () => {
+  const ok = await verifyAuth();
+  if (ok) await loadAnalytics();
+})();
