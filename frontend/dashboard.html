@@ -23,82 +23,9 @@
     </header>
 
     <main class="container">
-      <!-- Queue Stats -->
-      <section class="stats four" id="queue-stats">
-        <div class="stat">
-          <div class="label">In Queue</div>
-          <div class="value" id="stat-inqueue">0</div>
-        </div>
-        <div class="stat">
-          <div class="label">Avg Service</div>
-          <div class="value"><span id="stat-avg">–</span> min</div>
-        </div>
-        <div class="stat">
-          <div class="label">Served Today</div>
-          <div class="value" id="stat-served">0</div>
-        </div>
-        <div class="stat">
-          <div class="label">Status</div>
-          <div class="value" id="stat-status">Closed</div>
-        </div>
-      </section>
-
-      <!-- Controls -->
-      <section class="subcard">
-        <div class="row between">
-          <h2>Queue Controls</h2>
-          <span class="pill">Manage</span>
-        </div>
-
-        <div class="grid-3">
-          <div class="box row between">
-            <div>
-              <div class="label">Queue Open</div>
-              <div class="micro subtle">Public can join when enabled</div>
-            </div>
-            <button class="btn tiny" id="toggle-open">Open</button>
-          </div>
-
-          <label class="box">
-            <span class="label">Custom Message</span>
-            <textarea
-              rows="2"
-              id="input-message"
-              placeholder="Optional message for customers"
-            ></textarea>
-          </label>
-
-          <label class="box">
-            <span class="label">Average Service Time (min)</span>
-            <input type="number" min="1" id="input-avg" value="6" />
-          </label>
-        </div>
-      </section>
-
-      <!-- Queue Table -->
-      <section class="subcard">
-        <div class="row between">
-          <h2>Active Tickets</h2>
-          <button class="btn primary tiny" id="call-next">Call Next</button>
-        </div>
-
-        <div class="table-wrap">
-          <table class="table" id="queue-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Party</th>
-                <th>Status</th>
-                <th>Joined</th>
-                <th>ETA</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="queue-body">
-              <!-- rows inserted dynamically -->
-            </tbody>
-          </table>
-        </div>
+      <h2>Your Queues</h2>
+      <section id="queues-container" class="grid-3">
+        <!-- Cards injected by JS -->
       </section>
     </main>
 
