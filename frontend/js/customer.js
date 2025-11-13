@@ -46,8 +46,6 @@ if (form) {
 // STATUS PAGE LOGIC
 // ===============================
 
-import { api } from "./api.js";
-
 const ticketId = localStorage.getItem("ticketId");
 const queueId = localStorage.getItem("queueId");
 
