@@ -46,7 +46,7 @@ async function init() {
       await api(`/queues/${queueId}/message`, {
         method: "PATCH",
         body: JSON.stringify({
-          customMessage: msgInput.value,
+          message: msgInput.value,
         }),
       });
       await loadQueue();
