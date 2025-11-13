@@ -89,3 +89,20 @@ if (dashboardPage) {
     if (ok) await loadQueues();
   })();
 }
+
+// ===============================
+// LOGOUT BUTTON
+// ===============================
+const logoutBtn = document.getElementById("logout-btn");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    try {
+      await api("/auth/logout", { method: "POST" });
+      sessionStorage.clear();
+      localStorage.clear();
+      window.location.href = "index.html";
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  });
+}
