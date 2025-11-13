@@ -33,3 +33,47 @@ if (loginForm) {
     }
   });
 }
+
+// ===============================
+// DASHBOARD PAGE LOGIC
+// ===============================
+
+const dashboardPage = document.querySelector("#queue-stats");
+
+async function verifyAuth() {
+  try {
+    const user = await api("/auth/me");
+    console.log("Authenticated as:", user);
+    return true;
+  } catch {
+    console.warn("Not logged in. Redirecting...");
+    window.location.href = "index.html";
+    return false;
+  }
+}
+
+async function loadQueues() {
+  try {
+    const queues = await api("/queues");
+    console.log("Queues:", queues);
+
+    const statusEl = document.getElementById("stat-status");
+    const avgEl = document.getElementById("stat-avg");
+    const inQueueEl = document.getElementById("stat-inqueue");
+
+    // assuming you have one main queue for now
+    const q = queues[0];
+    statusEl.textContent = q.isOpen ? "Open" : "Closed";
+    avgEl.textContent = Math.round((q.avgServiceSec || 300) / 60);
+    inQueueEl.textContent = q._count?.tickets ?? 0;
+  } catch (err) {
+    console.error("Error loading queues:", err);
+  }
+}
+
+if (dashboardPage) {
+  (async () => {
+    const ok = await verifyAuth();
+    if (ok) await loadQueues();
+  })();
+}
