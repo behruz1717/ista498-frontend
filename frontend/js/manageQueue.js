@@ -47,7 +47,6 @@ async function init() {
         method: "PATCH",
         body: JSON.stringify({
           customMessage: msgInput.value,
-          //avgServiceSec: Number(avgInput.value) * 60,
         }),
       });
       await loadQueue();
