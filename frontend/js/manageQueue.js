@@ -63,3 +63,71 @@ async function init() {
 }
 
 init();
+
+// ===============================
+// ACTIVE TICKETS TABLE
+// ===============================
+const ticketsTable = document
+  .getElementById("tickets-table")
+  .querySelector("tbody");
+const callNextBtn = document.getElementById("call-next");
+
+// Load tickets for this queue
+async function loadTickets() {
+  try {
+    const tickets = await api(`/tickets/${queueId}`);
+    ticketsTable.innerHTML = "";
+
+    tickets.forEach((t) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${t.name}</td>
+        <td>${t.status}</td>
+        <td>${new Date(t.createdAt).toLocaleTimeString()}</td>
+        <td>
+          ${
+            t.status === "waiting"
+              ? `<button class="btn tiny" data-action="call" data-id="${t.id}">Call</button>`
+              : t.status === "called"
+              ? `<button class="btn tiny" data-action="serve" data-id="${t.id}">Serve</button>`
+              : ""
+          }
+        </td>
+      `;
+      ticketsTable.appendChild(row);
+    });
+  } catch (err) {
+    console.error("Error loading tickets:", err);
+  }
+}
+
+// Handle ticket actions
+ticketsTable.addEventListener("click", async (e) => {
+  if (!e.target.dataset.action) return;
+  const id = e.target.dataset.id;
+  const action = e.target.dataset.action;
+
+  try {
+    await api(`/tickets/${id}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        status: action === "call" ? "called" : "served",
+      }),
+    });
+    await loadTickets();
+  } catch (err) {
+    console.error("Failed to update ticket:", err);
+  }
+});
+
+// "Call Next" button
+if (callNextBtn) {
+  callNextBtn.addEventListener("click", async () => {
+    try {
+      await api(`/queues/${queueId}/next`, { method: "PATCH" });
+      await loadTickets();
+    } catch (err) {
+      console.error("Failed to call next:", err);
+    }
+  });
+}
