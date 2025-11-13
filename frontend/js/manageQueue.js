@@ -43,11 +43,11 @@ async function init() {
 
   async function updateQueueSettings() {
     try {
-      await api(`/queues/${queueId}`, {
+      await api(`/queues/${queueId}/message`, {
         method: "PATCH",
         body: JSON.stringify({
           customMessage: msgInput.value,
-          avgServiceSec: Number(avgInput.value) * 60,
+          //avgServiceSec: Number(avgInput.value) * 60,
         }),
       });
       await loadQueue();
