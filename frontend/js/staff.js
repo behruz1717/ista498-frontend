@@ -55,17 +55,29 @@ async function verifyAuth() {
 async function loadQueues() {
   try {
     const queues = await api("/queues");
-    console.log("Queues:", queues);
+    const container = document.getElementById("queues-container");
+    container.innerHTML = "";
 
-    const statusEl = document.getElementById("stat-status");
-    const avgEl = document.getElementById("stat-avg");
-    const inQueueEl = document.getElementById("stat-inqueue");
+    queues.forEach((q) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>${q.name}</h3>
+        <p class="subtle">Status: <b>${q.isOpen ? "Open" : "Closed"}</b></p>
+        <p>Avg Service: ${Math.round((q.avgServiceSec || 300) / 60)} min</p>
+        <button class="btn primary tiny" data-id="${q.id}">Manage</button>
+      `;
+      container.appendChild(card);
+    });
 
-    // assuming you have one main queue for now
-    const q = queues[0];
-    statusEl.textContent = q.isOpen ? "Open" : "Closed";
-    avgEl.textContent = Math.round((q.avgServiceSec || 300) / 60);
-    inQueueEl.textContent = q._count?.tickets ?? 0;
+    container.addEventListener("click", (e) => {
+      if (e.target.matches("button[data-id]")) {
+        const id = e.target.dataset.id;
+        // store id and navigate
+        sessionStorage.setItem("activeQueueId", id);
+        window.location.href = `manage-queue.html?queueId=${id}`;
+      }
+    });
   } catch (err) {
     console.error("Error loading queues:", err);
   }
