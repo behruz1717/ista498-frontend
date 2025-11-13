@@ -38,7 +38,7 @@ if (loginForm) {
 // DASHBOARD PAGE LOGIC
 // ===============================
 
-const dashboardPage = document.querySelector("#queue-stats");
+const dashboardPage = document.querySelector("#queues-container");
 
 async function verifyAuth() {
   try {
