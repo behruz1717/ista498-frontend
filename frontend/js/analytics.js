@@ -9,8 +9,8 @@ async function loadAnalytics() {
       global.totalTickets ?? "–";
     document.getElementById("served-tickets").textContent =
       global.servedTickets ?? "–";
-    document.getElementById("active-queues").textContent =
-      global.activeQueues ?? "–";
+    document.getElementById("total-queues").textContent =
+      global.totalQueues ?? "–";
     document.getElementById("avg-party").textContent =
       global.avgPartySize ?? "–";
 
