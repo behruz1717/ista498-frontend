@@ -59,31 +59,23 @@ async function init() {
   avgInput.addEventListener("change", updateQueueSettings);
   msgInput.addEventListener("change", updateQueueSettings);
 
-  await loadQueue();
+  // ===============================
+  // ACTIVE TICKETS TABLE
+  // ===============================
+  const ticketsTable = document
+    .getElementById("tickets-table")
+    .querySelector("tbody");
+  const callNextBtn = document.getElementById("call-next");
 
-  await loadTickets();
-  setInterval(loadTickets, 20000); // auto-refresh every 20 seconds
-}
+  // Load tickets for this queue
+  async function loadTickets() {
+    try {
+      const tickets = await api(`/tickets/${queueId}`);
+      ticketsTable.innerHTML = "";
 
-init();
-
-// ===============================
-// ACTIVE TICKETS TABLE
-// ===============================
-const ticketsTable = document
-  .getElementById("tickets-table")
-  .querySelector("tbody");
-const callNextBtn = document.getElementById("call-next");
-
-// Load tickets for this queue
-async function loadTickets() {
-  try {
-    const tickets = await api(`/tickets/${queueId}`);
-    ticketsTable.innerHTML = "";
-
-    tickets.forEach((t) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
+      tickets.forEach((t) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
         <td>${t.name}</td>
         <td>${t.status}</td>
         <td>${new Date(t.createdAt).toLocaleTimeString()}</td>
@@ -97,40 +89,48 @@ async function loadTickets() {
           }
         </td>
       `;
-      ticketsTable.appendChild(row);
-    });
-  } catch (err) {
-    console.error("Error loading tickets:", err);
+        ticketsTable.appendChild(row);
+      });
+    } catch (err) {
+      console.error("Error loading tickets:", err);
+    }
   }
-}
 
-// Handle ticket actions
-ticketsTable.addEventListener("click", async (e) => {
-  if (!e.target.dataset.action) return;
-  const id = e.target.dataset.id;
-  const action = e.target.dataset.action;
+  // Handle ticket actions
+  ticketsTable.addEventListener("click", async (e) => {
+    if (!e.target.dataset.action) return;
+    const id = e.target.dataset.id;
+    const action = e.target.dataset.action;
 
-  try {
-    await api(`/tickets/${id}/status`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        status: action === "call" ? "called" : "served",
-      }),
-    });
-    await loadTickets();
-  } catch (err) {
-    console.error("Failed to update ticket:", err);
-  }
-});
-
-// "Call Next" button
-if (callNextBtn) {
-  callNextBtn.addEventListener("click", async () => {
     try {
-      await api(`/queues/${queueId}/next`, { method: "PATCH" });
+      await api(`/tickets/${id}/status`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          status: action === "call" ? "called" : "served",
+        }),
+      });
       await loadTickets();
     } catch (err) {
-      console.error("Failed to call next:", err);
+      console.error("Failed to update ticket:", err);
     }
   });
+
+  // "Call Next" button
+  if (callNextBtn) {
+    callNextBtn.addEventListener("click", async () => {
+      try {
+        await api(`/queues/${queueId}/next`, { method: "PATCH" });
+        await loadTickets();
+      } catch (err) {
+        console.error("Failed to call next:", err);
+      }
+    });
+  }
+
+  await loadQueue();
+
+  await loadTickets();
+  setInterval(loadTickets, 20000); // auto-refresh every 20 seconds
 }
+
+init();
