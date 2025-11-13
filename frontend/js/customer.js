@@ -66,8 +66,7 @@ if (document.querySelector("#status-card")) {
         return;
       }
 
-      const tickets = await api(`/tickets/${queueId}`);
-      const ticket = tickets.find((t) => t.id === Number(ticketId));
+      const ticket = await api(`/tickets/public/${ticketId}`);
 
       if (!ticket) {
         statusEl.textContent = "not found";
@@ -77,18 +76,10 @@ if (document.querySelector("#status-card")) {
       nameEl.textContent = ticket.name;
       idEl.textContent = "#" + ticket.id;
       statusEl.textContent = ticket.status;
-
-      // Determine position and ETA (assuming backend returns ordered list)
-      const waiting = tickets.filter((t) => t.status === "waiting");
-      const position = waiting.findIndex((t) => t.id === Number(ticketId)) + 1;
-      positionEl.textContent = position > 0 ? position : "–";
-
-      // Estimate time in minutes (avgServiceSec * position / 60)
-      const queueData = await api("/queues");
-      const currentQueue = queueData.find((q) => q.id === Number(queueId));
-      const avg = currentQueue?.avgServiceSec || 300;
-      etaEl.textContent =
-        position > 0 ? `${Math.round((avg * position) / 60)} min` : "–";
+      positionEl.textContent = ticket.position || "–";
+      etaEl.textContent = ticket.etaSeconds
+        ? Math.round(ticket.etaSeconds / 60) + " min"
+        : "–";
     } catch (err) {
       console.error("Error loading status:", err);
     }
