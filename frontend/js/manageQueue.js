@@ -60,6 +60,9 @@ async function init() {
   msgInput.addEventListener("change", updateQueueSettings);
 
   await loadQueue();
+
+  await loadTickets();
+  setInterval(loadTickets, 20000); // auto-refresh every 20 seconds
 }
 
 init();
