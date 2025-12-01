@@ -1,6 +1,9 @@
 // js/customer.js
 import { api } from "./api.js";
 
+const urlParams = new URLSearchParams(window.location.search);
+const queueIdFromUrl = urlParams.get("queueId");
+
 const form = document.querySelector("#join-form");
 if (form) {
   form.addEventListener("submit", async (e) => {
@@ -11,16 +14,13 @@ if (form) {
     const partySize = Number(formData.get("party")) || 1;
     const contact = formData.get("contact");
 
-    // In production, the queueId will come from the QR link
-    const queueId = 1;
-
     try {
       document.querySelector("#join-btn").disabled = true;
 
       const data = await api("/tickets", {
         method: "POST",
         body: JSON.stringify({
-          queueId,
+          queueId: Number(queueIdFromUrl) || 1,
           name,
           partySize,
           contactType: contact ? "sms" : null,
