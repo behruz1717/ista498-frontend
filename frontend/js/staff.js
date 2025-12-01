@@ -111,20 +111,20 @@ async function loadQueues() {
           await api(`/queues/${id}`, { method: "DELETE" });
           await loadQueues();
         } catch (err) {
-          // Backend will return 409 if tickets exist
-          if (
-            String(err).includes("409") ||
-            String(err.message).includes("409")
-          ) {
-            const force = confirm("Queue has tickets. Force delete?");
+          // If backend returned 409, the message will say "Queue has tickets..."
+          const msg = err.message.toLowerCase();
+
+          if (msg.includes("queue has tickets")) {
+            const force = confirm("This queue has tickets. Force delete?");
             if (force) {
               await api(`/queues/${id}?force=true`, { method: "DELETE" });
               await loadQueues();
             }
-          } else {
-            console.error("Delete failed:", err);
-            alert("Failed to delete queue.");
+            return;
           }
+
+          console.error("Delete failed:", err);
+          alert("Delete failed: " + err.message);
         }
 
         return;
