@@ -62,11 +62,23 @@ async function loadQueues() {
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
-        <h3>${q.name}</h3>
-        <p class="subtle">Status: <b>${q.isOpen ? "Open" : "Closed"}</b></p>
-        <p>Avg Service: ${Math.round((q.avgServiceSec || 300) / 60)} min</p>
-        <button class="btn primary tiny" data-id="${q.id}">Manage</button>
-      `;
+  <h3>${q.name}</h3>
+  <p class="subtle">Status: <b>${q.isOpen ? "Open" : "Closed"}</b></p>
+  <p>Avg Service: ${Math.round((q.avgServiceSec || 300) / 60)} min</p>
+
+  <div class="row" style="gap:8px; margin-top:8px;">
+    <button class="btn primary tiny" data-action="manage" data-id="${q.id}">
+      Manage
+    </button>
+    <button class="btn tiny" data-action="qr" data-id="${q.id}">
+      QR
+    </button>
+    <button class="btn tiny warn" data-action="delete" data-id="${q.id}">
+      Delete
+    </button>
+  </div>
+`;
+
       container.appendChild(card);
     });
 
