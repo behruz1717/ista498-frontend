@@ -106,3 +106,22 @@ if (logoutBtn) {
     }
   });
 }
+
+// ===============================
+// NEW QUEUE MODAL OPEN/CLOSE
+// ===============================
+const modal = document.getElementById("new-queue-modal");
+const btnNewQueue = document.getElementById("btn-new-queue");
+const btnCancelModal = document.getElementById("new-queue-cancel");
+
+if (btnNewQueue && modal && btnCancelModal) {
+  // Open modal
+  btnNewQueue.addEventListener("click", () => {
+    modal.style.display = "block";
+  });
+
+  // Close modal
+  btnCancelModal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+}

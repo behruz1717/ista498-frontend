@@ -30,9 +30,50 @@
 
     <main class="container">
       <h2>Your Queues</h2>
+      <button class="btn primary tiny" id="btn-new-queue">New Queue</button>
       <section id="queues-container" class="grid-3">
         <!-- Cards injected by JS -->
       </section>
+      <!-- New Queue Modal -->
+      <div
+        id="new-queue-modal"
+        class="card"
+        style="
+          display: none;
+          max-width: 420px;
+          padding: 20px;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 100;
+          background: var(--card);
+          border: 1px solid var(--line);
+          border-radius: 16px;
+          box-shadow: var(--shadow);
+        "
+      >
+        <h3>Create New Queue</h3>
+
+        <div class="stack" style="margin-top: 16px">
+          <label>
+            <span class="label">Queue Name</span>
+            <input id="new-queue-name" placeholder="e.g., Main Dining" />
+          </label>
+
+          <label>
+            <span class="label">Average Service Time (min)</span>
+            <input id="new-queue-avg" type="number" min="1" value="5" />
+          </label>
+
+          <div class="row between" style="margin-top: 12px">
+            <button class="btn tiny" id="new-queue-cancel">Cancel</button>
+            <button class="btn primary tiny" id="new-queue-create">
+              Create
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="site-footer micro subtle">
