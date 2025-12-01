@@ -120,7 +120,7 @@ if (document.querySelector("#status-card")) {
             try {
               new Notification("You are being called!", {
                 body: "Please return to the host stand.",
-                icon: "assets/queueleaf-icon.png", // optional
+                icon: "assets/logo.png", // optional
               });
             } catch (e) {
               console.warn("Notification blocked or failed:", e);
