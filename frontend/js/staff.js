@@ -125,3 +125,43 @@ if (btnNewQueue && modal && btnCancelModal) {
     modal.style.display = "none";
   });
 }
+
+const btnCreateModal = document.getElementById("new-queue-create");
+const inputName = document.getElementById("new-queue-name");
+const inputAvg = document.getElementById("new-queue-avg");
+
+if (btnCreateModal && modal && inputName && inputAvg) {
+  btnCreateModal.addEventListener("click", async () => {
+    const name = inputName.value.trim();
+    const avg = Number(inputAvg.value.trim());
+
+    if (!name) {
+      alert("Queue name is required.");
+      return;
+    }
+
+    try {
+      // Send to backend
+      await api("/queues", {
+        method: "POST",
+        body: JSON.stringify({
+          name,
+          avgServiceSec: (avg || 5) * 60,
+        }),
+      });
+
+      // Hide modal
+      modal.style.display = "none";
+
+      // Clear inputs
+      inputName.value = "";
+      inputAvg.value = 5;
+
+      // Reload dashboard queues
+      await loadQueues();
+    } catch (err) {
+      console.error("Create queue failed:", err);
+      alert("Failed to create queue. Check console.");
+    }
+  });
+}
