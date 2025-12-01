@@ -1,6 +1,8 @@
 // js/staff.js
 import { api } from "./api.js";
 
+let queuesClickBound = false;
+
 // ===============================
 // STAFF LOGIN PAGE LOGIC
 // ===============================
@@ -82,63 +84,67 @@ async function loadQueues() {
       container.appendChild(card);
     });
 
-    container.addEventListener("click", async (e) => {
-      const btn = e.target.closest("button[data-action]");
-      if (!btn) return;
+    if (!queuesClickBound) {
+      queuesClickBound = true;
 
-      const id = btn.dataset.id;
-      const action = btn.dataset.action;
+      container.addEventListener("click", async (e) => {
+        const btn = e.target.closest("button[data-action]");
+        if (!btn) return;
 
-      // ---------------------------
-      // MANAGE
-      // ---------------------------
-      if (action === "manage") {
-        sessionStorage.setItem("activeQueueId", id);
-        window.location.href = `manage-queue.html?queueId=${id}`;
-        return;
-      }
+        const id = btn.dataset.id;
+        const action = btn.dataset.action;
 
-      // ---------------------------
-      // DELETE
-      // ---------------------------
-      if (action === "delete") {
-        const confirmDelete = confirm(
-          "Are you sure you want to delete this queue?"
-        );
-        if (!confirmDelete) return;
-
-        try {
-          await api(`/queues/${id}`, { method: "DELETE" });
-          await loadQueues();
-        } catch (err) {
-          // If backend returned 409, the message will say "Queue has tickets..."
-          const msg = err.message.toLowerCase();
-
-          if (msg.includes("queue has tickets")) {
-            const force = confirm("This queue has tickets. Force delete?");
-            if (force) {
-              await api(`/queues/${id}?force=true`, { method: "DELETE" });
-              await loadQueues();
-            }
-            return;
-          }
-
-          console.error("Delete failed:", err);
-          alert("Delete failed: " + err.message);
+        // ---------------------------
+        // MANAGE
+        // ---------------------------
+        if (action === "manage") {
+          sessionStorage.setItem("activeQueueId", id);
+          window.location.href = `manage-queue.html?queueId=${id}`;
+          return;
         }
 
-        return;
-      }
+        // ---------------------------
+        // DELETE
+        // ---------------------------
+        if (action === "delete") {
+          const confirmDelete = confirm(
+            "Are you sure you want to delete this queue?"
+          );
+          if (!confirmDelete) return;
 
-      // ---------------------------
-      // QR (handled in next step)
-      // ---------------------------
-      if (action === "qr") {
-        // We'll implement this in Step 7
-        alert("QR coming soon!");
-        return;
-      }
-    });
+          try {
+            await api(`/queues/${id}`, { method: "DELETE" });
+            await loadQueues();
+          } catch (err) {
+            // If backend returned 409, the message will say "Queue has tickets..."
+            const msg = err.message.toLowerCase();
+
+            if (msg.includes("queue has tickets")) {
+              const force = confirm("This queue has tickets. Force delete?");
+              if (force) {
+                await api(`/queues/${id}?force=true`, { method: "DELETE" });
+                await loadQueues();
+              }
+              return;
+            }
+
+            console.error("Delete failed:", err);
+            alert("Delete failed: " + err.message);
+          }
+
+          return;
+        }
+
+        // ---------------------------
+        // QR (handled in next step)
+        // ---------------------------
+        if (action === "qr") {
+          // We'll implement this in Step 7
+          alert("QR coming soon!");
+          return;
+        }
+      });
+    }
   } catch (err) {
     console.error("Error loading queues:", err);
   }
