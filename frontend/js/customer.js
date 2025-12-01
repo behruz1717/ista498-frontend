@@ -169,6 +169,9 @@ if (document.querySelector("#status-card")) {
         return;
       }
 
+      const messageEl = document.getElementById("queue-custom-message");
+      messageEl.textContent = ticket.queue?.customMessage || "";
+
       nameEl.textContent = ticket.name;
       idEl.textContent = "#" + ticket.id;
       statusEl.textContent = ticket.status;
