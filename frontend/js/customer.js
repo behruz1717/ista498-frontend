@@ -108,12 +108,28 @@ if (document.querySelector("#status-card")) {
 
       const ticket = await api(`/tickets/public/${ticketId}`);
 
-      // 🔔 Detect change to "called"
       if (lastStatus !== ticket.status) {
-        if (ticket.status === "called" && soundEnabled) {
-          const sound = document.getElementById("call-sound");
-          sound.play().catch(() => {});
+        if (ticket.status === "called") {
+          // 🔔 Play sound
+          if (soundEnabled) {
+            callSound.play().catch(() => {});
+          }
+
+          // 🛎️ Show browser notification
+          if (notifyEnabled && "Notification" in window) {
+            try {
+              new Notification("You are being called!", {
+                body: "Please return to the host stand.",
+                icon: "assets/queueleaf-icon.png", // optional
+              });
+            } catch (e) {
+              console.warn("Notification blocked or failed:", e);
+            }
+          }
+
+          // 📱 optional: we add vibration later (Step 3)
         }
+
         lastStatus = ticket.status;
       }
 
