@@ -1,6 +1,8 @@
 // js/customer.js
 import { api } from "./api.js";
 
+let lastStatus = null;
+
 const urlParams = new URLSearchParams(window.location.search);
 const queueIdFromUrl = urlParams.get("queueId");
 
@@ -67,6 +69,15 @@ if (document.querySelector("#status-card")) {
       }
 
       const ticket = await api(`/tickets/public/${ticketId}`);
+
+      // 🔔 Detect change to "called"
+      if (lastStatus !== ticket.status) {
+        if (ticket.status === "called") {
+          const sound = document.getElementById("call-sound");
+          sound.play().catch(() => {});
+        }
+        lastStatus = ticket.status;
+      }
 
       if (!ticket) {
         statusEl.textContent = "not found";
