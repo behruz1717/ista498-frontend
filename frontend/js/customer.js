@@ -188,5 +188,5 @@ if (document.querySelector("#status-card")) {
 
   // Auto-refresh every 15 seconds
   loadStatus();
-  setInterval(loadStatus, 15000);
+  setInterval(loadStatus, 5000);
 }

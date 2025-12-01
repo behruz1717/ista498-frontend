@@ -73,6 +73,13 @@ async function init() {
       const tickets = await api(`/tickets/${queueId}`);
       ticketsTable.innerHTML = "";
 
+      const waitingCount = tickets.filter((t) => t.status === "waiting").length;
+
+      const servedCount = tickets.filter((t) => t.status === "served").length;
+
+      document.getElementById("stat-inqueue").textContent = waitingCount;
+      document.getElementById("stat-served").textContent = servedToday;
+
       tickets.forEach((t) => {
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -142,7 +149,7 @@ async function init() {
   await loadQueue();
 
   await loadTickets();
-  setInterval(loadTickets, 20000); // auto-refresh every 20 seconds
+  setInterval(loadTickets, 5000); // auto-refresh every 20 seconds
 }
 
 init();
