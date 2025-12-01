@@ -170,7 +170,7 @@ if (document.querySelector("#status-card")) {
       }
 
       const messageEl = document.getElementById("queue-custom-message");
-      messageEl.textContent = ticket.queue?.customMessage || "";
+      messageEl.textContent = ticket.customMessage || "";
 
       nameEl.textContent = ticket.name;
       idEl.textContent = "#" + ticket.id;
