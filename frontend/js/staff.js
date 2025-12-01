@@ -138,11 +138,28 @@ async function loadQueues() {
         // ---------------------------
         // QR (handled in next step)
         // ---------------------------
+        // -------- QR --------
         if (action === "qr") {
-          // For now just open the modal without generating a QR code.
+          // 1. Build the join URL for this queue
+          const joinUrl = `https://queueleaf-frontend.vercel.app/join-queue.html?queueId=${id}`;
+
+          // 2. Clear previous QR state
+          qrCanvas.innerHTML = "";
+          qrUrl.textContent = "";
+
+          // 3. Generate QR code
+          new QRCode(qrCanvas, {
+            text: joinUrl,
+            width: 256,
+            height: 256,
+          });
+
+          // 4. Show URL underneath
+          qrUrl.textContent = joinUrl;
+
+          // 5. Show modal
           qrModal.style.display = "block";
-          qrCanvas.innerHTML = ""; // clear
-          qrUrl.textContent = ""; // clear
+
           return;
         }
       });
