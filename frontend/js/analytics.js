@@ -68,7 +68,7 @@ if (logoutBtn) {
       await api("/auth/logout", { method: "POST" });
       sessionStorage.clear();
       localStorage.clear();
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     } catch (err) {
       console.error("Logout failed:", err);
     }
