@@ -18,6 +18,32 @@ if (enableSoundBtn) {
   });
 }
 
+// ===============================
+// BROWSER NOTIFICATION PERMISSION
+// ===============================
+const notifyBtn = document.getElementById("enable-browser-notify");
+let notifyEnabled = false;
+
+if (notifyBtn) {
+  notifyBtn.addEventListener("click", async () => {
+    // Check if browser supports notifications
+    if (!("Notification" in window)) {
+      alert("Your browser does not support notifications.");
+      return;
+    }
+
+    // Ask user for permission
+    let permission = await Notification.requestPermission();
+
+    if (permission === "granted") {
+      notifyEnabled = true;
+      notifyBtn.style.display = "none";
+    } else {
+      alert("Notifications are disabled.");
+    }
+  });
+}
+
 const form = document.querySelector("#join-form");
 if (form) {
   form.addEventListener("submit", async (e) => {
