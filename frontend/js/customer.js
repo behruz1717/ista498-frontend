@@ -6,6 +6,18 @@ let lastStatus = null;
 const urlParams = new URLSearchParams(window.location.search);
 const queueIdFromUrl = urlParams.get("queueId");
 
+const enableSoundBtn = document.getElementById("enable-sound");
+const callSound = document.getElementById("call-sound");
+let soundEnabled = false;
+
+if (enableSoundBtn) {
+  enableSoundBtn.addEventListener("click", () => {
+    callSound.play().catch(() => {});
+    soundEnabled = true;
+    enableSoundBtn.style.display = "none";
+  });
+}
+
 const form = document.querySelector("#join-form");
 if (form) {
   form.addEventListener("submit", async (e) => {
@@ -72,7 +84,7 @@ if (document.querySelector("#status-card")) {
 
       // 🔔 Detect change to "called"
       if (lastStatus !== ticket.status) {
-        if (ticket.status === "called") {
+        if (ticket.status === "called" && soundEnabled) {
           const sound = document.getElementById("call-sound");
           sound.play().catch(() => {});
         }
