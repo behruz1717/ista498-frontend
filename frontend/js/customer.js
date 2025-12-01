@@ -44,6 +44,28 @@ if (notifyBtn) {
   });
 }
 
+// ===============================
+// VIBRATION PERMISSION
+// ===============================
+const vibrationBtn = document.getElementById("enable-vibration");
+let vibrationEnabled = false;
+
+if (vibrationBtn) {
+  vibrationBtn.addEventListener("click", () => {
+    // Check if vibration API exists
+    if (!navigator.vibrate) {
+      alert("Your device does not support vibration.");
+      return;
+    }
+
+    // Test a very small vibration (1 ms) to unlock permission
+    navigator.vibrate(1);
+
+    vibrationEnabled = true;
+    vibrationBtn.style.display = "none";
+  });
+}
+
 const form = document.querySelector("#join-form");
 if (form) {
   form.addEventListener("submit", async (e) => {
