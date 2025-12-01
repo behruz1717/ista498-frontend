@@ -139,8 +139,10 @@ async function loadQueues() {
         // QR (handled in next step)
         // ---------------------------
         if (action === "qr") {
-          // We'll implement this in Step 7
-          alert("QR coming soon!");
+          // For now just open the modal without generating a QR code.
+          qrModal.style.display = "block";
+          qrCanvas.innerHTML = ""; // clear
+          qrUrl.textContent = ""; // clear
           return;
         }
       });
@@ -155,6 +157,23 @@ if (dashboardPage) {
     const ok = await verifyAuth();
     if (ok) await loadQueues();
   })();
+}
+
+// ===============================
+// QR MODAL OPEN/CLOSE
+// ===============================
+const qrModal = document.getElementById("qr-modal");
+const qrClose = document.getElementById("qr-close");
+const qrCanvas = document.getElementById("qr-canvas");
+const qrUrl = document.getElementById("qr-url");
+
+// Close modal
+if (qrClose && qrModal) {
+  qrClose.addEventListener("click", () => {
+    qrModal.style.display = "none";
+    qrCanvas.innerHTML = ""; // clear old QR
+    qrUrl.textContent = ""; // clear URL text
+  });
 }
 
 // ===============================
