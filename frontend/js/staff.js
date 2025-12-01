@@ -157,6 +157,15 @@ async function loadQueues() {
           // 4. Show URL underneath
           qrUrl.textContent = joinUrl;
 
+          // Ensure QR image is ready before downloading
+          setTimeout(() => {
+            const img = qrCanvas.querySelector("img");
+            if (img) {
+              const downloadBtn = document.getElementById("qr-download");
+              downloadBtn.href = img.src; // data URL of the PNG
+            }
+          }, 200);
+
           // 5. Show modal
           qrModal.style.display = "block";
 
