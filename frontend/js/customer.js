@@ -150,6 +150,10 @@ if (document.querySelector("#status-card")) {
           }
 
           // 📱 optional: we add vibration later (Step 3)
+          // 📳 Vibrate (Android + iOS 16.4+)
+          if (vibrationEnabled && navigator.vibrate) {
+            navigator.vibrate([200, 100, 200]);
+          }
         }
 
         lastStatus = ticket.status;
