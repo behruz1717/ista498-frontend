@@ -154,6 +154,11 @@ if (document.querySelector("#status-card")) {
           if (vibrationEnabled && navigator.vibrate) {
             navigator.vibrate([200, 100, 200]);
           }
+
+          // 🚨 Visual blinking alert
+          const alertBox = document.getElementById("called-alert");
+          alertBox.style.display = "block";
+          alertBox.classList.add("called-blink");
         }
 
         lastStatus = ticket.status;

@@ -573,3 +573,20 @@ textarea {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* Blinking animation for called alert */
+@keyframes blink-alert {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.called-blink {
+  animation: blink-alert 1s infinite;
+}
