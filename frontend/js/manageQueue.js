@@ -78,7 +78,7 @@ async function init() {
       const servedCount = tickets.filter((t) => t.status === "served").length;
 
       document.getElementById("stat-inqueue").textContent = waitingCount;
-      document.getElementById("stat-served").textContent = servedToday;
+      document.getElementById("stat-served").textContent = servedCount;
 
       tickets.forEach((t) => {
         const row = document.createElement("tr");
