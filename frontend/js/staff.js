@@ -229,9 +229,15 @@ const qrUrl = document.getElementById("qr-url");
 // Close modal
 if (qrClose && qrModal) {
   qrClose.addEventListener("click", () => {
-    qrModal.style.display = "none";
+    qrModal.classList.add("hidden");
+    document.getElementById("qr-modal-backdrop").classList.add("hidden");
     qrCanvas.innerHTML = ""; // clear old QR
     qrUrl.textContent = ""; // clear URL text
+  });
+
+  document.getElementById("qr-modal-backdrop").addEventListener("click", () => {
+    qrModal.classList.add("hidden");
+    document.getElementById("qr-modal-backdrop").classList.add("hidden");
   });
 }
 
