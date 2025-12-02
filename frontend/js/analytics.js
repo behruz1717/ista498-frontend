@@ -55,7 +55,10 @@ async function loadAnalytics(range = 7) {
 }
 
 function renderChart(data) {
-  document.getElementById("chart-served").innerHTML = "";
+  const canvas = document.getElementById("chart-served");
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   const servedCounts = data
     .filter((d) => d.status === "served")
     .map((d) => d._count.status);
