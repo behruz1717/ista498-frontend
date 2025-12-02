@@ -35,7 +35,7 @@
   </head>
 
   <body
-    class="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-gray-100"
+    class="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-gray-100 overflow-x-hidden"
   >
     <!-- HEADER -->
     <header class="w-full bg-white shadow-sm">
@@ -112,7 +112,10 @@
           class="flex items-center justify-between mb-4 bg-gray-50 border border-gray-200 rounded-xl p-4 animate-fadeInUp"
         >
           <div>
-            <div class="text-xs text-gray-500">Ticket</div>
+            <div class="text-xs text-gray-500 uppercase tracking-wide">
+              Ticket
+            </div>
+
             <div class="text-lg font-semibold flex items-center gap-2">
               <span id="ticket-name">—</span>
               <span id="ticket-id" class="text-gray-400 text-sm">#----</span>
@@ -128,7 +131,7 @@
         </div>
 
         <!-- POSITION + ETA -->
-        <div class="grid grid-cols-2 gap-4 mb-6 animate-fadeInUp">
+        <div class="grid grid-cols-2 gap-4 sm:gap-6 mb-8 animate-fadeInUp">
           <div
             class="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center"
           >
@@ -157,7 +160,7 @@
         </div>
 
         <!-- STATUS MESSAGE -->
-        <div id="updates" class="text-gray-600 text-sm mb-4">
+        <div id="updates" class="text-gray-600 text-sm mb-6 leading-relaxed">
           <p id="status-message">Please wait until your name is called.</p>
         </div>
 
