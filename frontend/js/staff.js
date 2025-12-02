@@ -60,11 +60,38 @@ async function loadQueues() {
     const container = document.getElementById("queues-container");
     container.innerHTML = "";
 
+    if (queues.length === 0) {
+      container.innerHTML = `
+    <div class="col-span-full bg-white rounded-2xl shadow p-8 text-center border border-gray-200">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">No queues created yet</h3>
+      <p class="text-gray-500 text-sm mb-4">
+        Click the button above to create your first queue.
+      </p>
+      <button 
+        id="empty-create-btn"
+        class="px-4 py-2 bg-brand text-white rounded-lg font-medium shadow hover:bg-brandDark transition"
+      >
+        + Create Queue
+      </button>
+    </div>
+  `;
+
+      // allow creating queue from empty-state button
+      document
+        .getElementById("empty-create-btn")
+        ?.addEventListener("click", () => {
+          document.getElementById("btn-new-queue").click();
+        });
+
+      return;
+    }
+
     queues.forEach((q) => {
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
-  <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-100 hover:shadow-lg transition">
+  <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-100 hover:shadow-lg transition hover:scale-[1.02] transition-transform duration-200
+">
 
     <!-- Queue Name -->
     <h3 class="text-lg font-semibold text-gray-800 mb-1">${q.name}</h3>
@@ -113,7 +140,7 @@ async function loadQueues() {
     </div>
   </div>
 `;
-
+      card.classList.add("animate-fadeInUp");
       container.appendChild(card);
     });
 
