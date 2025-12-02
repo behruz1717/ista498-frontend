@@ -15,6 +15,28 @@
       };
     </script>
 
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: "#0d9488",
+              brandDark: "#0f766e",
+            },
+            keyframes: {
+              fadeInUp: {
+                "0%": { opacity: 0, transform: "translateY(12px)" },
+                "100%": { opacity: 1, transform: "translateY(0)" },
+              },
+            },
+            animation: {
+              fadeInUp: "fadeInUp 0.4s ease-out",
+            },
+          },
+        },
+      };
+    </script>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Join Queue · QueueLeaf</title>
@@ -22,7 +44,9 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
 
-  <body class="bg-gray-50 min-h-screen flex flex-col">
+  <body
+    class="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-gray-100"
+  >
     <!-- HEADER -->
     <header class="w-full bg-white shadow-sm">
       <div class="max-w-lg mx-auto flex items-center gap-3 px-4 py-3">
@@ -32,14 +56,30 @@
     </header>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1 flex items-start justify-center py-10 px-4">
-      <section class="w-full max-w-lg bg-white shadow-md rounded-2xl p-6">
+    <main class="flex-1 flex items-center justify-center py-10 px-4">
+      <section
+        class="w-full max-w-lg bg-white shadow-md rounded-2xl p-6 animate-fadeInUp transition hover:shadow-lg"
+      >
         <!-- Banner -->
         <div
-          class="mb-5 flex items-center justify-between bg-teal-50 border border-teal-200 rounded-xl px-4 py-2"
+          class="mb-5 flex items-center justify-between bg-teal-50 border border-teal-200 rounded-xl px-4 py-3 shadow-sm"
         >
-          <span class="text-teal-800 text-sm font-semibold">Welcome</span>
-          <span class="text-sm text-gray-600">
+          <div class="flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-brand"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 12H9v-2h2v2zm0-4H9V6h2v4z"
+              />
+            </svg>
+
+            <span class="text-teal-900 font-medium">Welcome</span>
+          </div>
+
+          <span class="text-sm text-gray-700">
             Avg wait ~ <b id="avg-wait">–</b>
           </span>
         </div>
@@ -97,7 +137,7 @@
           <button
             type="submit"
             id="join-btn"
-            class="w-full bg-brand hover:bg-brandDark text-white py-2.5 rounded-lg font-semibold transition shadow-sm"
+            class="w-full bg-brand hover:bg-brandDark text-white py-2.5 rounded-xl font-semibold transition shadow-md hover:shadow-lg active:scale-[0.98]"
           >
             Join Queue
           </button>
