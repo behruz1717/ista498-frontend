@@ -262,13 +262,26 @@ const btnCancelModal = document.getElementById("new-queue-cancel");
 if (btnNewQueue && modal && btnCancelModal) {
   // Open modal
   btnNewQueue.addEventListener("click", () => {
-    modal.style.display = "block";
+    modal.classList.remove("hidden");
+    document
+      .getElementById("new-queue-modal-backdrop")
+      .classList.remove("hidden");
   });
 
   // Close modal
   btnCancelModal.addEventListener("click", () => {
-    modal.style.display = "none";
+    modal.classList.add("hidden");
+    document.getElementById("new-queue-modal-backdrop").classList.add("hidden");
   });
+
+  document
+    .getElementById("new-queue-modal-backdrop")
+    .addEventListener("click", () => {
+      newQueueModal.classList.add("hidden");
+      document
+        .getElementById("new-queue-modal-backdrop")
+        .classList.add("hidden");
+    });
 }
 
 const btnCreateModal = document.getElementById("new-queue-create");
