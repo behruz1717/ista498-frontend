@@ -1,130 +1,112 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
   <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: "#0d9488",
+              brandDark: "#0f766e",
+            },
+            keyframes: {
+              fadeInUp: {
+                "0%": { opacity: 0, transform: "translateY(12px)" },
+                "100%": { opacity: 1, transform: "translateY(0)" },
+              },
+              modalPop: {
+                "0%": { opacity: 0, transform: "scale(0.95)" },
+                "100%": { opacity: 1, transform: "scale(1)" },
+              },
+            },
+            animation: {
+              fadeInUp: "fadeInUp 0.4s ease-out",
+              modalPop: "modalPop 0.2s ease-out",
+            },
+          },
+        },
+      };
+    </script>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>QueueLeaf Dashboard</title>
     <link rel="icon" href="assets/logo.png" />
-    <link rel="stylesheet" href="css/styles.css" />
   </head>
 
-  <body>
-    <header class="site-header">
-      <div class="brand">
-        <img src="assets/logo.png" alt="QueueLeaf" class="logo" />
-        <span class="brand-name">QueueLeaf</span>
-      </div>
+  <body class="min-h-screen flex flex-col bg-gray-50">
+    <!-- HEADER -->
+    <header class="w-full bg-white shadow-sm">
+      <div
+        class="max-w-5xl mx-auto flex items-center justify-between px-4 py-3"
+      >
+        <!-- Brand Section -->
+        <div class="flex items-center gap-3">
+          <img
+            src="assets/logo.png"
+            alt="QueueLeaf"
+            class="w-8 h-8 rounded-lg"
+          />
+          <span class="font-semibold text-lg text-gray-700">QueueLeaf</span>
+        </div>
 
-      <nav class="nav">
-        <button class="nav-btn active" data-route="dashboard">Dashboard</button>
-        <button
-          class="nav-btn"
-          id="nav-analytics"
-          onclick="window.location.href='analytics.html'"
-        >
-          Analytics
-        </button>
-        <button class="nav-btn" id="logout-btn">Logout</button>
-      </nav>
+        <!-- NAVIGATION -->
+        <nav class="flex items-center gap-2">
+          <button
+            data-route="dashboard"
+            class="px-4 py-2 rounded-lg text-sm font-medium bg-brand text-white shadow hover:bg-brandDark transition"
+          >
+            Dashboard
+          </button>
+
+          <button
+            onclick="window.location.href='analytics.html'"
+            class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition"
+          >
+            Analytics
+          </button>
+
+          <button
+            id="logout-btn"
+            class="px-4 py-2 rounded-lg text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
+        </nav>
+      </div>
     </header>
 
-    <main class="container">
-      <h2>Your Queues</h2>
-      <button class="btn primary tiny" id="btn-new-queue">New Queue</button>
-      <section id="queues-container" class="grid-3">
-        <!-- Cards injected by JS -->
-      </section>
-      <!-- New Queue Modal -->
-      <div
-        id="new-queue-modal"
-        class="card"
-        style="
-          display: none;
-          max-width: 420px;
-          padding: 20px;
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          z-index: 100;
-          background: var(--card);
-          border: 1px solid var(--line);
-          border-radius: 16px;
-          box-shadow: var(--shadow);
-        "
-      >
-        <h3>Create New Queue</h3>
+    <!-- MAIN PANEL -->
+    <main class="flex-1 w-full max-w-5xl mx-auto px-4 py-8 animate-fadeInUp">
+      <!-- Title + New Queue Button -->
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Your Queues</h2>
 
-        <div class="stack" style="margin-top: 16px">
-          <label>
-            <span class="label">Queue Name</span>
-            <input id="new-queue-name" placeholder="e.g., Main Dining" />
-          </label>
-
-          <label>
-            <span class="label">Average Service Time (min)</span>
-            <input id="new-queue-avg" type="number" min="1" value="5" />
-          </label>
-
-          <div class="row between" style="margin-top: 12px">
-            <button class="btn tiny" id="new-queue-cancel">Cancel</button>
-            <button class="btn primary tiny" id="new-queue-create">
-              Create
-            </button>
-          </div>
-        </div>
-      </div>
-      <!-- QR Modal -->
-      <div
-        id="qr-modal"
-        class="card"
-        style="
-          display: none;
-          max-width: 420px;
-          padding: 20px;
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          z-index: 200;
-          background: var(--card);
-          border: 1px solid var(--line);
-          border-radius: 16px;
-          box-shadow: var(--shadow);
-        "
-      >
-        <h3>Queue QR Code</h3>
-
-        <div
-          id="qr-canvas"
-          style="margin-top: 16px; display: flex; justify-content: center"
-        ></div>
-
-        <div
-          class="micro subtle"
-          id="qr-url"
-          style="margin-top: 12px; text-align: center"
-        ></div>
-
-        <div
-          class="row center"
-          style="margin-top: 18px; justify-content: center; gap: 8px"
+        <button
+          id="btn-new-queue"
+          class="px-4 py-2 bg-brand text-white rounded-lg font-medium shadow hover:bg-brandDark transition"
         >
-          <button class="btn tiny" id="qr-close">Close</button>
-          <a class="btn tiny" id="qr-download" download="queueleaf-qr.png"
-            >Download PNG</a
-          >
-        </div>
+          + New Queue
+        </button>
       </div>
+
+      <!-- QUEUE CARDS GRID -->
+      <section
+        id="queues-container"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+      >
+        <!-- Cards inserted dynamically -->
+      </section>
     </main>
 
-    <footer class="site-footer micro subtle">
+    <!-- FOOTER -->
+    <footer class="text-center text-gray-400 text-xs py-6">
       QueueLeaf · Manager Dashboard
     </footer>
 
+    <!-- SCRIPTS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-    <!-- Logic placeholder (Stage 9.5 JS will attach here) -->
     <script type="module" src="js/staff.js"></script>
   </body>
 </html>
