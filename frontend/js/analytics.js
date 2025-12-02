@@ -56,8 +56,12 @@ async function loadAnalytics(range = 7) {
 
 function renderChart(data) {
   const canvas = document.getElementById("chart-served");
-  const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const existingChart = Chart.getChart("chart-served");
+  if (existingChart) {
+    existingChart.destroy(); // Destroy the Chart.js instance
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
 
   const servedCounts = data
     .filter((d) => d.status === "served")
