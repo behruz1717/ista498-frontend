@@ -41,7 +41,7 @@ async function loadAnalytics(range = 7) {
       global.avgPartySize ?? "–";
 
     // --- Daily stats ---
-    if (range) {
+    if (!(typeof range === "object")) {
       const daily = await api(`/analytics/daily?days=${range}`);
       renderChart(daily);
     } else {
