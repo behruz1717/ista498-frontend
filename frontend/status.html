@@ -5,105 +5,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Queue Status · QueueLeaf</title>
     <link rel="icon" href="assets/logo.png" />
-    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: "#0d9488",
+              brandDark: "#0f766e",
+            },
+            keyframes: {
+              fadeInUp: {
+                "0%": { opacity: 0, transform: "translateY(10px)" },
+                "100%": { opacity: 1, transform: "translateY(0)" },
+              },
+            },
+            animation: {
+              fadeInUp: "fadeInUp 0.4s ease-out",
+            },
+          },
+        },
+      };
+    </script>
   </head>
 
-  <body>
-    <header class="site-header">
-      <div class="brand">
-        <img src="assets/logo.png" alt="QueueLeaf" class="logo" />
-        <span class="brand-name">QueueLeaf</span>
+  <body
+    class="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-gray-100"
+  >
+    <!-- HEADER -->
+    <header class="w-full bg-white shadow-sm">
+      <div class="max-w-lg mx-auto flex items-center gap-3 px-4 py-3">
+        <img src="assets/logo.png" alt="QueueLeaf" class="w-8 h-8 rounded-lg" />
+        <span class="font-semibold text-lg text-gray-700">QueueLeaf</span>
       </div>
     </header>
-    <button id="enable-sound" class="btn tiny" style="margin-bottom: 12px">
-      Enable Sound Alerts
-    </button>
-    <button
-      id="enable-browser-notify"
-      class="btn tiny"
-      style="margin-bottom: 12px"
-    >
-      Enable Browser Notifications
-    </button>
-    <button id="enable-vibration" class="btn tiny" style="margin-bottom: 12px">
-      Enable Vibration
-    </button>
 
-    <main class="container">
+    <!-- MAIN AREA -->
+    <main class="flex-1 flex flex-col items-center px-4 py-6">
+      <!-- Notification Toggles -->
+      <div class="flex flex-col w-full max-w-lg gap-3 mb-4">
+        <button
+          id="enable-sound"
+          class="w-full bg-white border border-gray-300 rounded-xl py-2 text-sm text-gray-700 shadow-sm hover:shadow transition"
+        >
+          Enable Sound Alerts
+        </button>
+
+        <button
+          id="enable-browser-notify"
+          class="w-full bg-white border border-gray-300 rounded-xl py-2 text-sm text-gray-700 shadow-sm hover:shadow transition"
+        >
+          Enable Browser Notifications
+        </button>
+
+        <button
+          id="enable-vibration"
+          class="w-full bg-white border border-gray-300 rounded-xl py-2 text-sm text-gray-700 shadow-sm hover:shadow transition"
+        >
+          Enable Vibration
+        </button>
+      </div>
+
+      <!-- CALLED ALERT -->
       <div
         id="called-alert"
-        style="
-          display: none;
-          padding: 12px;
-          margin-bottom: 12px;
-          border-radius: 8px;
-          font-weight: bold;
-          background: #f87171;
-          color: white;
-          text-align: center;
-        "
+        class="hidden w-full max-w-lg bg-red-500 text-white text-center font-semibold py-3 px-4 rounded-xl shadow-md animate-fadeInUp"
       >
         You are being called! Please return to the host stand.
       </div>
 
-      <p
+      <!-- CUSTOM MESSAGE -->
+      <div
         id="queue-custom-message"
-        class="subtle"
-        style="margin-bottom: 12px"
-      ></p>
+        class="hidden w-full max-w-lg bg-blue-50 border border-blue-200 text-blue-800 py-3 px-4 rounded-xl shadow-sm text-sm mb-4"
+      ></div>
 
-      <section id="status-card" class="card">
-        <h2>Your Place in Line</h2>
+      <!-- STATUS CARD -->
+      <section
+        id="status-card"
+        class="w-full max-w-lg bg-white rounded-2xl shadow-md p-6 animate-fadeInUp"
+      >
+        <!-- TICKET SUMMARY -->
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">
+          Your Place in Line
+        </h2>
 
-        <div class="ticket" id="ticket-summary">
+        <div
+          class="flex items-center justify-between mb-4 bg-gray-50 border border-gray-200 rounded-xl p-4"
+        >
           <div>
-            <div class="label">Ticket</div>
-            <div class="ticket-title">
+            <div class="text-xs text-gray-500">Ticket</div>
+            <div class="text-lg font-semibold flex items-center gap-2">
               <span id="ticket-name">—</span>
-              <span class="muted" id="ticket-id">#----</span>
+              <span id="ticket-id" class="text-gray-400 text-sm">#----</span>
             </div>
           </div>
-          <span id="ticket-status" class="pill">waiting</span>
+
+          <span
+            id="ticket-status"
+            class="px-3 py-1 rounded-full text-sm font-semibold transition"
+          >
+            waiting
+          </span>
         </div>
 
-        <div class="stats two" id="status-stats">
-          <div class="stat">
-            <div class="label">Your Position</div>
-            <div class="value" id="your-position">–</div>
+        <!-- POSITION + ETA -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div
+            class="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center"
+          >
+            <div class="text-xs text-gray-500">Your Position</div>
+            <div id="your-position" class="text-2xl font-bold text-gray-700">
+              –
+            </div>
           </div>
-          <div class="stat">
-            <div class="label">Estimated Wait</div>
-            <div class="value" id="your-eta">–</div>
+
+          <div
+            class="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center"
+          >
+            <div class="text-xs text-gray-500">Estimated Wait</div>
+            <div id="your-eta" class="text-2xl font-bold text-gray-700">–</div>
           </div>
         </div>
 
-        <div id="updates" class="subtle" style="margin-top: 1rem">
+        <!-- STATUS MESSAGE -->
+        <div id="updates" class="text-gray-600 text-sm mb-4">
           <p id="status-message">Please wait until your name is called.</p>
         </div>
 
-        <div style="margin-top: 1.5rem; text-align: center">
-          <button id="refresh-btn" class="btn tiny">Refresh Status</button>
-        </div>
+        <!-- REFRESH BUTTON -->
+        <button
+          id="refresh-btn"
+          class="w-full bg-brand text-white py-2.5 rounded-xl font-semibold shadow hover:bg-brandDark transition"
+        >
+          Refresh Status
+        </button>
       </section>
+
+      <!-- GAME LINK -->
+      <a
+        id="game-link"
+        class="mt-6 text-sm text-brand hover:text-brandDark transition underline"
+        href="https://tetris.com/play-tetris"
+        target="_blank"
+        >🎮 Play a quick game</a
+      >
     </main>
 
-    <a
-      id="game-link"
-      class="btn tiny"
-      href="https://tetris.com/play-tetris"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      🎮 Play a quick game
-    </a>
-
-    <footer class="site-footer micro subtle">
+    <!-- FOOTER -->
+    <footer class="text-center text-gray-400 text-xs py-6">
       QueueLeaf · Customer Status
     </footer>
 
-    <!-- Logic placeholder – added later in Stage 9.5 -->
+    <!-- JS -->
     <script type="module" src="js/customer.js"></script>
-
     <audio id="call-sound" src="assets/bell.mp3" preload="auto"></audio>
   </body>
 </html>

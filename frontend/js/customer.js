@@ -175,6 +175,29 @@ if (document.querySelector("#status-card")) {
       nameEl.textContent = ticket.name;
       idEl.textContent = "#" + ticket.id;
       statusEl.textContent = ticket.status;
+
+      // STATUS COLOR CHIP
+      const statusEl = document.getElementById("ticket-status");
+
+      // Remove old classes first
+      statusEl.classList.remove(
+        "bg-yellow-100",
+        "text-yellow-800",
+        "bg-blue-100",
+        "text-blue-800",
+        "bg-green-100",
+        "text-green-800"
+      );
+
+      // Apply colors based on status
+      if (ticket.status === "waiting") {
+        statusEl.classList.add("bg-yellow-100", "text-yellow-800");
+      } else if (ticket.status === "called") {
+        statusEl.classList.add("bg-blue-100", "text-blue-800");
+      } else if (ticket.status === "served") {
+        statusEl.classList.add("bg-green-100", "text-green-800");
+      }
+
       positionEl.textContent = ticket.position || "–";
       etaEl.textContent = ticket.etaSeconds
         ? Math.round(ticket.etaSeconds / 60) + " min"
