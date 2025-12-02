@@ -75,8 +75,10 @@ async function init() {
       const tickets = await api(`/tickets/${queueId}`);
 
       const waitingCount = tickets.filter((t) => t.status === "waiting").length;
-
       const servedCount = tickets.filter((t) => t.status === "served").length;
+
+      // Always clear the table BEFORE adding new rows
+      ticketsTable.innerHTML = "";
 
       if (tickets.length === 0) {
         ticketsTable.innerHTML = `
