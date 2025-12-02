@@ -23,21 +23,33 @@ async function loadAnalytics() {
 }
 
 function renderChart(data) {
-  const chart = document.getElementById("chart");
-  chart.innerHTML = "";
-
-  // Normalize structure: [{ status:"served", _count:{status:5}}, ...]
-  const bars = data
+  const servedCounts = data
     .filter((d) => d.status === "served")
     .map((d) => d._count.status);
 
-  const max = Math.max(...bars, 1);
-  bars.forEach((count, i) => {
-    const bar = document.createElement("div");
-    bar.className = "bar";
-    bar.style.height = `${(count / max) * 200}px`;
-    bar.innerHTML = `<span>${count}</span>`;
-    chart.appendChild(bar);
+  const labels = servedCounts.map((_, i) => `Day ${i + 1}`);
+
+  new Chart(document.getElementById("chart-served"), {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Served",
+          data: servedCounts,
+          backgroundColor: "#0d9488",
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        y: { beginAtZero: true },
+      },
+    },
   });
 }
 

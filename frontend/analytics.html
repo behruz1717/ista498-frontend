@@ -1,68 +1,158 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
   <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: "#0d9488",
+              brandDark: "#0f766e",
+            },
+            keyframes: {
+              fadeInUp: {
+                "0%": { opacity: 0, transform: "translateY(12px)" },
+                "100%": { opacity: 1, transform: "translateY(0)" },
+              },
+            },
+            animation: {
+              fadeInUp: "fadeInUp 0.4s ease-out",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>QueueLeaf Analytics</title>
     <link rel="icon" href="assets/logo.png" />
-    <link rel="stylesheet" href="css/styles.css" />
   </head>
 
   <body>
-    <header class="site-header">
-      <div class="brand">
-        <img src="assets/logo.png" alt="QueueLeaf" class="logo" />
-        <span class="brand-name">QueueLeaf</span>
-      </div>
+    <header class="w-full bg-white shadow-sm">
+      <div
+        class="max-w-5xl mx-auto flex items-center justify-between px-4 py-3"
+      >
+        <!-- Brand -->
+        <div class="flex items-center gap-3">
+          <img
+            src="assets/logo.png"
+            alt="QueueLeaf"
+            class="w-8 h-8 rounded-lg"
+          />
+          <span class="font-semibold text-lg text-gray-700">QueueLeaf</span>
+        </div>
 
-      <nav class="nav">
-        <button
-          class="nav-btn"
-          data-route="dashboard"
-          onclick="window.location.href='dashboard.html'"
-        >
-          Dashboard
-        </button>
-        <button class="nav-btn active" data-route="analytics">Analytics</button>
-        <button class="nav-btn" id="logout-btn">Logout</button>
-      </nav>
+        <nav class="flex items-center gap-2">
+          <button
+            onclick="window.location.href='dashboard.html'"
+            class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition"
+          >
+            Dashboard
+          </button>
+
+          <button
+            class="px-4 py-2 rounded-lg text-sm font-medium bg-brand text-white shadow hover:bg-brandDark transition"
+          >
+            Analytics
+          </button>
+
+          <button
+            id="logout-btn"
+            class="px-4 py-2 rounded-lg text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
+        </nav>
+      </div>
     </header>
 
-    <main class="container">
-      <section class="card">
-        <h2>Analytics Overview</h2>
-        <div class="stats four" id="analytics-summary">
-          <div class="stat">
-            <div class="label">Total Tickets</div>
-            <div class="value" id="total-tickets">–</div>
-          </div>
-          <div class="stat">
-            <div class="label">Served</div>
-            <div class="value" id="served-tickets">–</div>
-          </div>
-          <div class="stat">
-            <div class="label">Total Queues</div>
-            <div class="value" id="total-queues">–</div>
-          </div>
-          <div class="stat">
-            <div class="label">Avg Party Size</div>
-            <div class="value" id="avg-party">–</div>
-          </div>
+    <main
+      class="flex-1 w-full max-w-5xl mx-auto px-4 py-8 space-y-8 animate-fadeInUp"
+    >
+      <!-- PAGE TITLE -->
+      <h2 class="text-3xl font-bold text-gray-800 mb-2">Analytics Dashboard</h2>
+
+      <!-- METRIC CARDS -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="bg-white p-5 rounded-2xl shadow border border-gray-100">
+          <p class="text-sm text-gray-500">Total Tickets</p>
+          <p class="text-2xl font-bold text-gray-800 mt-1" id="total-tickets">
+            –
+          </p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow border border-gray-100">
+          <p class="text-sm text-gray-500">Served</p>
+          <p class="text-2xl font-bold text-gray-800 mt-1" id="served-tickets">
+            –
+          </p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow border border-gray-100">
+          <p class="text-sm text-gray-500">Total Queues</p>
+          <p class="text-2xl font-bold text-gray-800 mt-1" id="total-queues">
+            –
+          </p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow border border-gray-100">
+          <p class="text-sm text-gray-500">Avg Party Size</p>
+          <p class="text-2xl font-bold text-gray-800 mt-1" id="avg-party">–</p>
         </div>
       </section>
 
-      <section class="subcard">
-        <h2>Activity (Past 7 Days)</h2>
-        <div id="chart" class="chart">
-          <!-- bars or lines inserted by analytics.js -->
+      <!-- SERVED IN LAST 7 DAYS -->
+      <section class="bg-white p-6 rounded-2xl shadow border border-gray-100">
+        <h3 class="text-xl font-semibold text-gray-800 mb-3">
+          Served Tickets (Past 7 Days)
+        </h3>
+        <canvas id="chart-served" height="150"></canvas>
+      </section>
+
+      <!-- FUTURE PLACEHOLDER CHARTS -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Avg Wait Time -->
+        <div class="bg-white p-6 rounded-2xl shadow border border-gray-100">
+          <h3 class="text-xl font-semibold text-gray-800 mb-3">
+            Average Wait Time
+          </h3>
+          <canvas id="chart-wait" height="200"></canvas>
+          <p class="text-gray-400 text-xs mt-2">
+            (Placeholder – requires backend wait-time API)
+          </p>
         </div>
-        <p class="micro subtle" style="margin-top: 8px">
-          Chart shows total served and waiting tickets in the past 7 days.
+
+        <!-- Party Size Distribution -->
+        <div class="bg-white p-6 rounded-2xl shadow border border-gray-100">
+          <h3 class="text-xl font-semibold text-gray-800 mb-3">
+            Party Size Distribution
+          </h3>
+          <canvas id="chart-party" height="200"></canvas>
+          <p class="text-gray-400 text-xs mt-2">
+            (Placeholder – requires backend party-size breakdown API)
+          </p>
+        </div>
+      </section>
+
+      <!-- STATUS BREAKDOWN -->
+      <section class="bg-white p-6 rounded-2xl shadow border border-gray-100">
+        <h3 class="text-xl font-semibold text-gray-800 mb-3">
+          Status Breakdown
+        </h3>
+        <canvas id="chart-status" height="200"></canvas>
+        <p class="text-gray-400 text-xs mt-2">
+          (Placeholder – requires backend status-count API)
         </p>
       </section>
     </main>
 
-    <footer class="site-footer micro subtle">
+    <footer class="text-center text-gray-400 text-xs py-6">
       QueueLeaf · Analytics Dashboard
     </footer>
 
