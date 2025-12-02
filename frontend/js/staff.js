@@ -222,23 +222,27 @@ if (dashboardPage) {
 // QR MODAL OPEN/CLOSE
 // ===============================
 const qrModal = document.getElementById("qr-modal");
+const qrBackdrop = document.getElementById("qr-modal-backdrop");
 const qrClose = document.getElementById("qr-close");
 const qrCanvas = document.getElementById("qr-canvas");
 const qrUrl = document.getElementById("qr-url");
 
-// Close modal
-if (qrClose && qrModal) {
-  qrClose.addEventListener("click", () => {
-    qrModal.classList.add("hidden");
-    document.getElementById("qr-modal-backdrop").classList.add("hidden");
-    qrCanvas.innerHTML = ""; // clear old QR
-    qrUrl.textContent = ""; // clear URL text
-  });
+// Helper function to close modal and clear content
+function closeQRModal() {
+  qrModal.classList.add("hidden");
+  qrBackdrop.classList.add("hidden");
+  qrCanvas.innerHTML = ""; // clear old QR image
+  qrUrl.textContent = ""; // clear URL text
+}
 
-  document.getElementById("qr-modal-backdrop").addEventListener("click", () => {
-    qrModal.classList.add("hidden");
-    document.getElementById("qr-modal-backdrop").classList.add("hidden");
-  });
+// Close modal via Close button
+if (qrClose) {
+  qrClose.addEventListener("click", closeQRModal);
+}
+
+// Close modal by clicking backdrop
+if (qrBackdrop) {
+  qrBackdrop.addEventListener("click", closeQRModal);
 }
 
 // ===============================
