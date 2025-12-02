@@ -176,9 +176,6 @@ if (document.querySelector("#status-card")) {
       idEl.textContent = "#" + ticket.id;
       statusEl.textContent = ticket.status;
 
-      // STATUS COLOR CHIP
-      const statusEl = document.getElementById("ticket-status");
-
       // Remove old classes first
       statusEl.classList.remove(
         "bg-yellow-100",
