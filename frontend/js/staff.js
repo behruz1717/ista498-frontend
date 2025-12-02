@@ -283,14 +283,16 @@ if (btnNewQueue && modal && btnCancelModal) {
     modal.classList.add("hidden");
     document.getElementById("new-queue-modal-backdrop").classList.add("hidden");
   });
-}
 
-document
-  .getElementById("new-queue-modal-backdrop")
-  .addEventListener("click", () => {
-    modal.classList.add("hidden");
-    document.getElementById("new-queue-modal-backdrop").classList.add("hidden");
-  });
+  document
+    .getElementById("new-queue-modal-backdrop")
+    .addEventListener("click", () => {
+      modal.classList.add("hidden");
+      document
+        .getElementById("new-queue-modal-backdrop")
+        .classList.add("hidden");
+    });
+}
 
 const btnCreateModal = document.getElementById("new-queue-create");
 const inputName = document.getElementById("new-queue-name");
