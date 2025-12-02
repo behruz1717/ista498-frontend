@@ -72,83 +72,66 @@
       </div>
     </header>
 
-    <main
-      class="flex-1 w-full max-w-5xl mx-auto px-4 py-8 space-y-8 animate-fadeInUp"
-    >
-      <!-- PAGE TITLE -->
-      <h2 class="text-3xl font-bold text-gray-800 mb-2">Analytics Dashboard</h2>
-
-      <!-- METRIC CARDS -->
-      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div class="bg-white p-5 rounded-2xl shadow border border-gray-100">
-          <p class="text-sm text-gray-500">Total Tickets</p>
-          <p class="text-2xl font-bold text-gray-800 mt-1" id="total-tickets">
-            –
-          </p>
+    <main class="flex-1 w-full max-w-6xl mx-auto px-4 py-6 animate-fadeInUp">
+      <!-- TOP METRIC CARDS -->
+      <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white p-4 rounded-xl shadow border border-gray-100">
+          <p class="text-xs text-gray-500">Total Tickets</p>
+          <p class="text-xl font-bold text-gray-800" id="total-tickets">–</p>
         </div>
 
-        <div class="bg-white p-5 rounded-2xl shadow border border-gray-100">
-          <p class="text-sm text-gray-500">Served</p>
-          <p class="text-2xl font-bold text-gray-800 mt-1" id="served-tickets">
-            –
-          </p>
+        <div class="bg-white p-4 rounded-xl shadow border border-gray-100">
+          <p class="text-xs text-gray-500">Served</p>
+          <p class="text-xl font-bold text-gray-800" id="served-tickets">–</p>
         </div>
 
-        <div class="bg-white p-5 rounded-2xl shadow border border-gray-100">
-          <p class="text-sm text-gray-500">Total Queues</p>
-          <p class="text-2xl font-bold text-gray-800 mt-1" id="total-queues">
-            –
-          </p>
+        <div class="bg-white p-4 rounded-xl shadow border border-gray-100">
+          <p class="text-xs text-gray-500">Total Queues</p>
+          <p class="text-xl font-bold text-gray-800" id="total-queues">–</p>
         </div>
 
-        <div class="bg-white p-5 rounded-2xl shadow border border-gray-100">
-          <p class="text-sm text-gray-500">Avg Party Size</p>
-          <p class="text-2xl font-bold text-gray-800 mt-1" id="avg-party">–</p>
+        <div class="bg-white p-4 rounded-xl shadow border border-gray-100">
+          <p class="text-xs text-gray-500">Avg Party Size</p>
+          <p class="text-xl font-bold text-gray-800" id="avg-party">–</p>
         </div>
       </section>
 
-      <!-- SERVED IN LAST 7 DAYS -->
-      <section class="bg-white p-6 rounded-2xl shadow border border-gray-100">
-        <h3 class="text-xl font-semibold text-gray-800 mb-3">
-          Served Tickets (Past 7 Days)
-        </h3>
-        <canvas id="chart-served" height="150"></canvas>
-      </section>
-
-      <!-- FUTURE PLACEHOLDER CHARTS -->
-      <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Avg Wait Time -->
-        <div class="bg-white p-6 rounded-2xl shadow border border-gray-100">
-          <h3 class="text-xl font-semibold text-gray-800 mb-3">
-            Average Wait Time
+      <!-- ANALYTICS GRID (ALL VISIBLE AT ONCE) -->
+      <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+        <!-- Served Tickets -->
+        <div class="bg-white p-4 rounded-xl shadow border border-gray-100">
+          <h3 class="text-sm font-semibold text-gray-700 mb-2">
+            Served (7 Days)
           </h3>
-          <canvas id="chart-wait" height="200"></canvas>
-          <p class="text-gray-400 text-xs mt-2">
-            (Placeholder – requires backend wait-time API)
-          </p>
+          <canvas id="chart-served" height="120"></canvas>
         </div>
 
-        <!-- Party Size Distribution -->
-        <div class="bg-white p-6 rounded-2xl shadow border border-gray-100">
-          <h3 class="text-xl font-semibold text-gray-800 mb-3">
+        <!-- Avg Wait Time -->
+        <div class="bg-white p-4 rounded-xl shadow border border-gray-100">
+          <h3 class="text-sm font-semibold text-gray-700 mb-2">
+            Avg Wait Time
+          </h3>
+          <canvas id="chart-wait" height="120"></canvas>
+          <p class="text-gray-400 text-xs mt-1">(Placeholder)</p>
+        </div>
+
+        <!-- Party Size -->
+        <div class="bg-white p-4 rounded-xl shadow border border-gray-100">
+          <h3 class="text-sm font-semibold text-gray-700 mb-2">
             Party Size Distribution
           </h3>
-          <canvas id="chart-party" height="200"></canvas>
-          <p class="text-gray-400 text-xs mt-2">
-            (Placeholder – requires backend party-size breakdown API)
-          </p>
+          <canvas id="chart-party" height="120"></canvas>
+          <p class="text-gray-400 text-xs mt-1">(Placeholder)</p>
         </div>
-      </section>
 
-      <!-- STATUS BREAKDOWN -->
-      <section class="bg-white p-6 rounded-2xl shadow border border-gray-100">
-        <h3 class="text-xl font-semibold text-gray-800 mb-3">
-          Status Breakdown
-        </h3>
-        <canvas id="chart-status" height="200"></canvas>
-        <p class="text-gray-400 text-xs mt-2">
-          (Placeholder – requires backend status-count API)
-        </p>
+        <!-- Status Breakdown -->
+        <div class="bg-white p-4 rounded-xl shadow border border-gray-100">
+          <h3 class="text-sm font-semibold text-gray-700 mb-2">
+            Status Breakdown
+          </h3>
+          <canvas id="chart-status" height="120"></canvas>
+          <p class="text-gray-400 text-xs mt-1">(Placeholder)</p>
+        </div>
       </section>
     </main>
 
