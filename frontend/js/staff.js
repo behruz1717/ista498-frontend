@@ -64,20 +64,53 @@ async function loadQueues() {
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
-  <h3>${q.name}</h3>
-  <p class="subtle">Status: <b>${q.isOpen ? "Open" : "Closed"}</b></p>
-  <p>Avg Service: ${Math.round((q.avgServiceSec || 300) / 60)} min</p>
+  <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-100 hover:shadow-lg transition">
 
-  <div class="row" style="gap:8px; margin-top:8px;">
-    <button class="btn primary tiny" data-action="manage" data-id="${q.id}">
-      Manage
-    </button>
-    <button class="btn tiny" data-action="qr" data-id="${q.id}">
-      QR
-    </button>
-    <button class="btn tiny warn" data-action="delete" data-id="${q.id}">
-      Delete
-    </button>
+    <!-- Queue Name -->
+    <h3 class="text-lg font-semibold text-gray-800 mb-1">${q.name}</h3>
+
+    <!-- Status Badge -->
+    <span class="inline-block px-3 py-1 text-xs font-medium rounded-full 
+      ${q.isOpen ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}">
+      ${q.isOpen ? "Open" : "Closed"}
+    </span>
+
+    <!-- Avg Service Time -->
+    <p class="text-gray-500 text-sm mt-2">
+      Avg service: ${Math.round((q.avgServiceSec || 300) / 60)} min
+    </p>
+
+    <!-- Action Buttons -->
+    <div class="mt-4 flex items-center gap-2">
+
+      <!-- MANAGE -->
+      <button 
+        data-action="manage"
+        data-id="${q.id}"
+        class="flex-1 bg-brand text-white py-2 rounded-lg text-sm font-medium shadow hover:bg-brandDark transition"
+      >
+        Manage
+      </button>
+
+      <!-- QR -->
+      <button 
+        data-action="qr"
+        data-id="${q.id}"
+        class="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg border border-gray-200 hover:bg-gray-200 transition"
+      >
+        QR
+      </button>
+
+      <!-- DELETE -->
+      <button 
+        data-action="delete"
+        data-id="${q.id}"
+        class="px-3 py-2 text-sm bg-red-100 text-red-700 rounded-lg border border-red-200 hover:bg-red-200 transition"
+      >
+        Delete
+      </button>
+
+    </div>
   </div>
 `;
 
