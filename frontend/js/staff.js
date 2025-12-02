@@ -277,7 +277,7 @@ if (btnNewQueue && modal && btnCancelModal) {
   document
     .getElementById("new-queue-modal-backdrop")
     .addEventListener("click", () => {
-      newQueueModal.classList.add("hidden");
+      modal.classList.add("hidden");
       document
         .getElementById("new-queue-modal-backdrop")
         .classList.add("hidden");
@@ -310,6 +310,9 @@ if (btnCreateModal && modal && inputName && inputAvg) {
 
       // Hide modal
       modal.style.display = "none";
+      document
+        .getElementById("new-queue-modal-backdrop")
+        .classList.add("hidden");
 
       // Clear inputs
       inputName.value = "";
