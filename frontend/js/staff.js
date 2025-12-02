@@ -169,7 +169,7 @@ async function loadQueues() {
         }
 
         // ---------------------------
-        // QR (handled in next step)
+        // QR HANDLER (handled in next step)
         // ---------------------------
         // -------- QR --------
         if (action === "qr") {
@@ -200,7 +200,8 @@ async function loadQueues() {
           }, 200);
 
           // 5. Show modal
-          qrModal.style.display = "block";
+          qrModal.classList.remove("hidden");
+          qrBackdrop.classList.remove("hidden");
 
           return;
         }
@@ -319,7 +320,8 @@ if (btnCreateModal && modal && inputName && inputAvg) {
       });
 
       // Hide modal
-      modal.style.display = "none";
+      modal.classList.add("hidden");
+
       document
         .getElementById("new-queue-modal-backdrop")
         .classList.add("hidden");
