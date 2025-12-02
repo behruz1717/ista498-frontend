@@ -73,6 +73,42 @@
     </header>
 
     <main class="flex-1 w-full max-w-6xl mx-auto px-4 py-6 animate-fadeInUp">
+      <!-- DATE RANGE SELECTOR -->
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-3xl font-bold text-gray-800">Analytics Dashboard</h2>
+
+        <select
+          id="range-select"
+          class="px-3 py-2 border border-gray-300 rounded-lg shadow-sm text-sm focus:ring-2 focus:ring-brand/40 focus:border-brand transition"
+        >
+          <option value="7">Last 7 Days</option>
+          <option value="14">Last 14 Days</option>
+          <option value="30">Last 30 Days</option>
+          <option value="custom">Custom Range</option>
+        </select>
+      </div>
+
+      <!-- CUSTOM DATE PICKERS (hidden initially) -->
+      <div id="custom-range" class="hidden flex gap-3 mb-4 items-center">
+        <input
+          type="date"
+          id="start-date"
+          class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand/40"
+        />
+        <input
+          type="date"
+          id="end-date"
+          class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand/40"
+        />
+
+        <button
+          id="apply-custom"
+          class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brandDark transition"
+        >
+          Apply
+        </button>
+      </div>
+
       <!-- TOP METRIC CARDS -->
       <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="bg-white p-4 rounded-xl shadow border border-gray-100">

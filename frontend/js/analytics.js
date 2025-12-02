@@ -1,7 +1,33 @@
 // js/analytics.js
 import { api } from "./api.js";
 
-async function loadAnalytics() {
+const rangeSelect = document.getElementById("range-select");
+const customRange = document.getElementById("custom-range");
+const startDateInput = document.getElementById("start-date");
+const endDateInput = document.getElementById("end-date");
+
+rangeSelect.addEventListener("change", () => {
+  if (rangeSelect.value === "custom") {
+    customRange.classList.remove("hidden");
+  } else {
+    customRange.classList.add("hidden");
+    loadAnalytics(rangeSelect.value);
+  }
+});
+
+document.getElementById("apply-custom").addEventListener("click", () => {
+  const start = startDateInput.value;
+  const end = endDateInput.value;
+
+  if (!start || !end) {
+    alert("Select both start and end dates.");
+    return;
+  }
+
+  loadAnalytics({ start, end });
+});
+
+async function loadAnalytics(range = 7) {
   try {
     // --- Summary metrics ---
     const global = await api("/analytics/global");
@@ -15,8 +41,14 @@ async function loadAnalytics() {
       global.avgPartySize ?? "–";
 
     // --- Daily stats ---
-    const daily = await api("/analytics/daily?days=7");
-    renderChart(daily);
+    if (typeof range === "number") {
+      const daily = await api(`/analytics/daily?days=${range}`);
+      renderChart(daily);
+    } else {
+      const { start, end } = range;
+      const daily = await api(`/analytics/custom?start=${start}&end=${end}`);
+      renderChart(daily);
+    }
   } catch (err) {
     console.error("Failed to load analytics:", err);
   }
