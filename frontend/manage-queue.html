@@ -1,80 +1,169 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
   <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: "#0d9488",
+              brandDark: "#0f766e",
+            },
+            keyframes: {
+              fadeInUp: {
+                "0%": { opacity: 0, transform: "translateY(12px)" },
+                "100%": { opacity: 1, transform: "translateY(0)" },
+              },
+              modalPop: {
+                "0%": { opacity: 0, transform: "scale(0.95)" },
+                "100%": { opacity: 1, transform: "scale(1)" },
+              },
+            },
+            animation: {
+              fadeInUp: "fadeInUp 0.4s ease-out",
+              modalPop: "modalPop 0.2s ease-out",
+            },
+          },
+        },
+      };
+    </script>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Manage Queue · QueueLeaf</title>
     <link rel="icon" href="assets/logo.png" />
-    <link rel="stylesheet" href="css/styles.css" />
   </head>
+
   <body>
-    <header class="site-header">
-      <div class="brand">
-        <img src="assets/logo.png" class="logo" />
-        <span class="brand-name">QueueLeaf</span>
+    <header class="w-full bg-white shadow-sm">
+      <div
+        class="max-w-5xl mx-auto flex items-center justify-between px-4 py-3"
+      >
+        <!-- Brand -->
+        <div class="flex items-center gap-3">
+          <img
+            src="assets/logo.png"
+            alt="QueueLeaf"
+            class="w-8 h-8 rounded-lg"
+          />
+          <span class="font-semibold text-lg text-gray-700">QueueLeaf</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex items-center gap-2">
+          <button
+            onclick="window.location.href='dashboard.html'"
+            class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition"
+          >
+            ← Back
+          </button>
+
+          <button
+            id="logout-btn"
+            class="px-4 py-2 rounded-lg text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
+        </nav>
       </div>
-      <nav class="nav">
-        <button class="nav-btn" onclick="window.location.href='dashboard.html'">
-          ← Back
-        </button>
-        <button class="nav-btn" id="logout-btn">Logout</button>
-      </nav>
     </header>
 
-    <main class="container">
-      <section class="card">
-        <h2 id="queue-name">Queue</h2>
-        <div class="stats four">
-          <div class="stat">
-            <div class="label">Status</div>
-            <div class="value" id="stat-status">–</div>
+    <main class="flex-1 w-full max-w-5xl mx-auto px-4 py-8 animate-fadeInUp">
+      <section
+        class="bg-white rounded-2xl shadow p-6 border border-gray-100 mb-6"
+      >
+        <h2 id="queue-name" class="text-2xl font-bold text-gray-800 mb-4">
+          Queue
+        </h2>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+            <p class="text-sm text-gray-500">Status</p>
+            <p id="stat-status" class="text-lg font-semibold text-gray-800">
+              –
+            </p>
           </div>
-          <div class="stat">
-            <div class="label">Avg Service</div>
-            <div class="value" id="stat-avg">–</div>
+
+          <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+            <p class="text-sm text-gray-500">Avg Service</p>
+            <p id="stat-avg" class="text-lg font-semibold text-gray-800">–</p>
           </div>
-          <div class="stat">
-            <div class="label">Waiting</div>
-            <div class="value" id="stat-inqueue">–</div>
+
+          <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+            <p class="text-sm text-gray-500">Waiting</p>
+            <p id="stat-inqueue" class="text-lg font-semibold text-gray-800">
+              –
+            </p>
           </div>
-          <div class="stat">
-            <div class="label">Served Today</div>
-            <div class="value" id="stat-served">–</div>
+
+          <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+            <p class="text-sm text-gray-500">Served Today</p>
+            <p id="stat-served" class="text-lg font-semibold text-gray-800">
+              –
+            </p>
           </div>
         </div>
       </section>
 
-      <section class="subcard">
-        <div class="row between">
-          <h3>Controls</h3>
-          <button class="btn tiny" id="toggle-open">Toggle Open/Close</button>
+      <section
+        class="bg-white rounded-2xl shadow p-6 border border-gray-100 mb-6"
+      >
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold text-gray-800">Controls</h3>
+          <button
+            id="toggle-open"
+            class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brandDark transition"
+          >
+            Toggle Open/Close
+          </button>
         </div>
-        <label>
-          <span class="label">Custom Message</span>
-          <textarea id="input-message"></textarea>
+
+        <label class="block mb-4">
+          <span class="text-sm text-gray-600">Custom Message</span>
+          <textarea
+            id="input-message"
+            class="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand/40 focus:border-brand transition"
+          ></textarea>
         </label>
-        <label>
-          <span class="label">Avg Service Time (min)</span>
-          <input type="number" id="input-avg" min="1" />
+
+        <label class="block">
+          <span class="text-sm text-gray-600">Avg Service Time (min)</span>
+          <input
+            id="input-avg"
+            type="number"
+            min="1"
+            class="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand/40 focus:border-brand transition"
+          />
         </label>
       </section>
 
-      <section class="subcard">
-        <div class="row between">
-          <h3>Active Tickets</h3>
-          <button class="btn primary tiny" id="call-next">Call Next</button>
+      <section class="bg-white rounded-2xl shadow p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold text-gray-800">Active Tickets</h3>
+          <button
+            id="call-next"
+            class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brandDark transition"
+          >
+            Call Next
+          </button>
         </div>
-        <table class="table" id="tickets-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Status</th>
-              <th>Joined</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm">
+            <thead>
+              <tr class="bg-gray-50 text-gray-600 text-left">
+                <th class="p-3">Name</th>
+                <th class="p-3">Status</th>
+                <th class="p-3">Joined</th>
+                <th class="p-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tickets-table" class="divide-y divide-gray-200">
+              <!-- rows injected dynamically -->
+            </tbody>
+          </table>
+        </div>
       </section>
     </main>
 

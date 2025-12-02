@@ -62,9 +62,8 @@ async function init() {
   // ===============================
   // ACTIVE TICKETS TABLE
   // ===============================
-  const ticketsTable = document
-    .getElementById("tickets-table")
-    .querySelector("tbody");
+  const ticketsTable = document.getElementById("tickets-table");
+
   const callNextBtn = document.getElementById("call-next");
 
   // Load tickets for this queue
