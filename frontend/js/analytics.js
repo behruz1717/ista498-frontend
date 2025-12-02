@@ -55,6 +55,7 @@ async function loadAnalytics(range = 7) {
 }
 
 function renderChart(data) {
+  document.getElementById("chart-served").innerHTML = "";
   const servedCounts = data
     .filter((d) => d.status === "served")
     .map((d) => d._count.status);
