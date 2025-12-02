@@ -25,7 +25,10 @@ async function init() {
     if (!queue) throw new Error("Queue not found");
 
     nameEl.textContent = queue.name;
-    statusEl.textContent = queue.isOpen ? "Open" : "Closed";
+    statusEl.innerHTML = queue.isOpen
+      ? `<span class="px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-700">Open</span>`
+      : `<span class="px-3 py-1 text-sm font-semibold rounded-full bg-red-100 text-red-700">Closed</span>`;
+
     avgEl.textContent = Math.round((queue.avgServiceSec || 300) / 60);
     avgInput.value = Math.round((queue.avgServiceSec || 300) / 60);
     msgInput.value = queue.customMessage || "";
@@ -70,31 +73,76 @@ async function init() {
   async function loadTickets() {
     try {
       const tickets = await api(`/tickets/${queueId}`);
-      ticketsTable.innerHTML = "";
 
       const waitingCount = tickets.filter((t) => t.status === "waiting").length;
 
       const servedCount = tickets.filter((t) => t.status === "served").length;
 
+      if (tickets.length === 0) {
+        ticketsTable.innerHTML = `
+    <tr>
+      <td colspan="4" class="p-6 text-center text-gray-500">
+        No active tickets yet.
+      </td>
+    </tr>
+  `;
+        return;
+      }
+
       document.getElementById("stat-inqueue").textContent = waitingCount;
       document.getElementById("stat-served").textContent = servedCount;
+
+      function renderStatusBadge(status) {
+        if (status === "waiting") {
+          return `<span class="px-3 py-1 text-xs font-semibold bg-yellow-100 text-yellow-700 rounded-full">Waiting</span>`;
+        }
+        if (status === "called") {
+          return `<span class="px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 rounded-full">Called</span>`;
+        }
+        if (status === "served") {
+          return `<span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">Served</span>`;
+        }
+        return status;
+      }
 
       tickets.forEach((t) => {
         const row = document.createElement("tr");
         row.innerHTML = `
-        <td>${t.name}</td>
-        <td>${t.status}</td>
-        <td>${new Date(t.createdAt).toLocaleTimeString()}</td>
-        <td>
-          ${
-            t.status === "waiting"
-              ? `<button class="btn tiny" data-action="call" data-id="${t.id}">Call</button>`
-              : t.status === "called"
-              ? `<button class="btn tiny" data-action="serve" data-id="${t.id}">Serve</button>`
-              : ""
-          }
-        </td>
-      `;
+  <td class="p-3 font-medium text-gray-800">${t.name}</td>
+
+  <td class="p-3">
+    ${renderStatusBadge(t.status)}
+  </td>
+
+  <td class="p-3 text-gray-500">
+    ${new Date(t.createdAt).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}
+  </td>
+
+  <td class="p-3">
+    ${
+      t.status === "waiting"
+        ? `<button 
+             class="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+             data-action="call"
+             data-id="${t.id}">
+             Call
+           </button>`
+        : t.status === "called"
+        ? `<button 
+             class="px-3 py-1 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+             data-action="serve"
+             data-id="${t.id}">
+             Serve
+           </button>`
+        : `<span class="text-gray-400 text-sm">–</span>`
+    }
+  </td>
+`;
+        row.className = "hover:bg-gray-50 transition";
+
         ticketsTable.appendChild(row);
       });
     } catch (err) {
