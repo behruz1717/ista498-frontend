@@ -195,10 +195,20 @@ if (document.querySelector("#status-card")) {
         statusEl.classList.add("bg-green-100", "text-green-800");
       }
 
+      function animateUpdate(el) {
+        el.classList.add("transition", "duration-300", "ease-out", "opacity-0");
+        setTimeout(() => {
+          el.classList.remove("opacity-0");
+        }, 10);
+      }
+
       positionEl.textContent = ticket.position || "–";
+      animateUpdate(positionEl);
+
       etaEl.textContent = ticket.etaSeconds
         ? Math.round(ticket.etaSeconds / 60) + " min"
         : "–";
+      animateUpdate(etaEl);
     } catch (err) {
       console.error("Error loading status:", err);
     }
