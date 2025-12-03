@@ -323,7 +323,6 @@ async function verifyAuth() {
 (async () => {
   const ok = await verifyAuth();
   if (ok) {
-    await loadQueueList();
     await loadAnalytics();
 
     document.getElementById("live-refresh-toggle").checked = true;
