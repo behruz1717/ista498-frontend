@@ -171,6 +171,7 @@ if (document.querySelector("#status-card")) {
 
       const messageEl = document.getElementById("queue-custom-message");
       messageEl.textContent = ticket.customMessage || "";
+      messageEl.classList.remove("hidden");
 
       nameEl.textContent = ticket.name;
       idEl.textContent = "#" + ticket.id;
