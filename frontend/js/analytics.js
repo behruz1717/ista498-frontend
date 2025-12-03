@@ -182,14 +182,12 @@ function renderServedTrend(data) {
    CHART: Wait Time Trend (Line) — Placeholder
    ==========================================================*/
 function renderWaitTrend(data) {
-  const canvas = document.getElementById("chart-wait-trend");
-  const existing = Chart.getChart("chart-wait-trend");
-  if (existing) existing.destroy();
+  safeDestroy("chart-wait-trend");
 
   const waitTimes = data.map((d) => d.avgWaitMinutes);
-  const labels = data.map((d) => d.date);
+  const labels = data.map((d) => d.date.substring(5)); // MM-DD
 
-  new Chart(canvas, {
+  new Chart(document.getElementById("chart-wait-trend"), {
     type: "line",
     data: {
       labels,
@@ -198,7 +196,7 @@ function renderWaitTrend(data) {
           label: "Avg Wait (min)",
           data: waitTimes,
           borderColor: "#f97316",
-          backgroundColor: "rgba(249, 115, 22, 0.2)",
+          backgroundColor: "rgba(249,115,22,0.2)",
           borderWidth: 2,
           tension: 0.3,
           fill: true,
