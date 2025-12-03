@@ -105,12 +105,18 @@ async function loadAnalytics(range = 7) {
       renderChart(daily);
       renderServedTrend(daily);
       renderWaitTrend(daily); // placeholder
+
+      // Placeholder heatmap
+      renderHeatmap(mockHeatmapData());
     } else {
       const { start, end } = range;
       const daily = await api(`/analytics/custom?start=${start}&end=${end}`);
       renderChart(daily);
       renderServedTrend(daily);
       renderWaitTrend(daily);
+
+      // Placeholder heatmap
+      renderHeatmap(mockHeatmapData());
     }
   } catch (err) {
     console.error("Failed to load analytics:", err);
@@ -368,6 +374,56 @@ function renderCompareWait(a, b) {
       responsive: true,
       scales: { y: { beginAtZero: true } },
     },
+  });
+}
+
+function mockHeatmapData() {
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const heatmap = {};
+
+  days.forEach((day) => {
+    heatmap[day] = {};
+    for (let h = 0; h < 24; h++) {
+      heatmap[day][h] = Math.floor(Math.random() * 20); // random 0–20
+    }
+  });
+
+  return heatmap;
+}
+
+function renderHeatmap(data) {
+  const grid = document.getElementById("heatmap-grid");
+  grid.innerHTML = "";
+
+  const days = Object.keys(data);
+
+  // Header row (empty corner + hours 0–23)
+  grid.innerHTML += `<div></div>`;
+  for (let h = 0; h < 24; h++) {
+    grid.innerHTML += `<div class="text-gray-500 text-center">${h}</div>`;
+  }
+
+  // Generate rows
+  days.forEach((day) => {
+    // Day label
+    grid.innerHTML += `<div class="font-medium text-gray-700">${day}</div>`;
+
+    // Hour cells
+    for (let h = 0; h < 24; h++) {
+      const value = data[day][h];
+
+      // Color intensity (0 = white, 20 = deep green)
+      const intensity = Math.min(value * 5, 100); // scale 0–100
+      const color = `rgba(13, 148, 136, ${intensity / 100})`;
+
+      grid.innerHTML += `
+        <div 
+          title="${day} ${h}:00 — ${value} customers"
+          class="h-5"
+          style="background-color: ${color};"
+        ></div>
+      `;
+    }
   });
 }
 
