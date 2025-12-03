@@ -279,15 +279,25 @@ function renderHeatmap(data) {
    ==========================================================*/
 function calculatePeakDays(daily) {
   const names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const totals = { Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0, Sun: 0 };
 
-  let index = (new Date().getDay() + 6) % 7;
+  // Initialize counters
+  const totals = {
+    Mon: 0,
+    Tue: 0,
+    Wed: 0,
+    Thu: 0,
+    Fri: 0,
+    Sat: 0,
+    Sun: 0,
+  };
 
-  daily.forEach((row) => {
-    if (row.status === "served") {
-      totals[names[index]] += row._count.status;
-    }
-    index = (index - 1 + 7) % 7;
+  daily.forEach((day) => {
+    const dateObj = new Date(day.date + "T00:00:00");
+    const jsIndex = dateObj.getDay(); // 0=Sun
+    const ourIndex = (jsIndex + 6) % 7; // convert to Mon=0
+
+    const dayName = names[ourIndex];
+    totals[dayName] += day.served || 0;
   });
 
   return totals;
