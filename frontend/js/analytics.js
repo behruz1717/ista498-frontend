@@ -32,10 +32,6 @@ function startLiveRefresh() {
   liveRefreshInterval = setInterval(async () => {
     const range = document.getElementById("range-select").value;
     await loadAnalytics(range);
-
-    const a = document.getElementById("compare-a").value;
-    const b = document.getElementById("compare-b").value;
-    if (a && b && a !== b) compareQueues();
   }, 10000);
 }
 
