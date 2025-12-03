@@ -132,7 +132,8 @@ async function loadAnalytics(range = 7) {
     // 3. Render charts
     renderServedTrend(daily);
     renderWaitTrend(daily); // placeholder
-    renderHeatmap(buildHeatmapFromDaily(daily));
+    const heatmap = buildAggregatedHeatmap(daily);
+    renderHeatmap(heatmap);
 
     renderPeakDayChart(calculatePeakDays(daily));
   } catch (err) {
@@ -219,59 +220,64 @@ function renderWaitTrend(data) {
 /* ==========================================================
    HEATMAP (Placeholder Until API Exists)
    ==========================================================*/
-function buildHeatmapFromDaily(daily) {
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-  // Initialize structure
-  const heatmap = {};
-  days.forEach((d) => {
-    heatmap[d] = {};
-    for (let h = 0; h < 24; h++) {
-      heatmap[d][h] = 0;
-    }
-  });
-
-  daily.forEach((entry) => {
-    // Convert date → JS day index → our day name
-    const dateObj = new Date(entry.date + "T00:00:00");
-    const jsIndex = dateObj.getDay(); // 0 = Sun
-    const ourIndex = (jsIndex + 6) % 7; // convert to Mon=0
-    const dayName = days[ourIndex];
-
-    // Add hourly data
-    for (let h = 0; h < 24; h++) {
-      heatmap[dayName][h] += entry.hourly[h] || 0;
-    }
-  });
-
-  return heatmap;
-}
-
-function renderHeatmap(data) {
+function renderHeatmap(heatmap) {
   const grid = document.getElementById("heatmap-grid");
   grid.innerHTML = "";
 
-  // Header: blank + hours
+  const days = Object.keys(heatmap);
+
+  // Header row
   grid.innerHTML += `<div></div>`;
   for (let h = 0; h < 24; h++) {
     grid.innerHTML += `<div class="text-gray-500 text-center">${h}</div>`;
   }
 
   // Rows
-  for (const day of Object.keys(data)) {
+  days.forEach((day) => {
     grid.innerHTML += `<div class="font-medium text-gray-700">${day}</div>`;
-    for (let h = 0; h < 24; h++) {
-      const value = data[day][h];
-      const opacity = Math.min(value * 5, 100) / 100;
+
+    heatmap[day].forEach((value, hour) => {
+      let opacity = Math.min(value / 10, 1); // scale dynamically (feel free to tune)
 
       grid.innerHTML += `
         <div
-          title="${day} ${h}:00 — ${value} customers"
+          title="${day} ${hour}:00 — ${value} customers"
           class="h-4"
           style="background-color: rgba(13,148,136,${opacity});"
-        ></div>`;
+        ></div>
+      `;
+    });
+  });
+}
+
+function buildAggregatedHeatmap(daily) {
+  // Create structure: Mon–Sun mapped to zero-filled 24-hour array
+  const heatmap = {
+    Mon: Array(24).fill(0),
+    Tue: Array(24).fill(0),
+    Wed: Array(24).fill(0),
+    Thu: Array(24).fill(0),
+    Fri: Array(24).fill(0),
+    Sat: Array(24).fill(0),
+    Sun: Array(24).fill(0),
+  };
+
+  const names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+  daily.forEach((day) => {
+    const d = new Date(day.date);
+    let dow = (d.getDay() + 6) % 7; // convert: Mon=0
+
+    const dayName = names[dow];
+
+    // hour ranges 0–23
+    for (let h = 0; h < 24; h++) {
+      heatmap[dayName][h] += day.hourly[h] || 0;
     }
-  }
+  });
+
+  return heatmap;
 }
 
 /* ==========================================================
