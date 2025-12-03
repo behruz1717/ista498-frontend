@@ -148,11 +148,9 @@ async function loadAnalytics(range = 7) {
 function renderServedTrend(data) {
   safeDestroy("chart-served-trend");
 
-  const counts = data
-    .filter((d) => d.status === "served")
-    .map((d) => d._count.status);
-
-  const labels = counts.map((_, i) => `Day ${i + 1}`);
+  // New data structure
+  const servedCounts = data.map((d) => d.served);
+  const labels = data.map((d) => d.date.substring(5)); // show "MM-DD"
 
   new Chart(document.getElementById("chart-served-trend"), {
     type: "line",
@@ -161,7 +159,7 @@ function renderServedTrend(data) {
       datasets: [
         {
           label: "Served",
-          data: counts,
+          data: servedCounts,
           borderColor: "#0d9488",
           backgroundColor: "rgba(13,148,136,0.15)",
           borderWidth: 2,
@@ -170,7 +168,13 @@ function renderServedTrend(data) {
         },
       ],
     },
-    options: { responsive: true, plugins: { legend: { display: false } } },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true },
+      },
+    },
   });
 }
 
