@@ -69,6 +69,42 @@ async function init() {
 
   const callNextBtn = document.getElementById("call-next");
 
+  function formatTime(dateStr) {
+    if (!dateStr) return "—";
+    return new Date(dateStr).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+  function renderActions(t) {
+    if (t.status === "waiting") {
+      return `
+      <button
+        class="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+        data-action="call"
+        data-id="${t.id}"
+      >
+        Call
+      </button>
+    `;
+    }
+
+    if (t.status === "called") {
+      return `
+      <button
+        class="px-3 py-1 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+        data-action="serve"
+        data-id="${t.id}"
+      >
+        Serve
+      </button>
+    `;
+    }
+
+    return `<span class="text-gray-400">—</span>`;
+  }
+
   // Load tickets for this queue
   async function loadTickets() {
     try {
@@ -116,37 +152,37 @@ async function init() {
         row.innerHTML = `
   <td class="p-3 font-medium text-gray-800">${t.name}</td>
 
+  <td class="p-3 text-gray-700">${t.partySize}</td>
+
   <td class="p-3">
     ${renderStatusBadge(t.status)}
   </td>
 
   <td class="p-3 text-gray-500">
-    ${new Date(t.createdAt).toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    })}
+    ${formatTime(t.createdAt)}
+  </td>
+
+  <td class="p-3 text-gray-500">
+    ${t.calledAt ? formatTime(t.calledAt) : "—"}
+  </td>
+
+  <td class="p-3 text-gray-500">
+    ${t.servedAt ? formatTime(t.servedAt) : "—"}
+  </td>
+
+  <td class="p-3 text-gray-500">
+    ${t.leftAt ? formatTime(t.leftAt) : "—"}
+  </td>
+
+  <td class="p-3 text-gray-500">
+    ${t.contactValue || "—"}
   </td>
 
   <td class="p-3">
-    ${
-      t.status === "waiting"
-        ? `<button 
-             class="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-             data-action="call"
-             data-id="${t.id}">
-             Call
-           </button>`
-        : t.status === "called"
-        ? `<button 
-             class="px-3 py-1 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
-             data-action="serve"
-             data-id="${t.id}">
-             Serve
-           </button>`
-        : `<span class="text-gray-400 text-sm">–</span>`
-    }
+    ${renderActions(t)}
   </td>
 `;
+
         row.className = "hover:bg-gray-50 transition";
 
         ticketsTable.appendChild(row);
@@ -161,12 +197,15 @@ async function init() {
     if (!e.target.dataset.action) return;
     const id = e.target.dataset.id;
     const action = e.target.dataset.action;
+    let newStatus = null;
+    if (action === "call") newStatus = "called";
+    if (action === "serve") newStatus = "served";
 
     try {
       await api(`/tickets/${id}/status`, {
         method: "PATCH",
         body: JSON.stringify({
-          status: action === "call" ? "called" : "served",
+          status: newStatus,
         }),
       });
       await loadTickets();
