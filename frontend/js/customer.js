@@ -174,6 +174,9 @@ if (document.querySelector("#status-card")) {
       if (messageEl.textContent != "") {
         messageEl.classList.remove("hidden");
       }
+      if (messageEl.textContent == "") {
+        messageEl.classList.add("hidden");
+      }
 
       nameEl.textContent = ticket.name;
       idEl.textContent = "#" + ticket.id;
