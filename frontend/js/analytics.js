@@ -109,7 +109,6 @@ async function loadAnalytics(range = 7) {
     // --- Daily stats ---
     if (!(typeof range === "object")) {
       const daily = await api(`/analytics/daily?days=${range}`);
-      renderChart(daily);
       renderServedTrend(daily);
       renderWaitTrend(daily); // placeholder
 
@@ -121,7 +120,6 @@ async function loadAnalytics(range = 7) {
     } else {
       const { start, end } = range;
       const daily = await api(`/analytics/custom?start=${start}&end=${end}`);
-      renderChart(daily);
       renderServedTrend(daily);
       renderWaitTrend(daily);
 
@@ -137,45 +135,6 @@ async function loadAnalytics(range = 7) {
       window.location.href = "login.html";
     }
   }
-}
-
-function renderChart(data) {
-  const canvas = document.getElementById("chart-served");
-  const existingChart = Chart.getChart("chart-served");
-  if (existingChart) {
-    existingChart.destroy(); // Destroy the Chart.js instance
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
-
-  const servedCounts = data
-    .filter((d) => d.status === "served")
-    .map((d) => d._count.status);
-
-  const labels = servedCounts.map((_, i) => `Day ${i + 1}`);
-
-  new Chart(document.getElementById("chart-served"), {
-    type: "bar",
-    data: {
-      labels,
-      datasets: [
-        {
-          label: "Served",
-          data: servedCounts,
-          backgroundColor: "#0d9488",
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-      },
-      scales: {
-        y: { beginAtZero: true },
-      },
-    },
-  });
 }
 
 function renderServedTrend(data) {
