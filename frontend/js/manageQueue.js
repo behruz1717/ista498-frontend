@@ -207,6 +207,76 @@ async function init() {
 
 init();
 
+/* ============================================
+   CONTROLS MODAL LOGIC
+   ============================================*/
+
+const openControlsBtn = document.getElementById("open-controls");
+const controlsModal = document.getElementById("controls-modal");
+const controlsBackdrop = document.getElementById("controls-backdrop");
+
+const modalMsg = document.getElementById("modal-input-message");
+const modalAvg = document.getElementById("modal-input-avg");
+const modalToggleBtn = document.getElementById("modal-toggle-open");
+
+// OPEN MODAL
+openControlsBtn.addEventListener("click", () => {
+  // preload values
+  modalMsg.value = msgInput.value;
+  modalAvg.value = avgInput.value;
+  modalToggleBtn.textContent = toggleBtn.textContent;
+
+  controlsModal.classList.remove("hidden");
+  controlsBackdrop.classList.remove("hidden");
+});
+
+// CLOSE MODAL
+document.getElementById("controls-cancel").addEventListener("click", () => {
+  controlsModal.classList.add("hidden");
+  controlsBackdrop.classList.add("hidden");
+});
+
+controlsBackdrop.addEventListener("click", () => {
+  controlsModal.classList.add("hidden");
+  controlsBackdrop.classList.add("hidden");
+});
+
+// SAVE CHANGES
+document.getElementById("controls-save").addEventListener("click", async () => {
+  try {
+    await api(`/queues/${queueId}/message`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        message: modalMsg.value,
+      }),
+    });
+
+    await api(`/queues/${queueId}/avg`, {
+      method: "PATCH",
+      body: JSON.stringify({ minutes: Number(modalAvg.value) }),
+    });
+
+    controlsModal.classList.add("hidden");
+    controlsBackdrop.classList.add("hidden");
+
+    await loadQueue(); // refresh UI
+  } catch (err) {
+    console.error("Failed to update queue:", err);
+    alert("Failed to save settings");
+  }
+});
+
+// Toggle queue from modal
+modalToggleBtn.addEventListener("click", async () => {
+  try {
+    await api(`/queues/${queueId}/toggle`, { method: "PATCH" });
+    await loadQueue(); // refresh UI
+    modalToggleBtn.textContent = toggleBtn.textContent;
+  } catch (err) {
+    console.error("Failed to toggle queue:", err);
+  }
+});
+
 // ===============================
 // LOGOUT BUTTON
 // ===============================
