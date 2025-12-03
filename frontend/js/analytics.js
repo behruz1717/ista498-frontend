@@ -178,12 +178,14 @@ function renderServedTrend(data) {
    CHART: Wait Time Trend (Line) — Placeholder
    ==========================================================*/
 function renderWaitTrend(data) {
-  safeDestroy("chart-wait-trend");
+  const canvas = document.getElementById("chart-wait-trend");
+  const existing = Chart.getChart("chart-wait-trend");
+  if (existing) existing.destroy();
 
-  const waitTimes = data.map(() => Math.floor(Math.random() * 20) + 5); // 5–25min
-  const labels = waitTimes.map((_, i) => `Day ${i + 1}`);
+  const waitTimes = data.map((d) => d.avgWaitMinutes);
+  const labels = data.map((d) => d.date);
 
-  new Chart(document.getElementById("chart-wait-trend"), {
+  new Chart(canvas, {
     type: "line",
     data: {
       labels,
@@ -192,14 +194,22 @@ function renderWaitTrend(data) {
           label: "Avg Wait (min)",
           data: waitTimes,
           borderColor: "#f97316",
-          backgroundColor: "rgba(249,115,22,0.2)",
+          backgroundColor: "rgba(249, 115, 22, 0.2)",
           borderWidth: 2,
           tension: 0.3,
           fill: true,
         },
       ],
     },
-    options: { responsive: true, plugins: { legend: { display: false } } },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        y: { beginAtZero: true },
+      },
+    },
   });
 }
 
@@ -350,6 +360,46 @@ function renderCompareServed(a, b) {
       ],
     },
     options: { responsive: true },
+  });
+}
+
+function renderCompareWait(a, b) {
+  const id = "chart-compare-wait";
+  const existing = Chart.getChart(id);
+  if (existing) existing.destroy();
+
+  const waitA = a.map((d) => d.avgWaitMinutes);
+  const waitB = b.map((d) => d.avgWaitMinutes);
+
+  const labels = a.map((d) => d.date);
+
+  new Chart(document.getElementById(id), {
+    type: "line",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Queue A",
+          data: waitA,
+          borderColor: "#0ea5e9",
+          backgroundColor: "rgba(14,165,233,0.1)",
+          borderWidth: 2,
+          tension: 0.3,
+        },
+        {
+          label: "Queue B",
+          data: waitB,
+          borderColor: "#a855f7",
+          backgroundColor: "rgba(168,85,247,0.1)",
+          borderWidth: 2,
+          tension: 0.3,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: { y: { beginAtZero: true } },
+    },
   });
 }
 
