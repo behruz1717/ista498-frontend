@@ -147,99 +147,70 @@
       </section>
 
       <!-- ANALYTICS GRID (ALL VISIBLE AT ONCE) -->
-      <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-        <!-- SERVED TREND LINE -->
+      <!-- ANALYTICS GRID (Compact) -->
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- SERVED TREND -->
+        <div class="bg-white p-4 rounded-xl shadow border border-gray-100">
+          <h3 class="text-sm font-semibold text-gray-700 mb-2">Served Trend</h3>
+          <canvas id="chart-served-trend" height="100"></canvas>
+        </div>
+
+        <!-- WAIT TREND -->
         <div class="bg-white p-4 rounded-xl shadow border border-gray-100">
           <h3 class="text-sm font-semibold text-gray-700 mb-2">
-            Served Trend (Line Chart)
+            Avg Wait Time
           </h3>
-          <canvas id="chart-served-trend" height="120"></canvas>
+          <canvas id="chart-wait-trend" height="100"></canvas>
         </div>
 
-        <!-- AVG WAIT TIME TREND -->
+        <!-- PEAK DAY -->
         <div class="bg-white p-4 rounded-xl shadow border border-gray-100">
-          <h3 class="text-sm font-semibold text-gray-700 mb-2">
-            Avg Wait Time Trend
+          <h3 class="text-sm font-semibold text-gray-800 mb-2">
+            Peak Day of Week
           </h3>
-          <canvas id="chart-wait-trend" height="120"></canvas>
-        </div>
-
-        <!-- HEATMAP SECTION -->
-        <div
-          class="bg-white p-5 rounded-xl shadow border border-gray-100 md:col-span-2"
-        >
-          <h3 class="text-xl font-semibold text-gray-800 mb-4">
-            Peak Hours Heatmap
-          </h3>
-
-          <!-- Heatmap Grid -->
-          <div id="heatmap-grid" class="grid grid-cols-25 gap-1 text-xs"></div>
-
-          <p class="text-gray-400 text-xs mt-3">
-            Darker colors indicate higher customer volume.
-          </p>
-        </div>
-
-        <!-- PEAK DAY BAR CHART -->
-        <div
-          class="bg-white p-5 rounded-xl shadow border border-gray-100 md:col-span-2"
-        >
-          <h3 class="text-xl font-semibold text-gray-800 mb-4">
-            Peak Day of Week (Customer Volume)
-          </h3>
-
-          <canvas id="chart-peak-day" height="140"></canvas>
-
-          <p class="text-gray-400 text-xs mt-2">
-            Shows which day of the week has the highest number of served
-            customers.
-          </p>
+          <canvas id="chart-peak-day" height="120"></canvas>
         </div>
 
         <!-- COMPARE QUEUES -->
-        <div
-          class="bg-white p-5 rounded-xl shadow border border-gray-100 md:col-span-2"
-        >
-          <h3 class="text-xl font-semibold text-gray-800 mb-4">
+        <div class="bg-white p-5 rounded-xl shadow border border-gray-100">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">
             Compare Queues
           </h3>
 
-          <!-- Dropdowns -->
-          <div class="flex flex-col sm:flex-row gap-4 mb-4">
+          <div class="flex flex-col sm:flex-row gap-4 mb-3">
             <select
               id="compare-a"
-              class="flex-1 px-3 py-2 border border-gray-300 rounded-lg shadow-sm text-sm focus:ring-2 focus:ring-brand/40 focus:border-brand transition"
+              class="flex-1 px-3 py-2 border border-gray-300 rounded-lg shadow-sm text-sm focus:ring-brand/40"
             >
-              <option value="">Select Queue A</option>
+              <option value="">Queue A</option>
             </select>
-
             <select
               id="compare-b"
-              class="flex-1 px-3 py-2 border border-gray-300 rounded-lg shadow-sm text-sm focus:ring-2 focus:ring-brand/40 focus:border-brand transition"
+              class="flex-1 px-3 py-2 border border-gray-300 rounded-lg shadow-sm text-sm focus:ring-brand/40"
             >
-              <option value="">Select Queue B</option>
+              <option value="">Queue B</option>
             </select>
           </div>
 
-          <!-- COMPARISON CHARTS -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Served Comparison -->
-            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <h4 class="text-sm font-semibold text-gray-700 mb-2">
-                Served Trend Comparison
-              </h4>
-              <canvas id="chart-compare-served" height="120"></canvas>
-            </div>
+          <canvas id="chart-compare-served" height="120"></canvas>
+        </div>
 
-            <!-- Wait Time Comparison -->
-            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <h4 class="text-sm font-semibold text-gray-700 mb-2">
-                Avg Wait Time Comparison
-              </h4>
-              <canvas id="chart-compare-wait" height="120"></canvas>
-              <p class="text-gray-400 text-xs mt-1">(Placeholder)</p>
-            </div>
-          </div>
+        <!-- COMPACT HEATMAP -->
+        <div
+          class="bg-white p-4 rounded-xl shadow border border-gray-100 md:col-span-2"
+        >
+          <h3 class="text-lg font-semibold text-gray-800 mb-3">
+            Heatmap: Peak Hours
+          </h3>
+
+          <div
+            id="heatmap-grid"
+            class="grid grid-cols-25 gap-0.5 text-[10px]"
+          ></div>
+
+          <p class="text-gray-400 text-[10px] mt-2">
+            Darker colors = higher volume
+          </p>
         </div>
       </section>
     </main>
