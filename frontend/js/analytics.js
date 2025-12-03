@@ -108,6 +108,9 @@ async function loadAnalytics(range = 7) {
 
       // Placeholder heatmap
       renderHeatmap(mockHeatmapData());
+
+      const peak = calculatePeakDays(daily);
+      renderPeakDayChart(peak);
     } else {
       const { start, end } = range;
       const daily = await api(`/analytics/custom?start=${start}&end=${end}`);
@@ -117,6 +120,9 @@ async function loadAnalytics(range = 7) {
 
       // Placeholder heatmap
       renderHeatmap(mockHeatmapData());
+
+      const peak = calculatePeakDays(daily);
+      renderPeakDayChart(peak);
     }
   } catch (err) {
     console.error("Failed to load analytics:", err);
@@ -424,6 +430,83 @@ function renderHeatmap(data) {
         ></div>
       `;
     }
+  });
+}
+
+function calculatePeakDays(daily) {
+  // Daily structure: each row represents 1 day’s total served tickets
+  // We assume the MOST RECENT day is index 0 and goes backwards.
+
+  // Map day index to name
+  const names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+  // Start from today and go backwards
+  const today = new Date();
+  let current = today.getDay(); // 0=Sunday, we convert to Mon=0
+
+  // Convert JS day to our format: Monday = 0
+  current = (current + 6) % 7;
+
+  const totals = {
+    Mon: 0,
+    Tue: 0,
+    Wed: 0,
+    Thu: 0,
+    Fri: 0,
+    Sat: 0,
+    Sun: 0,
+  };
+
+  let index = current;
+
+  // Iterate over each daily entry
+  daily.forEach((row) => {
+    if (row.status === "served") {
+      totals[names[index]] += row._count.status;
+    }
+
+    // Move to previous day
+    index = (index - 1 + 7) % 7;
+  });
+
+  return totals;
+}
+
+function renderPeakDayChart(totals) {
+  const id = "chart-peak-day";
+  const existing = Chart.getChart(id);
+  if (existing) existing.destroy();
+
+  const labels = Object.keys(totals);
+  const values = Object.values(totals);
+
+  new Chart(document.getElementById(id), {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Customers",
+          data: values,
+          backgroundColor: [
+            "#0d9488",
+            "#0ea5e9",
+            "#818cf8",
+            "#f43f5e",
+            "#f97316",
+            "#22c55e",
+            "#eab308",
+          ],
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true },
+      },
+    },
   });
 }
 
