@@ -44,10 +44,14 @@ async function loadAnalytics(range = 7) {
     if (!(typeof range === "object")) {
       const daily = await api(`/analytics/daily?days=${range}`);
       renderChart(daily);
+      renderServedTrend(daily);
+      renderWaitTrend(daily); // placeholder
     } else {
       const { start, end } = range;
       const daily = await api(`/analytics/custom?start=${start}&end=${end}`);
       renderChart(daily);
+      renderServedTrend(daily);
+      renderWaitTrend(daily);
     }
   } catch (err) {
     console.error("Failed to load analytics:", err);
@@ -78,6 +82,83 @@ function renderChart(data) {
           label: "Served",
           data: servedCounts,
           backgroundColor: "#0d9488",
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        y: { beginAtZero: true },
+      },
+    },
+  });
+}
+
+function renderServedTrend(data) {
+  const canvas = document.getElementById("chart-served-trend");
+  const existing = Chart.getChart("chart-served-trend");
+  if (existing) existing.destroy();
+
+  const servedCounts = data
+    .filter((d) => d.status === "served")
+    .map((d) => d._count.status);
+
+  const labels = servedCounts.map((_, i) => `Day ${i + 1}`);
+
+  new Chart(canvas, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Served",
+          data: servedCounts,
+          borderColor: "#0d9488",
+          backgroundColor: "rgba(13, 148, 136, 0.2)",
+          borderWidth: 2,
+          tension: 0.3,
+          fill: true,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        y: { beginAtZero: true },
+      },
+    },
+  });
+}
+
+function renderWaitTrend(data) {
+  const canvas = document.getElementById("chart-wait-trend");
+  const existing = Chart.getChart("chart-wait-trend");
+  if (existing) existing.destroy();
+
+  // Placeholder: Fake wait times between 5–25 minutes
+  const waitTimes = data.map(() => Math.floor(Math.random() * 20) + 5);
+
+  const labels = waitTimes.map((_, i) => `Day ${i + 1}`);
+
+  new Chart(canvas, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Avg Wait (min)",
+          data: waitTimes,
+          borderColor: "#f97316",
+          backgroundColor: "rgba(249, 115, 22, 0.2)",
+          borderWidth: 2,
+          tension: 0.3,
+          fill: true,
         },
       ],
     },
