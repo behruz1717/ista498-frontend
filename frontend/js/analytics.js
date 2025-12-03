@@ -339,6 +339,7 @@ document.getElementById("compare-b").addEventListener("change", compareQueues);
 async function compareQueues() {
   const idA = document.getElementById("compare-a").value;
   const idB = document.getElementById("compare-b").value;
+
   if (!idA || !idB || idA === idB) return;
 
   const dailyA = await api(`/analytics/queue/${idA}/daily?days=7`).catch(
@@ -347,21 +348,22 @@ async function compareQueues() {
   const dailyB = await api(`/analytics/queue/${idB}/daily?days=7`).catch(
     () => null
   );
+
   if (!dailyA || !dailyB) return;
 
   renderCompareServed(dailyA, dailyB);
+  renderCompareWait(dailyA, dailyB);
 }
 
 function renderCompareServed(a, b) {
   safeDestroy("chart-compare-served");
 
-  const servedA = a
-    .filter((d) => d.status === "served")
-    .map((d) => d._count.status);
-  const servedB = b
-    .filter((d) => d.status === "served")
-    .map((d) => d._count.status);
-  const labels = servedA.map((_, i) => `Day ${i + 1}`);
+  // Extract served counts
+  const servedA = a.map((d) => d.served);
+  const servedB = b.map((d) => d.served);
+
+  // Use dates for labels
+  const labels = a.map((d) => d.date);
 
   new Chart(document.getElementById("chart-compare-served"), {
     type: "line",
@@ -386,39 +388,40 @@ function renderCompareServed(a, b) {
         },
       ],
     },
-    options: { responsive: true },
+    options: {
+      responsive: true,
+      scales: { y: { beginAtZero: true } },
+    },
   });
 }
 
 function renderCompareWait(a, b) {
-  const id = "chart-compare-wait";
-  const existing = Chart.getChart(id);
-  if (existing) existing.destroy();
+  safeDestroy("chart-compare-wait");
 
   const waitA = a.map((d) => d.avgWaitMinutes);
   const waitB = b.map((d) => d.avgWaitMinutes);
 
   const labels = a.map((d) => d.date);
 
-  new Chart(document.getElementById(id), {
+  new Chart(document.getElementById("chart-compare-wait"), {
     type: "line",
     data: {
       labels,
       datasets: [
         {
-          label: "Queue A",
+          label: "Queue A Avg Wait",
           data: waitA,
           borderColor: "#0ea5e9",
-          backgroundColor: "rgba(14,165,233,0.1)",
           borderWidth: 2,
+          fill: false,
           tension: 0.3,
         },
         {
-          label: "Queue B",
+          label: "Queue B Avg Wait",
           data: waitB,
           borderColor: "#a855f7",
-          backgroundColor: "rgba(168,85,247,0.1)",
           borderWidth: 2,
+          fill: false,
           tension: 0.3,
         },
       ],
