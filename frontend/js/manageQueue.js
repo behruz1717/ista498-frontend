@@ -104,6 +104,10 @@ async function init() {
         if (status === "served") {
           return `<span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">Served</span>`;
         }
+        if (status === "left") {
+          return `<span class="px-3 py-1 text-xs font-semibold bg-red-100 text-red-700 rounded-full">Left</span>`;
+        }
+
         return status;
       }
 
