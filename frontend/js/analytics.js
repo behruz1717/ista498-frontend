@@ -1,6 +1,25 @@
 // js/analytics.js
 import { api } from "./api.js";
 
+async function loadQueueList() {
+  const queues = await api("/queues");
+
+  const selectA = document.getElementById("compare-a");
+  const selectB = document.getElementById("compare-b");
+
+  queues.forEach((q) => {
+    const optA = document.createElement("option");
+    optA.value = q.id;
+    optA.textContent = q.name;
+    selectA.appendChild(optA);
+
+    const optB = document.createElement("option");
+    optB.value = q.id;
+    optB.textContent = q.name;
+    selectB.appendChild(optB);
+  });
+}
+
 const rangeSelect = document.getElementById("range-select");
 const customRange = document.getElementById("custom-range");
 const startDateInput = document.getElementById("start-date");
@@ -186,11 +205,6 @@ async function verifyAuth() {
   }
 }
 
-(async () => {
-  const ok = await verifyAuth();
-  if (ok) await loadAnalytics();
-})();
-
 // ===============================
 // LOGOUT BUTTON
 // ===============================
@@ -207,3 +221,120 @@ if (logoutBtn) {
     }
   });
 }
+
+document.getElementById("compare-a").addEventListener("change", compareQueues);
+document.getElementById("compare-b").addEventListener("change", compareQueues);
+
+async function compareQueues() {
+  const idA = document.getElementById("compare-a").value;
+  const idB = document.getElementById("compare-b").value;
+
+  if (!idA || !idB || idA === idB) return;
+
+  // Fetch daily analytics for both queues
+  const dailyA = await api(`/analytics/queue/${idA}/daily?days=7`).catch(
+    () => null
+  );
+
+  const dailyB = await api(`/analytics/queue/${idB}/daily?days=7`).catch(
+    () => null
+  );
+
+  if (dailyA && dailyB) {
+    renderCompareServed(dailyA, dailyB);
+    renderCompareWait(dailyA, dailyB); // placeholder
+  }
+}
+
+function renderCompareServed(a, b) {
+  const id = "chart-compare-served";
+  const existing = Chart.getChart(id);
+  if (existing) existing.destroy();
+
+  const servedA = a
+    .filter((d) => d.status === "served")
+    .map((d) => d._count.status);
+  const servedB = b
+    .filter((d) => d.status === "served")
+    .map((d) => d._count.status);
+
+  const labels = servedA.map((_, i) => `Day ${i + 1}`);
+
+  new Chart(document.getElementById(id), {
+    type: "line",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Queue A",
+          data: servedA,
+          borderColor: "#0d9488",
+          backgroundColor: "rgba(13,148,136,0.1)",
+          borderWidth: 2,
+          tension: 0.3,
+        },
+        {
+          label: "Queue B",
+          data: servedB,
+          borderColor: "#f43f5e",
+          backgroundColor: "rgba(244,63,94,0.1)",
+          borderWidth: 2,
+          tension: 0.3,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: { y: { beginAtZero: true } },
+    },
+  });
+}
+
+function renderCompareWait(a, b) {
+  const id = "chart-compare-wait";
+  const existing = Chart.getChart(id);
+  if (existing) existing.destroy();
+
+  // Placeholder: generate random wait times
+  const waitA = a.map(() => Math.floor(Math.random() * 20) + 5);
+  const waitB = b.map(() => Math.floor(Math.random() * 20) + 5);
+
+  const labels = waitA.map((_, i) => `Day ${i + 1}`);
+
+  new Chart(document.getElementById(id), {
+    type: "line",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Queue A",
+          data: waitA,
+          borderColor: "#0ea5e9",
+          backgroundColor: "rgba(14,165,233,0.1)",
+          borderWidth: 2,
+          tension: 0.3,
+        },
+        {
+          label: "Queue B",
+          data: waitB,
+          borderColor: "#a855f7",
+          backgroundColor: "rgba(168,85,247,0.1)",
+          borderWidth: 2,
+          tension: 0.3,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: { y: { beginAtZero: true } },
+    },
+  });
+}
+
+(async () => {
+  const ok = await verifyAuth();
+  if (ok) {
+    await loadAnalytics();
+    await loadQueueList();
+  }
+})();
