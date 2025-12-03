@@ -42,22 +42,29 @@ function stopLiveRefresh() {
 }
 
 async function loadQueueList() {
-  const queues = await api("/queues");
+  try {
+    const queues = await api("/queues");
 
-  const selectA = document.getElementById("compare-a");
-  const selectB = document.getElementById("compare-b");
+    const selectA = document.getElementById("compare-a");
+    const selectB = document.getElementById("compare-b");
 
-  queues.forEach((q) => {
-    const optA = document.createElement("option");
-    optA.value = q.id;
-    optA.textContent = q.name;
-    selectA.appendChild(optA);
+    queues.forEach((q) => {
+      const optA = document.createElement("option");
+      optA.value = q.id;
+      optA.textContent = q.name;
+      selectA.appendChild(optA);
 
-    const optB = document.createElement("option");
-    optB.value = q.id;
-    optB.textContent = q.name;
-    selectB.appendChild(optB);
-  });
+      const optB = document.createElement("option");
+      optB.value = q.id;
+      optB.textContent = q.name;
+      selectB.appendChild(optB);
+    });
+  } catch (err) {
+    if (err.status === 401) {
+      stopLiveRefresh();
+      window.location.href = "login.html";
+    }
+  }
 }
 
 const rangeSelect = document.getElementById("range-select");
@@ -125,7 +132,10 @@ async function loadAnalytics(range = 7) {
       renderPeakDayChart(peak);
     }
   } catch (err) {
-    console.error("Failed to load analytics:", err);
+    if (err.status === 401) {
+      stopLiveRefresh();
+      window.location.href = "login.html";
+    }
   }
 }
 
