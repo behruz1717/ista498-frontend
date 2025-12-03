@@ -132,7 +132,8 @@ async function loadAnalytics(range = 7) {
     // 3. Render charts
     renderServedTrend(daily);
     renderWaitTrend(daily); // placeholder
-    renderHeatmap(mockHeatmapData());
+    renderHeatmap(buildHeatmapFromDaily(daily));
+
     renderPeakDayChart(calculatePeakDays(daily));
   } catch (err) {
     if (err.status === 401) {
@@ -218,14 +219,28 @@ function renderWaitTrend(data) {
 /* ==========================================================
    HEATMAP (Placeholder Until API Exists)
    ==========================================================*/
-function mockHeatmapData() {
+function buildHeatmapFromDaily(daily) {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const heatmap = {};
 
+  // Initialize structure
+  const heatmap = {};
   days.forEach((d) => {
     heatmap[d] = {};
     for (let h = 0; h < 24; h++) {
-      heatmap[d][h] = Math.floor(Math.random() * 20);
+      heatmap[d][h] = 0;
+    }
+  });
+
+  daily.forEach((entry) => {
+    // Convert date → JS day index → our day name
+    const dateObj = new Date(entry.date + "T00:00:00");
+    const jsIndex = dateObj.getDay(); // 0 = Sun
+    const ourIndex = (jsIndex + 6) % 7; // convert to Mon=0
+    const dayName = days[ourIndex];
+
+    // Add hourly data
+    for (let h = 0; h < 24; h++) {
+      heatmap[dayName][h] += entry.hourly[h] || 0;
     }
   });
 
