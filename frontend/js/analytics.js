@@ -1,6 +1,46 @@
 // js/analytics.js
 import { api } from "./api.js";
 
+let liveRefreshInterval = null;
+
+document
+  .getElementById("live-refresh-toggle")
+  .addEventListener("change", (e) => {
+    if (e.target.checked) {
+      console.log("Live analytics enabled");
+      startLiveRefresh();
+    } else {
+      console.log("Live analytics disabled");
+      stopLiveRefresh();
+    }
+  });
+
+function startLiveRefresh() {
+  // Avoid double intervals
+  stopLiveRefresh();
+
+  // Refresh every 10 seconds
+  liveRefreshInterval = setInterval(() => {
+    console.log("Refreshing analytics...");
+    loadAnalytics(document.getElementById("range-select").value);
+
+    // If compare section has selections, update it too
+    const a = document.getElementById("compare-a").value;
+    const b = document.getElementById("compare-b").value;
+
+    if (a && b && a !== b) {
+      compareQueues();
+    }
+  }, 10000); // 10 seconds
+}
+
+function stopLiveRefresh() {
+  if (liveRefreshInterval) {
+    clearInterval(liveRefreshInterval);
+    liveRefreshInterval = null;
+  }
+}
+
 async function loadQueueList() {
   const queues = await api("/queues");
 
@@ -336,5 +376,8 @@ function renderCompareWait(a, b) {
   if (ok) {
     await loadAnalytics();
     await loadQueueList();
+
+    document.getElementById("live-refresh-toggle").checked = true;
+    startLiveRefresh();
   }
 })();
