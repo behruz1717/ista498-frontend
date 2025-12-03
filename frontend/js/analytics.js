@@ -447,7 +447,7 @@ async function verifyAuth() {
     await api("/auth/me");
     return true;
   } catch {
-    window.location.href = "index.html";
+    window.location.href = "login.html";
     return false;
   }
 }
