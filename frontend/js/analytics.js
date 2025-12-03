@@ -117,9 +117,9 @@ async function loadAnalytics(range = 7) {
 function renderServedTrend(data) {
   safeDestroy("chart-served-trend");
 
-  // New data structure
-  const servedCounts = data.map((d) => d.served);
   const labels = data.map((d) => d.date.substring(5)); // show "MM-DD"
+  const served = data.map((d) => d.served);
+  const left = data.map((d) => d.left || 0);
 
   new Chart(document.getElementById("chart-served-trend"), {
     type: "line",
@@ -128,9 +128,18 @@ function renderServedTrend(data) {
       datasets: [
         {
           label: "Served",
-          data: servedCounts,
+          data: served,
           borderColor: "#0d9488",
           backgroundColor: "rgba(13,148,136,0.15)",
+          borderWidth: 2,
+          tension: 0.3,
+          fill: true,
+        },
+        {
+          label: "Left Queue",
+          data: left,
+          borderColor: "#e11d48",
+          backgroundColor: "rgba(225,29,72,0.15)",
           borderWidth: 2,
           tension: 0.3,
           fill: true,
@@ -139,7 +148,9 @@ function renderServedTrend(data) {
     },
     options: {
       responsive: true,
-      plugins: { legend: { display: false } },
+      plugins: {
+        legend: { display: true },
+      },
       scales: {
         y: { beginAtZero: true },
       },
