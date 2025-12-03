@@ -164,6 +164,38 @@
           <canvas id="chart-wait-trend" height="120"></canvas>
         </div>
 
+        <!-- HEATMAP SECTION -->
+        <div
+          class="bg-white p-5 rounded-xl shadow border border-gray-100 md:col-span-2"
+        >
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">
+            Peak Hours Heatmap
+          </h3>
+
+          <!-- Heatmap Grid -->
+          <div id="heatmap-grid" class="grid grid-cols-25 gap-1 text-xs"></div>
+
+          <p class="text-gray-400 text-xs mt-3">
+            Darker colors indicate higher customer volume.
+          </p>
+        </div>
+
+        <!-- PEAK DAY BAR CHART -->
+        <div
+          class="bg-white p-5 rounded-xl shadow border border-gray-100 md:col-span-2"
+        >
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">
+            Peak Day of Week (Customer Volume)
+          </h3>
+
+          <canvas id="chart-peak-day" height="140"></canvas>
+
+          <p class="text-gray-400 text-xs mt-2">
+            Shows which day of the week has the highest number of served
+            customers.
+          </p>
+        </div>
+
         <!-- COMPARE QUEUES -->
         <div
           class="bg-white p-5 rounded-xl shadow border border-gray-100 md:col-span-2"
@@ -187,41 +219,6 @@
             >
               <option value="">Select Queue B</option>
             </select>
-          </div>
-
-          <!-- HEATMAP SECTION -->
-          <div
-            class="bg-white p-5 rounded-xl shadow border border-gray-100 md:col-span-2"
-          >
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">
-              Peak Hours Heatmap
-            </h3>
-
-            <!-- Heatmap Grid -->
-            <div
-              id="heatmap-grid"
-              class="grid grid-cols-25 gap-1 text-xs"
-            ></div>
-
-            <p class="text-gray-400 text-xs mt-3">
-              Darker colors indicate higher customer volume.
-            </p>
-          </div>
-
-          <!-- PEAK DAY BAR CHART -->
-          <div
-            class="bg-white p-5 rounded-xl shadow border border-gray-100 md:col-span-2"
-          >
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">
-              Peak Day of Week (Customer Volume)
-            </h3>
-
-            <canvas id="chart-peak-day" height="140"></canvas>
-
-            <p class="text-gray-400 text-xs mt-2">
-              Shows which day of the week has the highest number of served
-              customers.
-            </p>
           </div>
 
           <!-- COMPARISON CHARTS -->
