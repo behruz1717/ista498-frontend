@@ -153,6 +153,9 @@
         <div class="bg-white p-4 rounded-xl shadow border border-gray-100">
           <h3 class="text-sm font-semibold text-gray-700 mb-2">Served Trend</h3>
           <canvas id="chart-served-trend" height="100"></canvas>
+          <p class="text-gray-400 text-xs mt-2">
+            X: Days • Y: Customers Served
+          </p>
         </div>
 
         <!-- WAIT TREND -->
@@ -161,6 +164,9 @@
             Avg Wait Time
           </h3>
           <canvas id="chart-wait-trend" height="100"></canvas>
+          <p class="text-gray-400 text-xs mt-2">
+            X: Days • Y: Avg Wait (minutes)
+          </p>
         </div>
 
         <!-- PEAK DAY -->
@@ -169,6 +175,9 @@
             Peak Day of Week
           </h3>
           <canvas id="chart-peak-day" height="120"></canvas>
+          <p class="text-gray-400 text-xs mt-2">
+            X: Weekday • Y: Customers Served
+          </p>
         </div>
 
         <!-- COMPACT HEATMAP -->
@@ -182,7 +191,10 @@
             class="grid grid-cols-25 gap-0.5 text-[10px]"
           ></div>
 
-          <p class="text-gray-400 text-[10px] mt-2">
+          <p class="text-gray-500 text-xs mt-2">
+            X: Hour of Day (0–23) • Y: Day of Week
+          </p>
+          <p class="text-gray-400 text-[10px] mt-1">
             Darker colors = higher volume
           </p>
         </div>
