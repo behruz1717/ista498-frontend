@@ -215,22 +215,22 @@ if (document.querySelector("#status-card")) {
       /* -----------------------------------------------------
        📊 SNAPSHOT SECTION (new)
     -----------------------------------------------------*/
-      document.getElementById("snapshot-queue-name").textContent =
+      document.getElementById("modal-queue-name").textContent =
         ticket.queueName || "—";
 
-      document.getElementById("snapshot-ahead-count").textContent =
+      document.getElementById("modal-ahead-count").textContent =
         ticket.aheadOfYou.length ?? "—";
 
-      document.getElementById("snapshot-avg-service").textContent =
+      document.getElementById("modal-avg-service").textContent =
         ticket.avgServiceMinutes ? ticket.avgServiceMinutes + " min" : "—";
 
-      document.getElementById("snapshot-total-waiting").textContent =
+      document.getElementById("modal-total-waiting").textContent =
         ticket.totalWaiting ?? "—";
 
       /* -----------------------------------------------------
        👥 AHEAD-OF-YOU LIST
     -----------------------------------------------------*/
-      const list = document.getElementById("snapshot-ahead-list");
+      const list = document.getElementById("modal-ahead-list");
       list.innerHTML = ""; // clear first
 
       if (ticket.aheadOfYou && ticket.aheadOfYou.length > 0) {
@@ -333,6 +333,29 @@ if (document.querySelector("#status-card")) {
       }
     });
   }
+
+  /* ============================
+   SNAPSHOT MODAL LOGIC
+   ============================ */
+
+  const openSnapshotBtn = document.getElementById("open-snapshot");
+  const snapshotModal = document.getElementById("snapshot-modal");
+  const snapshotBackdrop = document.getElementById("snapshot-backdrop");
+  const snapshotClose = document.getElementById("snapshot-close");
+
+  function openSnapshot() {
+    snapshotModal.classList.remove("hidden");
+    snapshotBackdrop.classList.remove("hidden");
+  }
+
+  function closeSnapshot() {
+    snapshotModal.classList.add("hidden");
+    snapshotBackdrop.classList.add("hidden");
+  }
+
+  openSnapshotBtn?.addEventListener("click", openSnapshot);
+  snapshotClose?.addEventListener("click", closeSnapshot);
+  snapshotBackdrop?.addEventListener("click", closeSnapshot);
 
   // Auto-refresh every 15 seconds
   loadStatus();

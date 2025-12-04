@@ -204,62 +204,27 @@
           </div>
         </div>
 
-        <!-- QUEUE SNAPSHOT -->
-        <div class="mb-6 animate-fadeInUp">
-          <h3 class="text-sm font-medium text-gray-600 mb-3">Queue Overview</h3>
-
-          <div
-            class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3"
+        <!-- SNAPSHOT BUTTON (opens modal) -->
+        <button
+          id="open-snapshot"
+          class="w-full max-w-lg bg-white border border-gray-300 rounded-xl py-3 text-sm text-gray-700 shadow-sm hover:shadow transition mb-4 flex items-center justify-center gap-2"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 text-brand"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <!-- Queue Name -->
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-gray-500">Queue</span>
-              <span
-                id="snapshot-queue-name"
-                class="text-sm font-semibold text-gray-800"
-                >—</span
-              >
-            </div>
-
-            <!-- Total Waiting -->
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-gray-500">People Ahead</span>
-              <span
-                id="snapshot-ahead-count"
-                class="text-sm font-semibold text-gray-800"
-                >—</span
-              >
-            </div>
-
-            <!-- Avg Service Time -->
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-gray-500">Avg Service Time</span>
-              <span
-                id="snapshot-avg-service"
-                class="text-sm font-semibold text-gray-800"
-                >—</span
-              >
-            </div>
-
-            <!-- Total Queue Size -->
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-gray-500">Total Waiting Today</span>
-              <span
-                id="snapshot-total-waiting"
-                class="text-sm font-semibold text-gray-800"
-                >—</span
-              >
-            </div>
-
-            <!-- Ahead-of-you List -->
-            <div class="pt-3 border-t border-gray-200">
-              <div class="text-xs text-gray-500 mb-1">Ahead of You</div>
-              <div id="snapshot-ahead-list" class="space-y-1">
-                <!-- rows injected -->
-              </div>
-            </div>
-          </div>
-        </div>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 8h18M3 16h18M6 4h12M6 20h12"
+            />
+          </svg>
+          Queue Overview
+        </button>
 
         <!-- STATUS MESSAGE -->
         <div id="updates" class="text-gray-600 text-sm mb-6 leading-relaxed">
@@ -311,6 +276,66 @@
     <footer class="text-center text-gray-400 text-xs py-6">
       QueueLeaf · Customer Status
     </footer>
+
+    <!-- BACKDROP -->
+    <div
+      id="snapshot-backdrop"
+      class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm"
+    ></div>
+
+    <!-- SNAPSHOT MODAL -->
+    <div
+      id="snapshot-modal"
+      class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white w-11/12 max-w-md rounded-2xl shadow-xl p-6 animate-fadeInUp"
+    >
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Queue Overview</h3>
+
+      <div class="space-y-3 text-sm">
+        <div class="flex justify-between">
+          <span class="text-gray-500">Queue</span>
+          <span id="modal-queue-name" class="font-semibold text-gray-800"
+            >—</span
+          >
+        </div>
+
+        <div class="flex justify-between">
+          <span class="text-gray-500">People Ahead</span>
+          <span id="modal-ahead-count" class="font-semibold text-gray-800"
+            >—</span
+          >
+        </div>
+
+        <div class="flex justify-between">
+          <span class="text-gray-500">Avg Service Time</span>
+          <span id="modal-avg-service" class="font-semibold text-gray-800"
+            >—</span
+          >
+        </div>
+
+        <div class="flex justify-between">
+          <span class="text-gray-500">Total Waiting Today</span>
+          <span id="modal-total-waiting" class="font-semibold text-gray-800"
+            >—</span
+          >
+        </div>
+      </div>
+
+      <!-- Ahead-of-you list -->
+      <div class="mt-4 border-t pt-3">
+        <div class="text-xs text-gray-500 mb-1">Ahead of You</div>
+        <div
+          id="modal-ahead-list"
+          class="space-y-2 max-h-40 overflow-y-auto"
+        ></div>
+      </div>
+
+      <button
+        id="snapshot-close"
+        class="mt-5 w-full bg-brand text-white py-2 rounded-xl shadow hover:bg-brandDark transition"
+      >
+        Close
+      </button>
+    </div>
 
     <!-- JS -->
     <script type="module" src="js/customer.js"></script>
