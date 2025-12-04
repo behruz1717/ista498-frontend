@@ -3,6 +3,8 @@ import { api } from "./api.js";
 
 let lastStatus = null;
 
+let countdownStarted = false;
+
 let countdownInterval = null;
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -173,6 +175,10 @@ if (document.querySelector("#status-card")) {
         : null;
 
       etaEl.textContent = etaMin ? `${etaMin} min` : "–";
+      if (!countdownStarted) {
+        setupCountdown(ticket.etaSeconds);
+        countdownStarted = true;
+      }
 
       /* -----------------------------------------------------
        🔵 CUSTOM QUEUE MESSAGE
@@ -423,6 +429,5 @@ if (document.querySelector("#status-card")) {
 
   // Auto-refresh every 5 seconds
   loadStatus();
-  setupCountdown(ticket.etaSeconds);
   window.__statusInterval = setInterval(loadStatus, 5000);
 }
