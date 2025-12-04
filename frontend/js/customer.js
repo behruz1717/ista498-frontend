@@ -157,7 +157,7 @@ if (document.querySelector("#status-card")) {
         ticket.queueName || "—";
 
       document.getElementById("snapshot-ahead-count").textContent =
-        ticket.aheadCount ?? "—";
+        ticket.aheadOfYou.length ?? "—";
 
       document.getElementById("snapshot-avg-service").textContent =
         ticket.avgServiceMinutes ? ticket.avgServiceMinutes + " min" : "—";
