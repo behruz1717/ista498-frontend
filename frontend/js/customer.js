@@ -441,7 +441,7 @@ if (document.querySelector("#status-card")) {
     ring.style.strokeDashoffset = circumference - progress * circumference;
   }
 
-  // Auto-refresh every 15 seconds
+  // Auto-refresh every 5 seconds
   loadStatus();
-  window.__statusInterval = setInterval(loadStatus, 5000);
+  //window.__statusInterval = setInterval(loadStatus, 5000);
 }
