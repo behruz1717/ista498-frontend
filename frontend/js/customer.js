@@ -170,6 +170,7 @@ if (document.querySelector("#status-card")) {
       /* -----------------------------------------------------
        🧾 BASIC TICKET INFO
     -----------------------------------------------------*/
+      document.getElementById("queue_Name").textContent = ticket.queueName;
       document.getElementById("ticket-name").textContent = ticket.name;
       document.getElementById("ticket-id").textContent = "#" + ticket.id;
 
