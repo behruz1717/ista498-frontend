@@ -21,7 +21,6 @@ async function init() {
   const el = {
     name: document.getElementById("queue-name"),
     status: document.getElementById("stat-status"),
-    avg: document.getElementById("stat-avg"),
     waiting: document.getElementById("stat-inqueue"),
     served: document.getElementById("stat-served"),
 
@@ -36,7 +35,6 @@ async function init() {
     modal: document.getElementById("controls-modal"),
     backdrop: document.getElementById("controls-backdrop"),
     modalMsg: document.getElementById("modal-input-message"),
-    modalAvg: document.getElementById("modal-input-avg"),
     modalToggle: document.getElementById("modal-toggle-open"),
     modalCancel: document.getElementById("controls-cancel"),
     modalSave: document.getElementById("controls-save"),
@@ -99,12 +97,8 @@ async function init() {
       ? `<span class="px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-700">Open</span>`
       : `<span class="px-3 py-1 text-sm font-semibold rounded-full bg-red-100 text-red-700">Closed</span>`;
 
-    const avgMin = Math.round((q.avgServiceSec || 300) / 60);
-    el.avg.textContent = avgMin;
-
     // preload modal values
     el.modalMsg.value = q.customMessage || "";
-    el.modalAvg.value = avgMin;
     el.modalToggle.textContent = q.isOpen ? "Close Queue" : "Open Queue";
   }
 
@@ -164,16 +158,10 @@ async function init() {
      ============================================================ */
   async function saveSettings() {
     const newMsg = el.modalMsg.value.trim();
-    const newAvg = Number(el.modalAvg.value);
 
     await api(`/queues/${queueId}/message`, {
       method: "PATCH",
       body: JSON.stringify({ message: newMsg }),
-    });
-
-    await api(`/queues/${queueId}/avg`, {
-      method: "PATCH",
-      body: JSON.stringify({ minutes: newAvg }),
     });
 
     await loadQueue();
