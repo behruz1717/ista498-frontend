@@ -18,54 +18,6 @@ if (enableSoundBtn) {
   });
 }
 
-// ===============================
-// BROWSER NOTIFICATION PERMISSION
-// ===============================
-const notifyBtn = document.getElementById("enable-browser-notify");
-let notifyEnabled = false;
-
-if (notifyBtn) {
-  notifyBtn.addEventListener("click", async () => {
-    // Check if browser supports notifications
-    if (!("Notification" in window)) {
-      alert("Your browser does not support notifications.");
-      return;
-    }
-
-    // Ask user for permission
-    let permission = await Notification.requestPermission();
-
-    if (permission === "granted") {
-      notifyEnabled = true;
-      notifyBtn.style.display = "none";
-    } else {
-      alert("Notifications are disabled.");
-    }
-  });
-}
-
-// ===============================
-// VIBRATION PERMISSION
-// ===============================
-const vibrationBtn = document.getElementById("enable-vibration");
-let vibrationEnabled = false;
-
-if (vibrationBtn) {
-  vibrationBtn.addEventListener("click", () => {
-    // Check if vibration API exists
-    if (!navigator.vibrate) {
-      alert("Your device does not support vibration.");
-      return;
-    }
-
-    // Test a very small vibration (1 ms) to unlock permission
-    navigator.vibrate(1);
-
-    vibrationEnabled = true;
-    vibrationBtn.style.display = "none";
-  });
-}
-
 const form = document.querySelector("#join-form");
 if (form) {
   form.addEventListener("submit", async (e) => {
@@ -135,24 +87,6 @@ if (document.querySelector("#status-card")) {
           // 🔔 Play sound
           if (soundEnabled) {
             callSound.play().catch(() => {});
-          }
-
-          // 🛎️ Show browser notification
-          if (notifyEnabled && "Notification" in window) {
-            try {
-              new Notification("You are being called!", {
-                body: "Please return to the host stand.",
-                icon: "assets/logo.png", // optional
-              });
-            } catch (e) {
-              console.warn("Notification blocked or failed:", e);
-            }
-          }
-
-          // 📱 optional: we add vibration later (Step 3)
-          // 📳 Vibrate (Android + iOS 16.4+)
-          if (vibrationEnabled && navigator.vibrate) {
-            navigator.vibrate([200, 100, 200]);
           }
 
           // 🚨 Visual blinking alert
