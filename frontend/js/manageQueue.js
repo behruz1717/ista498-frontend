@@ -144,6 +144,10 @@ async function init() {
      ============================================================ */
   async function loadTickets() {
     const tickets = await api(`/tickets/${queueId}`);
+    // Sort: waiting → called → served → left
+    const priority = { waiting: 1, called: 2, served: 3, left: 4 };
+
+    tickets.sort((a, b) => priority[a.status] - priority[b.status]);
     el.table.innerHTML = ""; // clear
 
     if (tickets.length === 0) {
@@ -165,13 +169,11 @@ async function init() {
     tickets.forEach((t) => {
       const row = document.createElement("tr");
 
-      const bg =
-        {
-          waiting: "bg-yellow-50",
-          called: "bg-blue-50",
-          served: "bg-green-50",
-          left: "bg-red-50",
-        }[t.status] || "";
+      let bg = "";
+      if (t.status === "waiting") bg = "bg-yellow-50";
+      if (t.status === "called") bg = "bg-blue-50 called-blink"; // add blinking
+      if (t.status === "served") bg = "bg-green-50";
+      if (t.status === "left") bg = "bg-red-50";
 
       row.className = `${bg} hover:bg-gray-100 hover:shadow-sm transition-all`;
 

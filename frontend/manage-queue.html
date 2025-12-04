@@ -28,6 +28,23 @@
         },
       };
     </script>
+    <style>
+      @keyframes blinkCalled {
+        0% {
+          background-color: rgba(191, 219, 254, 0.6);
+        } /* soft blue */
+        50% {
+          background-color: rgba(191, 219, 254, 0.2);
+        }
+        100% {
+          background-color: rgba(191, 219, 254, 0.6);
+        }
+      }
+
+      .called-blink {
+        animation: blinkCalled 1.5s infinite ease-in-out;
+      }
+    </style>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
