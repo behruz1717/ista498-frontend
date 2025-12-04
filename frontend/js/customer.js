@@ -218,7 +218,8 @@ if (document.querySelector("#status-card")) {
        🔵 CUSTOM QUEUE MESSAGE
     -----------------------------------------------------*/
       const msgBox = document.getElementById("queue-custom-message");
-      msgBox.textContent = ticket.customMessage || "";
+      msgBox.textContent = "HOST NOTES: ";
+      msgBox.textContent += ticket.customMessage || "";
       msgBox.classList.toggle("hidden", !ticket.customMessage);
 
       /* -----------------------------------------------------
@@ -443,5 +444,5 @@ if (document.querySelector("#status-card")) {
 
   // Auto-refresh every 5 seconds
   loadStatus();
-  //window.__statusInterval = setInterval(loadStatus, 5000);
+  window.__statusInterval = setInterval(loadStatus, 5000);
 }
