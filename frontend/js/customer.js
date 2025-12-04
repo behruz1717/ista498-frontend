@@ -108,6 +108,30 @@ if (document.querySelector("#status-card")) {
         return; // exit early
       }
 
+      if (ticket.status === "served") {
+        // Replace card with a message
+        document.getElementById("status-card").innerHTML = `
+    <div class="text-center py-10">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">
+        All Set!!!
+      </h2>
+      <p class="text-gray-600 mb-6">Thank you for using Queueleaf.</p>
+      <button
+        onclick="window.location.href='join-queue.html'"
+        class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brandDark transition"
+      >
+        Join Again
+      </button>
+    </div>
+  `;
+        // Stop refresh
+        if (window.__statusInterval) {
+          clearInterval(window.__statusInterval);
+        }
+
+        return; // exit early
+      }
+
       /* -----------------------------------------------------
        🔔 STATUS CHANGE ALERT (called → sound + notify)
     -----------------------------------------------------*/
