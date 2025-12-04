@@ -1,3 +1,6 @@
+// js/customer.js
+import { api } from "./api.js";
+
 const form = document.querySelector("#join-form");
 if (form) {
   form.addEventListener("submit", async (e) => {
