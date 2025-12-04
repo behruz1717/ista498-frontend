@@ -54,6 +54,19 @@ async function init() {
     });
   }
 
+  function statusIcon(status) {
+    const size = "w-4 h-4 inline-block mr-1";
+
+    const icons = {
+      waiting: `<svg class="${size}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 6v6l4 2"/></svg>`,
+      called: `<svg class="${size}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M15 8l7-4v16l-7-4M4 6h8"/></svg>`,
+      served: `<svg class="${size}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M5 13l4 4L19 7"/></svg>`,
+      left: `<svg class="${size}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>`,
+    };
+
+    return icons[status] || "";
+  }
+
   function statusBadge(status) {
     const styles = {
       waiting: "bg-yellow-100 text-yellow-700",
@@ -61,8 +74,14 @@ async function init() {
       served: "bg-green-100 text-green-700",
       left: "bg-red-100 text-red-700",
     };
-    const cls = styles[status] || "bg-gray-100 text-gray-700";
-    return `<span class="px-3 py-1 text-xs font-semibold rounded-full ${cls}">${status}</span>`;
+
+    return `
+    <span class="px-3 py-1 text-xs font-semibold rounded-full flex items-center ${
+      styles[status]
+    }">
+      ${statusIcon(status)} ${status}
+    </span>
+  `;
   }
 
   function actionButtons(t) {
@@ -81,6 +100,24 @@ async function init() {
         </button>`;
     }
     return `<span class="text-gray-400">—</span>`;
+  }
+
+  function contactIcon(type) {
+    const size = "w-4 h-4 inline-block mr-1";
+
+    if (type === "sms") {
+      return `<svg class="${size}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-width="2" d="M3 8l9 6 9-6-9-6-9 6z"/><path stroke-width="2" d="M21 8v8l-9 6-9-6V8"/>
+    </svg>`;
+    }
+
+    if (type === "email") {
+      return `<svg class="${size}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-width="2" d="M4 4h16v16H4z"/><path stroke-width="2" d="M4 4l8 8 8-8"/>
+    </svg>`;
+    }
+
+    return "";
   }
 
   /* ============================================================
@@ -127,7 +164,16 @@ async function init() {
 
     tickets.forEach((t) => {
       const row = document.createElement("tr");
-      row.className = "hover:bg-gray-50 transition";
+
+      const bg =
+        {
+          waiting: "bg-yellow-50",
+          called: "bg-blue-50",
+          served: "bg-green-50",
+          left: "bg-red-50",
+        }[t.status] || "";
+
+      row.className = `${bg} hover:bg-gray-100 hover:shadow-sm transition-all`;
 
       row.innerHTML = `
         <td class="p-3 font-medium text-gray-900">${t.name}</td>
@@ -137,7 +183,10 @@ async function init() {
         <td class="p-3 text-gray-600">${formatTime(t.calledAt)}</td>
         <td class="p-3 text-gray-600">${formatTime(t.servedAt)}</td>
         <td class="p-3 text-gray-600">${formatTime(t.leftAt)}</td>
-        <td class="p-3 text-gray-600">${t.contactValue || "—"}</td>
+       <td class="p-3 text-gray-600">
+  ${contactIcon(t.contactType)} ${t.contactValue || "—"}
+</td>
+
         <td class="p-3">${actionButtons(t)}</td>
       `;
 
