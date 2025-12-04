@@ -57,6 +57,32 @@ if (form) {
     }
   });
 }
+/* ============================
+   PRIVACY MODAL (JOIN QUEUE)
+   ============================ */
+
+const privacyModal = document.getElementById("privacy-modal");
+const privacyBtn = document.getElementById("privacy-btn");
+const privacyAccept = document.getElementById("privacy-accept");
+const joinForm = document.getElementById("join-form");
+
+// Always show modal on page load
+if (privacyModal) {
+  privacyModal.classList.remove("hidden");
+}
+
+// Allow user to reopen modal
+privacyBtn?.addEventListener("click", () => {
+  privacyModal.classList.remove("hidden");
+});
+
+// Accept & enable form
+privacyAccept?.addEventListener("click", () => {
+  privacyModal.classList.add("hidden");
+
+  // Re-enable form
+  joinForm.classList.remove("opacity-30", "pointer-events-none");
+});
 
 // ===============================
 // STATUS PAGE LOGIC
