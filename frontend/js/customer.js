@@ -134,6 +134,8 @@ if (document.querySelector("#status-card")) {
         return; // exit early
       }
 
+      updateStatusPill(ticket.status);
+
       /* -----------------------------------------------------
        🔔 STATUS CHANGE ALERT (called → sound + notify)
     -----------------------------------------------------*/
@@ -230,6 +232,35 @@ if (document.querySelector("#status-card")) {
     } catch (err) {
       console.error("Error loading status:", err);
     }
+  }
+
+  function updateStatusPill(status) {
+    const el = document.getElementById("ticket-status");
+
+    // Reset animations
+    el.className =
+      "px-3 py-1 rounded-full text-sm font-semibold status-transition";
+
+    // Apply colors + pulse
+    if (status === "waiting") {
+      el.classList.add("bg-yellow-100", "text-yellow-800");
+    }
+    if (status === "called") {
+      el.classList.add("bg-blue-100", "text-blue-800", "status-pulse");
+    }
+    if (status === "served") {
+      el.classList.add("bg-green-100", "text-green-800");
+    }
+    if (status === "left") {
+      el.classList.add("bg-red-100", "text-red-800");
+    }
+
+    // Animate text change smoothly
+    el.style.opacity = 0;
+    setTimeout(() => {
+      el.textContent = status;
+      el.style.opacity = 1;
+    }, 150);
   }
 
   refreshBtn.addEventListener("click", loadStatus);
