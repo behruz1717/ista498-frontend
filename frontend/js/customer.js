@@ -203,6 +203,7 @@ if (document.querySelector("#status-card")) {
        🧮 POSITION & ETA
     -----------------------------------------------------*/
       document.getElementById("your-position").textContent = ticket.position;
+      scalePositionNumber(); // new
       // ======================
       //  ETA DISPLAY + COUNTDOWN
       // ======================
@@ -440,6 +441,25 @@ if (document.querySelector("#status-card")) {
     const progress = remainingSeconds / totalSeconds;
 
     ring.style.strokeDashoffset = circumference - progress * circumference;
+  }
+
+  function scalePositionNumber() {
+    const el = document.getElementById("your-position");
+    if (!el) return;
+
+    const maxWidth = el.parentElement.clientWidth - 10;
+    let size = 40;
+
+    el.style.fontSize = size + "px";
+
+    // Increase size until it barely fits
+    while (el.scrollWidth < maxWidth && size < 120) {
+      size += 2;
+      el.style.fontSize = size + "px";
+    }
+
+    // Step back by one increment for safety
+    el.style.fontSize = size - 2 + "px";
   }
 
   // Auto-refresh every 5 seconds
