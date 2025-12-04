@@ -56,6 +56,50 @@
           opacity: 1;
         }
       }
+      /* Slide in from top */
+      @keyframes slideInDown {
+        0% {
+          opacity: 0;
+          transform: translateY(-15px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Glow effect */
+      @keyframes glowPulse {
+        0%,
+        100% {
+          box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 12px rgba(239, 68, 68, 0.8);
+        }
+      }
+
+      /* Disappear animation */
+      @keyframes fadeOutUp {
+        0% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+      }
+
+      /* Utility classes */
+      .alert-slide-in {
+        animation: slideInDown 0.35s ease-out forwards,
+          glowPulse 2s infinite ease-in-out;
+      }
+
+      .alert-hide {
+        animation: fadeOutUp 0.4s ease-in forwards;
+      }
     </style>
   </head>
 
@@ -85,7 +129,7 @@
       <!-- CALLED ALERT -->
       <div
         id="called-alert"
-        class="hidden w-full max-w-lg bg-red-500 text-white text-center font-semibold py-3 px-4 rounded-xl shadow-lg animate-fadeInUp animate-alertGlow animate-bounceSubtle flex items-center justify-center gap-2"
+        class="hidden w-full max-w-lg bg-red-500 text-white text-center font-semibold py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +143,6 @@
             clip-rule="evenodd"
           />
         </svg>
-
         <span>You are being called! Please return to the host stand.</span>
       </div>
 

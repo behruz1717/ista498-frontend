@@ -144,7 +144,24 @@ if (document.querySelector("#status-card")) {
           if (soundEnabled) callSound.play().catch(() => {});
 
           const alertBox = document.getElementById("called-alert");
-          alertBox.style.display = "block";
+          /* On status change to CALLED */
+          if (ticket.status === "called" && lastStatus !== "called") {
+            alertBox.classList.remove("hidden", "alert-hide");
+            alertBox.classList.add("alert-slide-in");
+          }
+
+          /* If user is no longer called, hide the bar cleanly */
+          if (
+            ticket.status !== "called" &&
+            !alertBox.classList.contains("hidden")
+          ) {
+            alertBox.classList.remove("alert-slide-in");
+            alertBox.classList.add("alert-hide");
+
+            setTimeout(() => {
+              alertBox.classList.add("hidden");
+            }, 350);
+          }
         }
 
         lastStatus = ticket.status;
