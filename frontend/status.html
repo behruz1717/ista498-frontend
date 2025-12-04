@@ -226,6 +226,27 @@
           Queue Overview
         </button>
 
+        <button
+          id="privacy-info"
+          class="text-xs text-gray-500 underline hover:text-gray-700 transition mb-4 flex items-center gap-1"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-3 w-3"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M12 3a9 9 0 110 18 9 9 0 010-18z"
+            />
+          </svg>
+          Privacy & Data Policy
+        </button>
+
         <!-- STATUS MESSAGE -->
         <div id="updates" class="text-gray-600 text-sm mb-6 leading-relaxed">
           <p id="status-message">Please wait until your name is called.</p>
@@ -336,6 +357,31 @@
         Close
       </button>
     </div>
+
+    <!-- PRIVACY MODAL -->
+    <div
+      id="privacy-modal"
+      class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white w-11/12 max-w-md rounded-2xl shadow-xl p-6 animate-fadeInUp"
+    >
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Privacy Notice</h3>
+
+      <p class="text-sm text-gray-600 leading-relaxed">
+        Your information (name and phone number) is used
+        <strong>only</strong> for queue management. After your visit is
+        complete, your data becomes <strong>fully anonymized</strong>. We keep
+        anonymized entries to help improve estimated wait times and analytics.
+        We do not share or sell your data.
+      </p>
+
+      <button
+        id="privacy-close"
+        class="mt-5 w-full bg-brand text-white py-2 rounded-xl shadow hover:bg-brandDark transition"
+      >
+        I Understand
+      </button>
+    </div>
+
+    <!-- Shared Modal Backdrop Already Exists -->
 
     <!-- JS -->
     <script type="module" src="js/customer.js"></script>

@@ -357,6 +357,23 @@ if (document.querySelector("#status-card")) {
   snapshotClose?.addEventListener("click", closeSnapshot);
   snapshotBackdrop?.addEventListener("click", closeSnapshot);
 
+  /* ============================
+   PRIVACY MODAL LOGIC
+   ============================ */
+
+  const privacyBtn = document.getElementById("privacy-info");
+  const privacyModal = document.getElementById("privacy-modal");
+
+  privacyBtn?.addEventListener("click", () => {
+    snapshotBackdrop.classList.remove("hidden");
+    privacyModal.classList.remove("hidden");
+  });
+
+  document.getElementById("privacy-close").addEventListener("click", () => {
+    privacyModal.classList.add("hidden");
+    snapshotBackdrop.classList.add("hidden");
+  });
+
   // Auto-refresh every 15 seconds
   loadStatus();
   window.__statusInterval = setInterval(loadStatus, 5000);
