@@ -200,7 +200,14 @@
             class="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center"
           >
             <div class="text-xs text-gray-500">Estimated Wait</div>
-            <div id="your-eta" class="text-2xl font-bold text-gray-700">–</div>
+
+            <!-- Static ETA (e.g., “14 min”) -->
+            <div id="your-eta" class="text-lg font-semibold text-gray-700">
+              –
+            </div>
+
+            <!-- Countdown timer -->
+            <div id="eta-countdown" class="text-xs text-gray-500 mt-1">—</div>
           </div>
         </div>
 

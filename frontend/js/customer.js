@@ -3,6 +3,8 @@ import { api } from "./api.js";
 
 let lastStatus = null;
 
+let countdownInterval = null;
+
 const urlParams = new URLSearchParams(window.location.search);
 const queueIdFromUrl = urlParams.get("queueId");
 
@@ -201,9 +203,16 @@ if (document.querySelector("#status-card")) {
        🧮 POSITION & ETA
     -----------------------------------------------------*/
       document.getElementById("your-position").textContent = ticket.position;
-      document.getElementById("your-eta").textContent = ticket.etaSeconds
-        ? Math.round(ticket.etaSeconds / 60) + " min"
-        : "–";
+      // ======================
+      //  ETA DISPLAY + COUNTDOWN
+      // ======================
+      const etaMin = ticket.etaSeconds
+        ? Math.round(ticket.etaSeconds / 60)
+        : null;
+
+      etaEl.textContent = etaMin ? `${etaMin} min` : "–";
+
+      setupCountdown(ticket.etaSeconds);
 
       /* -----------------------------------------------------
        🔵 CUSTOM QUEUE MESSAGE
@@ -250,6 +259,52 @@ if (document.querySelector("#status-card")) {
     } catch (err) {
       console.error("Error loading status:", err);
     }
+  }
+
+  /* ============================
+   LIVE COUNTDOWN TIMER
+   ============================ */
+
+  function setupCountdown(seconds) {
+    const countdownEl = document.getElementById("eta-countdown");
+
+    // Clear any old countdown
+    if (countdownInterval) {
+      clearInterval(countdownInterval);
+      countdownInterval = null;
+    }
+
+    // No ETA available
+    if (!seconds || seconds <= 0) {
+      countdownEl.textContent = "—";
+      return;
+    }
+
+    // Start new countdown
+    let remaining = seconds;
+
+    function update() {
+      if (remaining <= 0) {
+        countdownEl.textContent = "any moment now";
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+        return;
+      }
+
+      const mins = Math.floor(remaining / 60);
+      const secs = remaining % 60;
+
+      countdownEl.textContent =
+        mins > 0 ? `${mins}m ${secs.toString().padStart(2, "0")}s` : `${secs}s`;
+
+      remaining--;
+    }
+
+    // Run immediately
+    update();
+
+    // Tick every second
+    countdownInterval = setInterval(update, 1000);
   }
 
   function updateStatusPill(status) {
