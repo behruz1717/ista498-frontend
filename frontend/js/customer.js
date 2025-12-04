@@ -115,15 +115,6 @@ if (document.querySelector("#status-card")) {
         if (ticket.status === "called") {
           if (soundEnabled) callSound.play().catch(() => {});
 
-          if (notifyEnabled && "Notification" in window) {
-            try {
-              new Notification("You are being called!", {
-                body: "Please return to the host stand.",
-                icon: "assets/logo.png",
-              });
-            } catch (e) {}
-          }
-
           const alertBox = document.getElementById("called-alert");
           alertBox.style.display = "block";
         }
