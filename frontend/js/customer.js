@@ -268,26 +268,25 @@ if (document.querySelector("#status-card")) {
   function setupCountdown(seconds) {
     const countdownEl = document.getElementById("eta-countdown");
 
-    // Clear any old countdown
     if (countdownInterval) {
       clearInterval(countdownInterval);
       countdownInterval = null;
     }
 
-    // No ETA available
     if (!seconds || seconds <= 0) {
       countdownEl.textContent = "—";
+      updateProgressRing(1, 1); // full ring
       return;
     }
 
-    // Start new countdown
     let remaining = seconds;
+    const total = seconds;
 
     function update() {
       if (remaining <= 0) {
         countdownEl.textContent = "any moment now";
+        updateProgressRing(total, 0);
         clearInterval(countdownInterval);
-        countdownInterval = null;
         return;
       }
 
@@ -297,13 +296,12 @@ if (document.querySelector("#status-card")) {
       countdownEl.textContent =
         mins > 0 ? `${mins}m ${secs.toString().padStart(2, "0")}s` : `${secs}s`;
 
+      updateProgressRing(total, remaining);
+
       remaining--;
     }
 
-    // Run immediately
     update();
-
-    // Tick every second
     countdownInterval = setInterval(update, 1000);
   }
 
@@ -428,6 +426,20 @@ if (document.querySelector("#status-card")) {
     privacyModal.classList.add("hidden");
     snapshotBackdrop.classList.add("hidden");
   });
+
+  /* ============================
+   PROGRESS RING UPDATE
+   ============================ */
+
+  function updateProgressRing(totalSeconds, remainingSeconds) {
+    const ring = document.getElementById("eta-ring");
+    if (!ring || !totalSeconds || totalSeconds <= 0) return;
+
+    const circumference = 2 * Math.PI * 35; // r = 35
+    const progress = remainingSeconds / totalSeconds;
+
+    ring.style.strokeDashoffset = circumference - progress * circumference;
+  }
 
   // Auto-refresh every 15 seconds
   loadStatus();

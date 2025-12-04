@@ -199,15 +199,50 @@
           <div
             class="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center"
           >
-            <div class="text-xs text-gray-500">Estimated Wait</div>
+            <div class="text-xs text-gray-500 mb-1">Estimated Wait</div>
 
-            <!-- Static ETA (e.g., “14 min”) -->
-            <div id="your-eta" class="text-lg font-semibold text-gray-700">
-              –
+            <!-- PROGRESS RING WRAPPER -->
+            <div
+              class="relative flex items-center justify-center mx-auto"
+              style="width: 80px; height: 80px"
+            >
+              <!-- BACK RING -->
+              <svg class="absolute top-0 left-0" width="80" height="80">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="35"
+                  stroke="#e5e7eb"
+                  stroke-width="6"
+                  fill="none"
+                ></circle>
+              </svg>
+
+              <!-- PROGRESS RING (foreground) -->
+              <svg class="absolute top-0 left-0" width="80" height="80">
+                <circle
+                  id="eta-ring"
+                  cx="40"
+                  cy="40"
+                  r="35"
+                  stroke="#0d9488"
+                  stroke-width="6"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-dasharray="219.91"
+                  stroke-dashoffset="219.91"
+                  style="transition: stroke-dashoffset 0.5s linear"
+                ></circle>
+              </svg>
+
+              <!-- ETA TEXT (MINUTES) -->
+              <span id="your-eta" class="text-lg font-semibold text-gray-700"
+                >–</span
+              >
             </div>
 
-            <!-- Countdown timer -->
-            <div id="eta-countdown" class="text-xs text-gray-500 mt-1">—</div>
+            <!-- LIVE COUNTDOWN BELOW -->
+            <div id="eta-countdown" class="text-xs text-gray-500 mt-2">—</div>
           </div>
         </div>
 
