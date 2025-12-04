@@ -128,6 +128,8 @@ if (document.querySelector("#status-card")) {
         if (window.__statusInterval) {
           clearInterval(window.__statusInterval);
         }
+        localStorage.removeItem("ticketId");
+        localStorage.removeItem("queueId");
 
         return; // exit early
       }
@@ -251,7 +253,7 @@ if (document.querySelector("#status-card")) {
 
         // 🧹 CLEAR LOCAL STORAGE
         localStorage.removeItem("ticketId");
-        //localStorage.removeItem("queueId");
+        localStorage.removeItem("queueId");
 
         // 🛑 Stop auto-refresh
         if (window.__statusInterval) {
