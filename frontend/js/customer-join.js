@@ -30,7 +30,7 @@ if (form) {
 
       // Save IDs so status.html can access them later
       localStorage.setItem("ticketId", data.ticket.id);
-      localStorage.setItem("queueId", queueId);
+      localStorage.setItem("queueId", queueIdFromUrl || 1);
 
       // Redirect to status page
       window.location.href = "status.html";
