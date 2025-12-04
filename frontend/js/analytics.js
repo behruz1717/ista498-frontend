@@ -281,7 +281,7 @@ function calculatePeakDays(daily) {
     const ourIndex = (jsIndex + 6) % 7; // convert to Mon=0
 
     const dayName = names[ourIndex];
-    totals[dayName] += day.served || 0;
+    totals[dayName] += day.total || 0;
   });
 
   return totals;
