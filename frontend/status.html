@@ -137,12 +137,59 @@
 
         <!-- QUEUE SNAPSHOT -->
         <div class="mb-6 animate-fadeInUp">
-          <h3 class="text-sm font-medium text-gray-600 mb-2">Queue Snapshot</h3>
+          <h3 class="text-sm font-medium text-gray-600 mb-3">Queue Overview</h3>
 
           <div
-            id="queue-list"
-            class="space-y-2 animate-fadeInUp transition-all duration-300"
-          ></div>
+            class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3"
+          >
+            <!-- Queue Name -->
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-gray-500">Queue</span>
+              <span
+                id="snapshot-queue-name"
+                class="text-sm font-semibold text-gray-800"
+                >—</span
+              >
+            </div>
+
+            <!-- Total Waiting -->
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-gray-500">People Ahead</span>
+              <span
+                id="snapshot-ahead-count"
+                class="text-sm font-semibold text-gray-800"
+                >—</span
+              >
+            </div>
+
+            <!-- Avg Service Time -->
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-gray-500">Avg Service Time</span>
+              <span
+                id="snapshot-avg-service"
+                class="text-sm font-semibold text-gray-800"
+                >—</span
+              >
+            </div>
+
+            <!-- Total Queue Size -->
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-gray-500">Total Waiting Today</span>
+              <span
+                id="snapshot-total-waiting"
+                class="text-sm font-semibold text-gray-800"
+                >—</span
+              >
+            </div>
+
+            <!-- Ahead-of-you List -->
+            <div class="pt-3 border-t border-gray-200">
+              <div class="text-xs text-gray-500 mb-1">Ahead of You</div>
+              <div id="snapshot-ahead-list" class="space-y-1">
+                <!-- rows injected -->
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- STATUS MESSAGE -->

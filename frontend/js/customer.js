@@ -80,75 +80,111 @@ if (document.querySelector("#status-card")) {
         return;
       }
 
+      // Fetch public status
       const ticket = await api(`/tickets/public/${ticketId}`);
 
+      /* -----------------------------------------------------
+       🔔 STATUS CHANGE ALERT (called → sound + notify)
+    -----------------------------------------------------*/
       if (lastStatus !== ticket.status) {
         if (ticket.status === "called") {
-          // 🔔 Play sound
-          if (soundEnabled) {
-            callSound.play().catch(() => {});
+          if (soundEnabled) callSound.play().catch(() => {});
+
+          if (notifyEnabled && "Notification" in window) {
+            try {
+              new Notification("You are being called!", {
+                body: "Please return to the host stand.",
+                icon: "assets/logo.png",
+              });
+            } catch (e) {}
           }
 
-          // 🚨 Visual blinking alert
           const alertBox = document.getElementById("called-alert");
           alertBox.style.display = "block";
-          alertBox.classList.add("called-blink");
         }
 
         lastStatus = ticket.status;
       }
 
-      if (!ticket) {
-        statusEl.textContent = "not found";
-        return;
-      }
+      /* -----------------------------------------------------
+       🧾 BASIC TICKET INFO
+    -----------------------------------------------------*/
+      document.getElementById("ticket-name").textContent = ticket.name;
+      document.getElementById("ticket-id").textContent = "#" + ticket.id;
 
-      const messageEl = document.getElementById("queue-custom-message");
-      messageEl.textContent = ticket.customMessage || "";
-      if (messageEl.textContent != "") {
-        messageEl.classList.remove("hidden");
-      }
-      if (messageEl.textContent == "") {
-        messageEl.classList.add("hidden");
-      }
-
-      nameEl.textContent = ticket.name;
-      idEl.textContent = "#" + ticket.id;
+      const statusEl = document.getElementById("ticket-status");
       statusEl.textContent = ticket.status;
 
-      // Remove old classes first
       statusEl.classList.remove(
         "bg-yellow-100",
         "text-yellow-800",
         "bg-blue-100",
         "text-blue-800",
         "bg-green-100",
-        "text-green-800"
+        "text-green-800",
+        "bg-red-100",
+        "text-red-800"
       );
 
-      // Apply colors based on status
-      if (ticket.status === "waiting") {
+      if (ticket.status === "waiting")
         statusEl.classList.add("bg-yellow-100", "text-yellow-800");
-      } else if (ticket.status === "called") {
+      if (ticket.status === "called")
         statusEl.classList.add("bg-blue-100", "text-blue-800");
-      } else if (ticket.status === "served") {
+      if (ticket.status === "served")
         statusEl.classList.add("bg-green-100", "text-green-800");
-      }
+      if (ticket.status === "left")
+        statusEl.classList.add("bg-red-100", "text-red-800");
 
-      function animateUpdate(el) {
-        el.classList.add("transition", "duration-300", "ease-out", "opacity-0");
-        setTimeout(() => {
-          el.classList.remove("opacity-0");
-        }, 10);
-      }
-
-      positionEl.textContent = ticket.position || "–";
-      animateUpdate(positionEl);
-
-      etaEl.textContent = ticket.etaSeconds
+      /* -----------------------------------------------------
+       🧮 POSITION & ETA
+    -----------------------------------------------------*/
+      document.getElementById("your-position").textContent = ticket.position;
+      document.getElementById("your-eta").textContent = ticket.etaSeconds
         ? Math.round(ticket.etaSeconds / 60) + " min"
         : "–";
-      animateUpdate(etaEl);
+
+      /* -----------------------------------------------------
+       🔵 CUSTOM QUEUE MESSAGE
+    -----------------------------------------------------*/
+      const msgBox = document.getElementById("queue-custom-message");
+      msgBox.textContent = ticket.customMessage || "";
+      msgBox.classList.toggle("hidden", !ticket.customMessage);
+
+      /* -----------------------------------------------------
+       📊 SNAPSHOT SECTION (new)
+    -----------------------------------------------------*/
+      document.getElementById("snapshot-queue-name").textContent =
+        ticket.queueName || "—";
+
+      document.getElementById("snapshot-ahead-count").textContent =
+        ticket.aheadCount ?? "—";
+
+      document.getElementById("snapshot-avg-service").textContent =
+        ticket.avgServiceMinutes ? ticket.avgServiceMinutes + " min" : "—";
+
+      document.getElementById("snapshot-total-waiting").textContent =
+        ticket.totalWaiting ?? "—";
+
+      /* -----------------------------------------------------
+       👥 AHEAD-OF-YOU LIST
+    -----------------------------------------------------*/
+      const list = document.getElementById("snapshot-ahead-list");
+      list.innerHTML = ""; // clear first
+
+      if (ticket.aheadOfYou && ticket.aheadOfYou.length > 0) {
+        ticket.aheadOfYou.forEach((p) => {
+          const item = document.createElement("div");
+          item.className =
+            "text-xs text-gray-700 flex justify-between bg-white border border-gray-200 rounded-md py-1 px-2";
+          item.innerHTML = `
+          <span>${p.name}</span>
+          <span class="text-gray-500">(${p.partySize})</span>
+        `;
+          list.appendChild(item);
+        });
+      } else {
+        list.innerHTML = `<div class="text-xs text-gray-400">No one ahead.</div>`;
+      }
     } catch (err) {
       console.error("Error loading status:", err);
     }
