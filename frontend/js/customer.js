@@ -174,8 +174,6 @@ if (document.querySelector("#status-card")) {
 
       etaEl.textContent = etaMin ? `${etaMin} min` : "–";
 
-      setupCountdown(ticket.etaSeconds);
-
       /* -----------------------------------------------------
        🔵 CUSTOM QUEUE MESSAGE
     -----------------------------------------------------*/
@@ -425,5 +423,6 @@ if (document.querySelector("#status-card")) {
 
   // Auto-refresh every 5 seconds
   loadStatus();
+  setupCountdown(ticket.etaSeconds);
   window.__statusInterval = setInterval(loadStatus, 5000);
 }
