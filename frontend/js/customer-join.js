@@ -1,6 +1,9 @@
 // js/customer.js
 import { api } from "./api.js";
 
+const urlParams = new URLSearchParams(window.location.search);
+const queueIdFromUrl = urlParams.get("queueId");
+
 const form = document.querySelector("#join-form");
 if (form) {
   form.addEventListener("submit", async (e) => {
