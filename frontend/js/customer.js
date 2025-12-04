@@ -83,6 +83,31 @@ if (document.querySelector("#status-card")) {
       // Fetch public status
       const ticket = await api(`/tickets/public/${ticketId}`);
 
+      if (ticket.status === "left") {
+        // Replace card with a message
+        document.getElementById("status-card").innerHTML = `
+    <div class="text-center py-10">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">
+        You have left the queue
+      </h2>
+      <p class="text-gray-600 mb-6">We hope to see you again.</p>
+      <button
+        onclick="window.location.href='join-queue.html'"
+        class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brandDark transition"
+      >
+        Join Again
+      </button>
+    </div>
+  `;
+
+        // Stop refresh
+        if (window.__statusInterval) {
+          clearInterval(window.__statusInterval);
+        }
+
+        return; // exit early
+      }
+
       /* -----------------------------------------------------
        🔔 STATUS CHANGE ALERT (called → sound + notify)
     -----------------------------------------------------*/
@@ -191,8 +216,59 @@ if (document.querySelector("#status-card")) {
   }
 
   refreshBtn.addEventListener("click", loadStatus);
+  // ===============================
+  // LEAVE QUEUE BUTTON
+  // ===============================
+  const leaveBtn = document.getElementById("leave-queue");
+
+  if (leaveBtn) {
+    leaveBtn.addEventListener("click", async () => {
+      if (!ticketId) {
+        alert("Missing ticket. Please rejoin the queue.");
+        return;
+      }
+
+      const confirmLeave = confirm("Are you sure you want to leave the queue?");
+      if (!confirmLeave) return;
+
+      try {
+        await api(`/tickets/${ticketId}/leave`, { method: "PATCH" });
+
+        // 🧹 CLEAR LOCAL STORAGE
+        localStorage.removeItem("ticketId");
+        localStorage.removeItem("queueId");
+
+        // 🛑 Stop auto-refresh
+        if (window.__statusInterval) {
+          clearInterval(window.__statusInterval);
+        }
+
+        // 🎨 Replace UI with exit screen
+        document.getElementById("status-card").innerHTML = `
+        <div class="text-center py-10">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4">
+            You have left the queue
+          </h2>
+          <p class="text-gray-600 mb-6">
+            Thanks for using QueueLeaf!
+          </p>
+
+          <button
+            onclick="window.location.href='join-queue.html?queueId=${queueId}'"
+            class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brandDark transition"
+          >
+            Join Again
+          </button>
+        </div>
+      `;
+      } catch (err) {
+        console.error("Failed to leave queue:", err);
+        alert("Unable to leave queue. Please try again.");
+      }
+    });
+  }
 
   // Auto-refresh every 15 seconds
   loadStatus();
-  setInterval(loadStatus, 5000);
+  window.__statusInterval = setInterval(loadStatus, 5000);
 }
