@@ -304,6 +304,10 @@ p {
   margin-bottom: 100px;
 }
 
+.hero-title {
+  font-size: 40rem;
+}
+
 /* --- COMPLICATED UI MOCKUP START --- */
 .ui-mockup-wrapper {
   position: relative;
