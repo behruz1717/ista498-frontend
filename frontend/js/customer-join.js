@@ -13,34 +13,38 @@ if (form) {
     const name = formData.get("name");
     const partySize = Number(formData.get("party")) || 1;
     const contact = formData.get("contact");
-    if (partySize <= 6) {
-      try {
-        document.querySelector("#join-btn").disabled = true;
 
-        const data = await api("/tickets", {
-          method: "POST",
-          body: JSON.stringify({
-            queueId: Number(queueIdFromUrl) || 1,
-            name,
-            partySize,
-            contactType: contact ? "sms" : null,
-            contactValue: contact || null,
-          }),
-        });
-
-        // Save IDs so status.html can access them later
-        localStorage.setItem("ticketId", data.ticket.id);
-        localStorage.setItem("queueId", queueIdFromUrl || 1);
-
-        // Redirect to status page
-        window.location.href = "status.html";
-      } catch (err) {
-        alert("Failed to join queue: " + err.message);
-      } finally {
-        document.querySelector("#join-btn").disabled = false;
-      }
+    // First validate party size
+    if (partySize > 6) {
+      alert("Party size limit: 6");
+      return; // ⛔ STOP — do NOT create ticket
     }
-    alert("Party size limit: 6");
+
+    try {
+      document.querySelector("#join-btn").disabled = true;
+
+      const data = await api("/tickets", {
+        method: "POST",
+        body: JSON.stringify({
+          queueId: Number(queueIdFromUrl) || 1,
+          name,
+          partySize,
+          contactType: contact ? "sms" : null,
+          contactValue: contact || null,
+        }),
+      });
+
+      // Save IDs so status.html can access them later
+      localStorage.setItem("ticketId", data.ticket.id);
+      localStorage.setItem("queueId", queueIdFromUrl || 1);
+
+      // Redirect to status page
+      window.location.href = "status.html";
+    } catch (err) {
+      alert("Failed to join queue: " + err.message);
+    } finally {
+      document.querySelector("#join-btn").disabled = false;
+    }
   });
 }
 /* ============================
