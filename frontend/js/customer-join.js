@@ -13,7 +13,7 @@ if (form) {
     const name = formData.get("name");
     const partySize = Number(formData.get("party")) || 1;
     const contact = formData.get("contact");
-    if (partySize > 6) {
+    if (partySize <= 6) {
       try {
         document.querySelector("#join-btn").disabled = true;
 
