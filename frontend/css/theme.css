@@ -1,0 +1,84 @@
+/* QueueLeaf Night Mode
+   - Uses html[data-theme="dark"] attribute
+   - Overrides common Tailwind utility classes with higher specificity.
+*/
+
+html, body {
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* Toggle button (shared) */
+#theme-toggle{
+  background: transparent;
+  border: 1px solid rgba(148,163,184,0.35);
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 120ms ease, border-color 200ms ease, color 200ms ease, background-color 200ms ease;
+}
+#theme-toggle:hover{ transform: translateY(-1px); border-color: rgba(148,163,184,0.6); }
+#theme-toggle:active{ transform: translateY(0px); }
+
+.icon-moon{ display:block; }
+.icon-sun{ display:none; }
+html[data-theme="dark"] .icon-moon{ display:none; }
+html[data-theme="dark"] .icon-sun{ display:block; }
+
+/* === Dark theme overrides === */
+html[data-theme="dark"] body{
+  background-color: #0b0b0f !important;
+  color: #e5e7eb !important;
+}
+
+/* Gradients used on join/status pages */
+html[data-theme="dark"] .bg-gradient-to-b{
+  background-image: none !important;
+  background-color: #0b0b0f !important;
+}
+
+/* Background utilities */
+html[data-theme="dark"] .bg-white{ background-color:#111827 !important; }
+html[data-theme="dark"] .bg-gray-50{ background-color:#0b0b0f !important; }
+html[data-theme="dark"] .bg-gray-100{ background-color:#0f172a !important; }
+html[data-theme="dark"] .bg-teal-50{ background-color:#042f2e !important; }
+html[data-theme="dark"] .bg-teal-100{ background-color:#064e3b !important; }
+
+/* Borders */
+html[data-theme="dark"] .border{ border-color:#334155 !important; }
+html[data-theme="dark"] .border-gray-200{ border-color:#334155 !important; }
+html[data-theme="dark"] .border-gray-300{ border-color:#475569 !important; }
+html[data-theme="dark"] .border-teal-200{ border-color:#134e4a !important; }
+html[data-theme="dark"] .divide-gray-200 > :not([hidden]) ~ :not([hidden]){
+  border-color:#1f2937 !important;
+}
+
+/* Text utilities */
+html[data-theme="dark"] .text-gray-900{ color:#f9fafb !important; }
+html[data-theme="dark"] .text-gray-800{ color:#f3f4f6 !important; }
+html[data-theme="dark"] .text-gray-700{ color:#e5e7eb !important; }
+html[data-theme="dark"] .text-gray-600{ color:#d1d5db !important; }
+html[data-theme="dark"] .text-gray-500{ color:#9ca3af !important; }
+html[data-theme="dark"] .text-gray-400{ color:#9ca3af !important; }
+html[data-theme="dark"] .text-slate-700{ color:#e5e7eb !important; }
+html[data-theme="dark"] .text-slate-600{ color:#cbd5e1 !important; }
+
+/* Inputs */
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select{
+  background-color:#0f172a !important;
+  color:#e5e7eb !important;
+  border-color:#334155 !important;
+}
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder{
+  color:#94a3b8 !important;
+}
+
+/* Shadows look harsher on dark; soften a bit */
+html[data-theme="dark"] .shadow-sm{ box-shadow: 0 1px 2px rgba(0,0,0,0.35) !important; }
+html[data-theme="dark"] .shadow-md{ box-shadow: 0 8px 24px rgba(0,0,0,0.35) !important; }

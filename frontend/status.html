@@ -101,16 +101,56 @@
         animation: fadeOutUp 0.4s ease-in forwards;
       }
     </style>
-  </head>
+          <link rel="stylesheet" href="css/theme.css" />
+</head>
 
   <body
     class="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-gray-100 overflow-x-hidden"
   >
     <!-- HEADER -->
     <header class="w-full bg-white shadow-sm">
-      <div class="max-w-lg mx-auto flex items-center gap-3 px-4 py-3">
+      <div class="max-w-lg mx-auto flex items-center justify-between px-4 py-3">
+        <div class="flex items-center gap-3">
         <img src="assets/logo.png" alt="QueueLeaf" class="w-8 h-8 rounded-lg" />
-        <span class="font-semibold text-lg text-gray-700">QueueLeaf</span>
+        <span class="font-semibold text-lg text-gray-700">QueueLeaf</span></div>
+        <!-- DARK MODE TOGGLE -->
+        <button id="theme-toggle" aria-label="Toggle Dark Mode" class="text-gray-600 hover:text-gray-800">
+          <svg
+            class="icon-moon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg
+            class="icon-sun"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+
       </div>
     </header>
 
@@ -433,6 +473,7 @@
     <!-- Shared Modal Backdrop Already Exists -->
 
     <!-- JS -->
+    <script src="js/theme.js"></script>
     <script type="module" src="js/customer.js"></script>
     <audio id="call-sound" src="assets/bell.mp3" preload="auto"></audio>
   </body>
