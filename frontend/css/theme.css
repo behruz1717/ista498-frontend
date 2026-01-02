@@ -82,3 +82,24 @@ html[data-theme="dark"] textarea::placeholder{
 /* Shadows look harsher on dark; soften a bit */
 html[data-theme="dark"] .shadow-sm{ box-shadow: 0 1px 2px rgba(0,0,0,0.35) !important; }
 html[data-theme="dark"] .shadow-md{ box-shadow: 0 8px 24px rgba(0,0,0,0.35) !important; }
+
+/* --- Status colors used in tables (manager dashboard) ---
+   In light mode we use pastel row backgrounds (bg-*-50) and badge backgrounds (bg-*-100).
+   In dark mode those pastels can make light text (e.g., text-gray-900 -> near-white) unreadable.
+   So we remap the common Tailwind pastel utilities to darker, higher-contrast shades.
+*/
+html[data-theme="dark"] .bg-yellow-50{ background-color:#2a2108 !important; }
+html[data-theme="dark"] .bg-blue-50{ background-color:#0b2033 !important; }
+html[data-theme="dark"] .bg-green-50{ background-color:#06261a !important; }
+html[data-theme="dark"] .bg-red-50{ background-color:#2b0b0b !important; }
+
+html[data-theme="dark"] .bg-yellow-100{ background-color:#3a2f0a !important; }
+html[data-theme="dark"] .bg-blue-100{ background-color:#0f2a44 !important; }
+html[data-theme="dark"] .bg-green-100{ background-color:#0a3a27 !important; }
+html[data-theme="dark"] .bg-red-100{ background-color:#451212 !important; }
+
+/* Keep badge text vivid but readable on dark badge backgrounds */
+html[data-theme="dark"] .text-yellow-700{ color:#fde68a !important; }
+html[data-theme="dark"] .text-blue-700{ color:#93c5fd !important; }
+html[data-theme="dark"] .text-green-700{ color:#86efac !important; }
+html[data-theme="dark"] .text-red-700{ color:#fca5a5 !important; }
