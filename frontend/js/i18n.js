@@ -31,6 +31,7 @@
       join_contact_ph: 'For notifications',
       join_btn: 'Join Queue',
       join_terms: 'By joining, you agree to receive on-site updates. No apps needed.',
+      queue_closed_join: 'This queue is currently closed. You cannot join.',
       privacy_title: 'Privacy Notice',
       privacy_body:
         'Your information (name and contact details) is used only for managing your place in line. After your visit, your personal data is anonymized. Anonymous queue activity may be retained for analytics purposes.',
@@ -194,6 +195,7 @@
       join_contact_ph: 'Bildirishnomalar uchun',
       join_btn: "Navbatga qo‘shilish",
       join_terms: 'Qo‘shilish orqali joyidagi yangilanishlarni qabul qilishga rozilik bildirasiz. Ilova kerak emas.',
+      queue_closed_join: 'Bu navbat hozirda yopilgan. Qo‘shila olmaysiz.',
       privacy_title: 'Maxfiylik eslatmasi',
       privacy_body:
         "Ma’lumotlaringiz (ism va aloqa) faqat navbatdagi o‘rningizni boshqarish uchun ishlatiladi. Tashrifdan so‘ng shaxsiy ma’lumotlar anonimlashtiriladi. Anonim navbat faolligi analitika uchun saqlanishi mumkin.",
@@ -356,6 +358,7 @@
       join_contact_ph: 'Для уведомлений',
       join_btn: 'Встать в очередь',
       join_terms: 'Присоединяясь, вы соглашаетесь получать обновления на месте. Приложение не нужно.',
+      queue_closed_join: 'Эта очередь сейчас закрыта. Вы не можете присоединиться.',
       privacy_title: 'Уведомление о конфиденциальности',
       privacy_body:
         'Ваша информация (имя и контакты) используется только для управления вашим местом в очереди. После визита персональные данные обезличиваются. Анонимная активность очереди может сохраняться для аналитики.',
