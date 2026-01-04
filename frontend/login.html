@@ -32,7 +32,16 @@
 </head>
 
   <body>
-    <div class="fixed top-4 right-4 z-50">
+    <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
+      <select
+        id="lang-select"
+        aria-label="Language"
+        class="px-2 py-1 rounded-lg border border-gray-200 bg-white text-sm"
+      >
+        <option value="en">EN</option>
+        <option value="uz">UZ</option>
+        <option value="ru">RU</option>
+      </select>
       <button id="theme-toggle" aria-label="Toggle Dark Mode" class="text-gray-600 hover:text-gray-800">
           <svg
             class="icon-moon"
@@ -86,19 +95,15 @@
       <div
         class="bg-white w-full max-w-md rounded-2xl shadow-xl p-8 border border-gray-100"
       >
-        <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">
-          Staff Login
-        </h2>
+        <h2 class="text-2xl font-bold text-gray-800 text-center mb-2" data-i18n="login_title">Staff Login</h2>
 
-        <p class="text-gray-500 text-center mb-6">
-          Sign in to manage your queues.
-        </p>
+        <p class="text-gray-500 text-center mb-6" data-i18n="login_subtitle">Sign in to manage your queues.</p>
 
         <!-- LOGIN FORM -->
         <form id="login-form" class="space-y-4">
           <!-- Email -->
           <div>
-            <label class="block text-sm text-gray-600 mb-1">Email</label>
+            <label class="block text-sm text-gray-600 mb-1" data-i18n="login_email">Email</label>
             <input
               id="email"
               type="email"
@@ -110,7 +115,7 @@
 
           <!-- Password -->
           <div>
-            <label class="block text-sm text-gray-600 mb-1">Password</label>
+            <label class="block text-sm text-gray-600 mb-1" data-i18n="login_password">Password</label>
             <input
               id="password"
               type="password"
@@ -126,7 +131,7 @@
             type="submit"
             class="w-full py-2 bg-brand text-white rounded-lg shadow hover:bg-brandDark transition font-medium"
           >
-            Log In
+            <span data-i18n="login_btn">Log In</span>
           </button>
         </form>
 
@@ -134,17 +139,19 @@
         <p
           id="login-error"
           class="mt-4 text-center text-red-500 font-medium hidden"
+          data-i18n="login_error"
         >
           Invalid login. Please try again.
         </p>
       </div>
     </main>
 
-    <footer class="text-center text-gray-400 text-xs py-6">
+    <footer class="text-center text-gray-400 text-xs py-6" data-i18n="footer_staff">
       QueueLeaf · Staff Portal
     </footer>
 
     <!-- Logic placeholder (we'll add JS later in Stage 9.5) -->
+    <script src="js/i18n.js"></script>
     <script src="js/theme.js"></script>
     <script type="module" src="js/staff.js"></script>
   </body>

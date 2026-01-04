@@ -64,7 +64,9 @@ document.getElementById("apply-custom").addEventListener("click", () => {
   const end = endDateInput.value;
 
   if (!start || !end) {
-    alert("Please select a start and end date.");
+    alert((window.QueueLeafI18n && window.QueueLeafI18n.t)
+      ? window.QueueLeafI18n.t('select_range_placeholder') || 'Please select a start and end date.'
+      : 'Please select a start and end date.');
     return;
   }
 
@@ -127,7 +129,7 @@ function renderServedTrend(data) {
       labels,
       datasets: [
         {
-          label: "Served",
+          label: (window.QueueLeafI18n && window.QueueLeafI18n.t) ? window.QueueLeafI18n.t('chart_label_served') : 'Served',
           data: served,
           borderColor: "#0d9488",
           backgroundColor: "rgba(13,148,136,0.15)",
@@ -136,7 +138,7 @@ function renderServedTrend(data) {
           fill: true,
         },
         {
-          label: "Left Queue",
+          label: (window.QueueLeafI18n && window.QueueLeafI18n.t) ? window.QueueLeafI18n.t('chart_label_left') : 'Left Queue',
           data: left,
           borderColor: "#e11d48",
           backgroundColor: "rgba(225,29,72,0.15)",
@@ -173,7 +175,7 @@ function renderWaitTrend(data) {
       labels,
       datasets: [
         {
-          label: "Avg Wait (min)",
+          label: (window.QueueLeafI18n && window.QueueLeafI18n.t) ? window.QueueLeafI18n.t('chart_label_avg_wait') : 'Avg Wait (min)',
           data: waitTimes,
           borderColor: "#f97316",
           backgroundColor: "rgba(249,115,22,0.2)",
@@ -215,12 +217,12 @@ function renderHeatmap(heatmap) {
   days.forEach((day) => {
     grid.innerHTML += `<div class="font-medium text-gray-700">${day}</div>`;
 
-    heatmap[day].forEach((value, hour) => {
+      heatmap[day].forEach((value, hour) => {
       let opacity = Math.min(value / 10, 1); // scale dynamically (feel free to tune)
 
       grid.innerHTML += `
         <div
-          title="${day} ${hour}:00 — ${value} customers"
+          title="${day} ${hour}:00 — ${value} ${(window.QueueLeafI18n && window.QueueLeafI18n.t) ? window.QueueLeafI18n.t('chart_label_customers') : 'customers'}"
           class="h-4"
           style="background-color: rgba(13,148,136,${opacity});"
         ></div>
@@ -296,7 +298,7 @@ function renderPeakDayChart(totals) {
       labels: Object.keys(totals),
       datasets: [
         {
-          label: "Customers",
+          label: (window.QueueLeafI18n && window.QueueLeafI18n.t) ? window.QueueLeafI18n.t('chart_label_customers') : 'Customers',
           data: Object.values(totals),
           backgroundColor: [
             "#0d9488",

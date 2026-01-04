@@ -128,7 +128,10 @@ if (document.querySelector("#status-card")) {
       document.getElementById("ticket-id").textContent = "#" + ticket.id;
 
       const statusEl = document.getElementById("ticket-status");
-      statusEl.textContent = ticket.status;
+      const translatedStatus = window.QueueLeafI18n
+        ? window.QueueLeafI18n.t('status_' + ticket.status)
+        : ticket.status;
+      statusEl.textContent = translatedStatus;
 
       statusEl.classList.remove(
         "bg-yellow-100",
@@ -284,7 +287,10 @@ if (document.querySelector("#status-card")) {
     // Animate text change smoothly
     el.style.opacity = 0;
     setTimeout(() => {
-      el.textContent = status;
+      const translated = window.QueueLeafI18n
+        ? window.QueueLeafI18n.t('status_' + status)
+        : status;
+      el.textContent = translated;
       el.style.opacity = 1;
     }, 150);
   }

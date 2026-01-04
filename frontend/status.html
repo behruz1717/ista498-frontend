@@ -111,10 +111,23 @@
     <header class="w-full bg-white shadow-sm">
       <div class="max-w-lg mx-auto flex items-center justify-between px-4 py-3">
         <div class="flex items-center gap-3">
-        <img src="assets/logo.png" alt="QueueLeaf" class="w-8 h-8 rounded-lg" />
-        <span class="font-semibold text-lg text-gray-700">QueueLeaf</span></div>
-        <!-- DARK MODE TOGGLE -->
-        <button id="theme-toggle" aria-label="Toggle Dark Mode" class="text-gray-600 hover:text-gray-800">
+          <img src="assets/logo.png" alt="QueueLeaf" class="w-8 h-8 rounded-lg" />
+          <span class="font-semibold text-lg text-gray-700">QueueLeaf</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <select
+            id="lang-select"
+            aria-label="Language"
+            class="px-2 py-1 rounded-lg border border-gray-200 bg-white text-sm"
+          >
+            <option value="en">EN</option>
+            <option value="uz">UZ</option>
+            <option value="ru">RU</option>
+          </select>
+
+          <!-- DARK MODE TOGGLE -->
+          <button id="theme-toggle" aria-label="Toggle Dark Mode" class="text-gray-600 hover:text-gray-800">
           <svg
             class="icon-moon"
             width="20"
@@ -160,6 +173,7 @@
       <div class="flex flex-col w-full max-w-lg gap-3 mb-4 animate-fadeInUp">
         <button
           id="enable-sound"
+          data-i18n="enable_sound_alerts"
           class="w-full bg-white border border-gray-300 rounded-xl py-2 text-sm text-gray-700 shadow-sm hover:shadow transition"
         >
           Enable Sound Alerts
@@ -183,7 +197,7 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span>You are being called! Please return to the host stand.</span>
+        <span data-i18n="status_called_banner">You are being called! Please return to the host stand.</span>
       </div>
 
       <!-- CUSTOM MESSAGE -->
@@ -219,9 +233,10 @@
 
           <span
             id="ticket-status"
+            data-i18n="status_waiting"
             class="px-3 py-1 rounded-full text-sm font-semibold transition"
           >
-            waiting
+            Waiting
           </span>
         </div>
 
@@ -230,7 +245,7 @@
           <div
             class="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center"
           >
-            <div class="text-xs text-gray-500 mb-1">Your Position</div>
+            <div class="text-xs text-gray-500 mb-1" data-i18n="status_your_position">Your Position</div>
 
             <div class="flex items-center justify-center w-full">
               <span
@@ -246,7 +261,7 @@
           <div
             class="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center"
           >
-            <div class="text-xs text-gray-500 mb-1">Estimated Wait</div>
+            <div class="text-xs text-gray-500 mb-1" data-i18n="status_estimated_wait">Estimated Wait</div>
 
             <!-- PROGRESS RING WRAPPER -->
             <div
@@ -312,7 +327,7 @@
               d="M3 8h18M3 16h18M6 4h12M6 20h12"
             />
           </svg>
-          Queue Overview
+          <span data-i18n="status_queue_overview">Queue Overview</span>
         </button>
 
         <button
@@ -333,12 +348,12 @@
               d="M13 16h-1v-4h-1m1-4h.01M12 3a9 9 0 110 18 9 9 0 010-18z"
             />
           </svg>
-          Privacy & Data Policy
+          <span data-i18n="status_privacy_policy">Privacy & Data Policy</span>
         </button>
 
         <!-- STATUS MESSAGE -->
         <div id="updates" class="text-gray-600 text-sm mb-6 leading-relaxed">
-          <p id="status-message">Please wait until your name is called.</p>
+          <p id="status-message" data-i18n="status_wait_msg">Please wait until your name is called.</p>
         </div>
 
         <!-- REFRESH BUTTON -->
@@ -360,14 +375,14 @@
               d="M4 4v6h6M20 20v-6h-6M4 10a8 8 0 018-8m8 8a8 8 0 01-8 8"
             />
           </svg>
-          Refresh Status
+          <span data-i18n="status_refresh_btn">Refresh Status</span>
         </button>
 
         <button
           id="leave-queue"
           class="mt-3 w-full bg-red-500 text-white py-3 rounded-xl font-semibold shadow-sm hover:bg-red-600 active:scale-[0.98] transition active:scale-95"
         >
-          Leave Queue
+          <span data-i18n="status_leave">Leave Queue</span>
         </button>
       </section>
 
@@ -378,12 +393,12 @@
         href="https://tetris.com/play-tetris"
         target="_blank"
       >
-        🎮 <span>Play a quick game</span>
+        🎮 <span data-i18n="status_play_game">Play a quick game</span>
       </a>
     </main>
 
     <!-- FOOTER -->
-    <footer class="text-center text-gray-400 text-xs py-6">
+    <footer class="text-center text-gray-400 text-xs py-6" data-i18n="footer_customer_status">
       QueueLeaf · Customer Status
     </footer>
 
@@ -398,25 +413,25 @@
       id="snapshot-modal"
       class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white w-11/12 max-w-md rounded-2xl shadow-xl p-6 animate-fadeInUp"
     >
-      <h3 class="text-lg font-semibold text-gray-800 mb-4">Queue Overview</h3>
+      <h3 class="text-lg font-semibold text-gray-800 mb-4" data-i18n="modal_queue_overview">Queue Overview</h3>
 
       <div class="space-y-3 text-sm">
         <div class="flex justify-between">
-          <span class="text-gray-500">Queue</span>
+          <span class="text-gray-500" data-i18n="modal_queue_label">Queue</span>
           <span id="modal-queue-name" class="font-semibold text-gray-800"
             >—</span
           >
         </div>
 
         <div class="flex justify-between">
-          <span class="text-gray-500">People Ahead</span>
+          <span class="text-gray-500" data-i18n="modal_people_ahead">People Ahead</span>
           <span id="modal-ahead-count" class="font-semibold text-gray-800"
             >—</span
           >
         </div>
 
         <div class="flex justify-between">
-          <span class="text-gray-500">Avg Service Time</span>
+          <span class="text-gray-500" data-i18n="modal_avg_service">Avg Service Time</span>
           <span id="modal-avg-service" class="font-semibold text-gray-800"
             >—</span
           >
@@ -473,6 +488,7 @@
     <!-- Shared Modal Backdrop Already Exists -->
 
     <!-- JS -->
+    <script src="js/i18n.js"></script>
     <script src="js/theme.js"></script>
     <script type="module" src="js/customer.js"></script>
     <audio id="call-sound" src="assets/bell.mp3" preload="auto"></audio>
