@@ -56,12 +56,12 @@ if (document.querySelector("#status-card")) {
         You have left the queue
       </h2>
       <p class="text-gray-600 mb-6">We hope to see you again.</p>
-      <button
-        onclick="window.location.href='join-queue.html'"
-        class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brandDark transition"
-      >
-        Join Again
-      </button>
+      // <button
+      //   onclick="window.location.href='join-queue.html'"
+      //   class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brandDark transition"
+      // >
+      //   Join Again
+      // </button>
     </div>
   `;
 
@@ -81,12 +81,12 @@ if (document.querySelector("#status-card")) {
         All Set!!!
       </h2>
       <p class="text-gray-600 mb-6">Thank you for using Queueleaf.</p>
-      <button
-        onclick="window.location.href='join-queue.html'"
-        class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brandDark transition"
-      >
-        Join Again
-      </button>
+      // <button
+      //   onclick="window.location.href='join-queue.html'"
+      //   class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brandDark transition"
+      // >
+      //   Join Again
+      // </button>
     </div>
   `;
         // Stop refresh
