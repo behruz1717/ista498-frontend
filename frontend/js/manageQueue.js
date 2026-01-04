@@ -75,28 +75,34 @@ async function init() {
       left: "bg-red-100 text-red-700",
     };
 
+    const label = (window.QueueLeafI18n && window.QueueLeafI18n.t)
+      ? window.QueueLeafI18n.t('status_' + status)
+      : status;
+
     return `
     <span class="px-3 py-1 text-xs font-semibold rounded-full flex items-center ${
       styles[status]
     }">
-      ${statusIcon(status)} ${status}
+      ${statusIcon(status)} ${label}
     </span>
   `;
   }
 
   function actionButtons(t) {
     if (t.status === "waiting") {
+      const txt = window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('call') : 'Call';
       return `
         <button data-action="call" data-id="${t.id}"
           class="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-          Call
+          ${txt}
         </button>`;
     }
     if (t.status === "called") {
+      const txt = window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('serve') : 'Serve';
       return `
         <button data-action="serve" data-id="${t.id}"
           class="px-3 py-1 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
-          Serve
+          ${txt}
         </button>`;
     }
     return `<span class="text-gray-400">—</span>`;
@@ -131,12 +137,14 @@ async function init() {
     el.name.textContent = q.name;
 
     el.status.innerHTML = q.isOpen
-      ? `<span class="px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-700">Open</span>`
-      : `<span class="px-3 py-1 text-sm font-semibold rounded-full bg-red-100 text-red-700">Closed</span>`;
+      ? `<span class="px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-700">${window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('status_open') : 'Open'}</span>`
+      : `<span class="px-3 py-1 text-sm font-semibold rounded-full bg-red-100 text-red-700">${window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('status_closed') : 'Closed'}</span>`;
 
     // preload modal values
     el.modalMsg.value = q.customMessage || "";
-    el.modalToggle.textContent = q.isOpen ? "Close Queue" : "Open Queue";
+    el.modalToggle.textContent = window.QueueLeafI18n && window.QueueLeafI18n.t
+      ? (q.isOpen ? window.QueueLeafI18n.t('dash_close_queue') : window.QueueLeafI18n.t('dash_open_queue'))
+      : (q.isOpen ? 'Close Queue' : 'Open Queue');
   }
 
   /* ============================================================

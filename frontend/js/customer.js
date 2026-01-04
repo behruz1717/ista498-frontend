@@ -50,12 +50,14 @@ if (document.querySelector("#status-card")) {
 
       if (ticket.status === "left") {
         // Replace card with a message
+        const title = window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('you_left_title') : 'You have left the queue';
+        const body = window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('you_left_body') : 'We hope to see you again.';
         document.getElementById("status-card").innerHTML = `
     <div class="text-center py-10">
       <h2 class="text-2xl font-bold text-gray-800 mb-4">
-        You have left the queue
+        ${title}
       </h2>
-      <p class="text-gray-600 mb-6">We hope to see you again.</p>
+      <p class="text-gray-600 mb-6">${body}</p>
     </div>
   `;
 
@@ -69,12 +71,14 @@ if (document.querySelector("#status-card")) {
 
       if (ticket.status === "served") {
         // Replace card with a message
+        const title = window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('all_set_title') : 'All Set!!!';
+        const body = window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('all_set_body') : 'Thank you for using QueueLeaf.';
         document.getElementById("status-card").innerHTML = `
     <div class="text-center py-10">
       <h2 class="text-2xl font-bold text-gray-800 mb-4">
-        All Set!!!
+        ${title}
       </h2>
-      <p class="text-gray-600 mb-6">Thank you for using Queueleaf.</p>
+      <p class="text-gray-600 mb-6">${body}</p>
     </div>
   `;
         // Stop refresh
@@ -324,20 +328,23 @@ if (document.querySelector("#status-card")) {
         }
 
         // 🎨 Replace UI with exit screen
+        const title = window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('you_left_title') : 'You have left the queue';
+        const body = window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('you_left_body') : 'We hope to see you again.';
+        const joinTxt = window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('join_again') : 'Join Again';
         document.getElementById("status-card").innerHTML = `
         <div class="text-center py-10">
           <h2 class="text-2xl font-bold text-gray-800 mb-4">
-            You have left the queue
+            ${title}
           </h2>
           <p class="text-gray-600 mb-6">
-            Thanks for using QueueLeaf!
+            ${body}
           </p>
 
           <button
             onclick="window.location.href='join-queue.html?queueId=${queueId}'"
             class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brandDark transition"
           >
-            Join Again
+            ${joinTxt}
           </button>
         </div>
       `;

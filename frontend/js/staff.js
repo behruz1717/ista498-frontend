@@ -112,7 +112,7 @@ async function loadQueues() {
 
     <!-- Avg Service Time -->
     <p class="text-gray-500 text-sm mt-2">
-      Avg service: ${Math.round((q.avgServiceSec || 300) / 60)} min
+      ${window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('average_service') : 'Avg service'}: ${Math.round((q.avgServiceSec || 300) / 60)} min
     </p>
 
     <!-- Action Buttons -->
