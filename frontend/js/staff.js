@@ -31,7 +31,9 @@ if (loginForm) {
       console.error("Login failed:", err);
       const msg = document.querySelector("#login-error");
       msg.style.display = "block";
-      msg.textContent = "Invalid login. Please try again.";
+      msg.textContent = (window.QueueLeafI18n && window.QueueLeafI18n.t)
+        ? window.QueueLeafI18n.t('login_error')
+        : 'Invalid login. Please try again.';
     }
   });
 }
@@ -63,18 +65,24 @@ async function loadQueues() {
     if (queues.length === 0) {
       container.innerHTML = `
     <div class="col-span-full bg-white rounded-2xl shadow p-8 text-center border border-gray-200">
-      <h3 class="text-lg font-semibold text-gray-800 mb-2">No queues created yet</h3>
-      <p class="text-gray-500 text-sm mb-4">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="no_queues_created">No queues created yet</h3>
+      <p class="text-gray-500 text-sm mb-4" data-i18n-placeholder="empty_create_hint">
         Click the button above to create your first queue.
       </p>
       <button 
         id="empty-create-btn"
         class="px-4 py-2 bg-brand text-white rounded-lg font-medium shadow hover:bg-brandDark transition"
+        data-i18n="create_queue_short"
       >
         + Create Queue
       </button>
     </div>
   `;
+
+      // Apply translations for dynamically inserted content
+      if (window.QueueLeafI18n && window.QueueLeafI18n.applyTranslations) {
+        window.QueueLeafI18n.applyTranslations();
+      }
 
       // allow creating queue from empty-state button
       document
@@ -86,7 +94,7 @@ async function loadQueues() {
       return;
     }
 
-    queues.forEach((q) => {
+      queues.forEach((q) => {
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
@@ -99,7 +107,7 @@ async function loadQueues() {
     <!-- Status Badge -->
     <span class="inline-block px-3 py-1 text-xs font-medium rounded-full 
       ${q.isOpen ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}">
-      ${q.isOpen ? "Open" : "Closed"}
+      ${window.QueueLeafI18n && window.QueueLeafI18n.t ? (q.isOpen ? window.QueueLeafI18n.t('status_open') : window.QueueLeafI18n.t('status_closed')) : (q.isOpen ? 'Open' : 'Closed')}
     </span>
 
     <!-- Avg Service Time -->
@@ -116,7 +124,7 @@ async function loadQueues() {
         data-id="${q.id}"
         class="flex-1 bg-brand text-white py-2 rounded-lg text-sm font-medium shadow hover:bg-brandDark transition"
       >
-        Manage
+        ${window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('manage_label') : 'Manage'}
       </button>
 
       <!-- QR -->
@@ -125,7 +133,7 @@ async function loadQueues() {
         data-id="${q.id}"
         class="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg border border-gray-200 hover:bg-gray-200 transition"
       >
-        QR
+        ${window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('qr_label') : 'QR'}
       </button>
 
       <!-- DELETE -->
@@ -134,7 +142,7 @@ async function loadQueues() {
         data-id="${q.id}"
         class="px-3 py-2 text-sm bg-red-100 text-red-700 rounded-lg border border-red-200 hover:bg-red-200 transition"
       >
-        Delete
+        ${window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('delete_label') : 'Delete'}
       </button>
 
     </div>
@@ -168,7 +176,7 @@ async function loadQueues() {
         // ---------------------------
         if (action === "delete") {
           const confirmDelete = confirm(
-            "Are you sure you want to delete this queue?"
+            (window.QueueLeafI18n && window.QueueLeafI18n.t) ? window.QueueLeafI18n.t('confirm_delete_queue') : "Are you sure you want to delete this queue?"
           );
           if (!confirmDelete) return;
 
@@ -180,7 +188,7 @@ async function loadQueues() {
             const msg = err.message.toLowerCase();
 
             if (msg.includes("queue has tickets")) {
-              const force = confirm("This queue has tickets. Force delete?");
+              const force = confirm((window.QueueLeafI18n && window.QueueLeafI18n.t) ? window.QueueLeafI18n.t('confirm_force_delete') : "This queue has tickets. Force delete?");
               if (force) {
                 await api(`/queues/${id}?force=true`, { method: "DELETE" });
                 await loadQueues();
@@ -189,7 +197,7 @@ async function loadQueues() {
             }
 
             console.error("Delete failed:", err);
-            alert("Delete failed: " + err.message);
+            alert((window.QueueLeafI18n && window.QueueLeafI18n.t) ? window.QueueLeafI18n.t('create_failed') + '\n' + err.message : "Delete failed: " + err.message);
           }
 
           return;
@@ -326,13 +334,13 @@ const btnCreateModal = document.getElementById("new-queue-create");
 const inputName = document.getElementById("new-queue-name");
 const inputAvg = document.getElementById("new-queue-avg");
 
-if (btnCreateModal && modal && inputName && inputAvg) {
+    if (btnCreateModal && modal && inputName && inputAvg) {
   btnCreateModal.addEventListener("click", async () => {
     const name = inputName.value.trim();
     const avg = Number(inputAvg.value.trim());
 
     if (!name) {
-      alert("Queue name is required.");
+      alert((window.QueueLeafI18n && window.QueueLeafI18n.t) ? window.QueueLeafI18n.t('queue_name_required') : 'Queue name is required.');
       return;
     }
 
@@ -359,9 +367,9 @@ if (btnCreateModal && modal && inputName && inputAvg) {
 
       // Reload dashboard queues
       await loadQueues();
-    } catch (err) {
+      } catch (err) {
       console.error("Create queue failed:", err);
-      alert("Failed to create queue. Check console.");
+      alert((window.QueueLeafI18n && window.QueueLeafI18n.t) ? window.QueueLeafI18n.t('create_failed') : 'Failed to create queue. Check console.');
     }
   });
 }

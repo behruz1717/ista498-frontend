@@ -47,6 +47,15 @@
         </div>
 
         <div class="flex items-center gap-2">
+          <select
+            id="lang-select"
+            aria-label="Language"
+            class="px-2 py-1 rounded-lg border border-gray-200 bg-white text-sm"
+          >
+            <option value="en">EN</option>
+            <option value="uz">UZ</option>
+            <option value="ru">RU</option>
+          </select>
 
           <!-- DARK MODE TOGGLE -->
           <button id="theme-toggle" aria-label="Toggle Dark Mode" class="text-gray-600 hover:text-gray-800">
@@ -129,10 +138,10 @@
               d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 12H9v-2h2v2zm0-4H9V6h2v4z"
             />
           </svg>
-          <span class="text-teal-900 font-medium">Welcome</span>
+          <span class="text-teal-900 font-medium" data-i18n="join_welcome">Welcome</span>
         </div>
 
-        <p class="text-gray-600 text-sm mb-4">
+        <p class="text-gray-600 text-sm mb-4" data-i18n="join_prompt">
           Please enter your info to join the queue.
         </p>
 
@@ -144,20 +153,22 @@
         >
           <!-- Name -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="join_name"
               >Your name</label
             >
             <input
               required
               name="name"
+              data-i18n-placeholder="join_name_ph"
               placeholder="e.g., Alex"
+              data-i18n-placeholder="join_name_ph"
               class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-brand focus:ring-2 focus:ring-brand/40 transition"
             />
           </div>
 
           <!-- Party size -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="join_party"
               >Party size</label
             >
             <input
@@ -172,12 +183,14 @@
 
           <!-- Contact -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="join_contact"
               >Phone or email (optional)</label
             >
             <input
               name="contact"
+              data-i18n-placeholder="join_contact_ph"
               placeholder="For notifications"
+              data-i18n-placeholder="join_contact_ph"
               class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-brand focus:ring-2 focus:ring-brand/40 transition"
             />
           </div>
@@ -188,11 +201,11 @@
             id="join-btn"
             class="w-full bg-brand hover:bg-brandDark text-white py-2.5 rounded-xl font-semibold transition shadow-md"
           >
-            Join Queue
+            <span data-i18n="join_btn">Join Queue</span>
           </button>
         </form>
 
-        <p class="text-xs text-gray-400 mt-4">
+        <p class="text-xs text-gray-400 mt-4" data-i18n="join_terms">
           By joining, you agree to receive on-site updates. No apps needed.
         </p>
       </section>
@@ -206,28 +219,26 @@
       <div
         class="bg-white w-full max-w-md rounded-2xl shadow-xl p-6 animate-fadeInUp border border-gray-200"
       >
-        <h2 class="text-lg font-semibold text-gray-800 mb-3">Privacy Notice</h2>
+        <h2 class="text-lg font-semibold text-gray-800 mb-3" data-i18n="privacy_title">Privacy Notice</h2>
 
-        <p class="text-sm text-gray-600 leading-relaxed mb-4">
-          Your information (name and contact details) is used
-          <strong>only</strong> for managing your place in line. After your
-          visit, your personal data is <strong>anonymized</strong>. Anonymous
-          queue activity may be retained for analytics purposes.
+        <p class="text-sm text-gray-600 leading-relaxed mb-4" data-i18n="privacy_body">
+          Your information (name and contact details) is used only for managing your place in line. After your visit, your personal data is anonymized. Anonymous queue activity may be retained for analytics purposes.
         </p>
 
         <button
           id="privacy-accept"
           class="w-full bg-brand text-white py-2.5 rounded-xl font-semibold shadow hover:bg-brandDark transition"
         >
-          I Understand & Agree
+          <span data-i18n="privacy_accept">I Understand & Agree</span>
         </button>
       </div>
     </div>
 
     <!-- FOOTER -->
-    <footer class="text-center text-gray-400 text-xs py-6">
+    <footer class="text-center text-gray-400 text-xs py-6" data-i18n="footer_customer">
       QueueLeaf · Customer Portal
     </footer>
+    <script src="js/i18n.js"></script>
     <script src="js/theme.js"></script>
 
     <script type="module" src="js/customer-join.js"></script>

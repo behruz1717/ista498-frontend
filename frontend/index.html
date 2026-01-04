@@ -29,8 +29,19 @@
             QueueLeaf
           </a>
           <div class="nav-links">
-            <a href="#how-it-works">How it works</a>
-            <a href="#features">Features</a>
+            <a href="#how-it-works" data-i18n="nav_how">How it works</a>
+            <a href="#features" data-i18n="nav_features">Features</a>
+
+            <!-- Language selector -->
+            <select
+              id="lang-select"
+              aria-label="Language"
+              class="ml-2 px-2 py-1 rounded-lg border border-gray-200 bg-white text-sm"
+            >
+              <option value="en">EN</option>
+              <option value="uz">UZ</option>
+              <option value="ru">RU</option>
+            </select>
             <button id="theme-toggle" aria-label="Toggle Dark Mode">
               <svg
                 class="icon-moon"
@@ -69,7 +80,7 @@
                 <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
               </svg>
             </button>
-            <a href="#access" class="btn btn-sm">Early Access</a>
+            <a href="#access" class="btn btn-sm" data-i18n="nav_access">Early Access</a>
           </div>
         </div>
       </nav>
@@ -421,6 +432,7 @@
       </div>
     </footer>
 
+    <script src="js/i18n.js"></script>
     <script src="js/theme.js"></script>
     <script src="script.js"></script>
   </body>
