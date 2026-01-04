@@ -20,6 +20,21 @@ if (form) {
       return; // ⛔ STOP — do NOT create ticket
     }
 
+    // Check queue open state before attempting to join
+    try {
+      const queueId = Number(queueIdFromUrl) || 1;
+      const queues = await api('/queues');
+      const q = Array.isArray(queues) ? queues.find(x => x.id === Number(queueId)) : null;
+      if (q && q.isOpen === false) {
+        const msg = window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('queue_closed_join') : 'This queue is currently closed. You cannot join.';
+        alert(msg);
+        return;
+      }
+    } catch (err) {
+      // If the check fails (network), we proceed and let server validate, but do not block UX silently
+      console.warn('Failed to check queue open state:', err);
+    }
+
     try {
       document.querySelector("#join-btn").disabled = true;
 
@@ -60,6 +75,29 @@ const joinForm = document.getElementById("join-form");
 if (privacyModal) {
   privacyModal.classList.remove("hidden");
 }
+
+// On load: check whether the queue is open and disable join if closed
+(async function checkQueueOpen() {
+  try {
+    if (!queueIdFromUrl) return;
+    const queues = await api('/queues');
+    const qId = Number(queueIdFromUrl) || 1;
+    const q = Array.isArray(queues) ? queues.find(x => x.id === qId) : null;
+    if (q && q.isOpen === false) {
+      const joinBtn = document.querySelector('#join-btn');
+      if (joinBtn) joinBtn.disabled = true;
+      const msg = window.QueueLeafI18n && window.QueueLeafI18n.t ? window.QueueLeafI18n.t('queue_closed_join') : 'This queue is currently closed. You cannot join.';
+      const warn = document.createElement('div');
+      warn.className = 'text-sm text-red-500 mt-3';
+      warn.textContent = msg;
+      // insert warning after the form
+      joinForm?.parentNode?.insertBefore(warn, joinForm.nextSibling);
+    }
+  } catch (err) {
+    // ignore — allow user to attempt join, server will validate
+    console.warn('Failed to check queue open state on load', err);
+  }
+})();
 
 // Allow user to reopen modal
 privacyBtn?.addEventListener("click", () => {
